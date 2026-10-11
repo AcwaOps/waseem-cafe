@@ -1,11 +1,10 @@
 # Waseem Cafe
 
-## Static visual preview
-The `preview/` folder is a standalone static demonstration intended for GitHub Pages. It includes the current menu, interactive cart, prefilled WhatsApp order link and click-to-call link. It does not include the backend, admin editor, or persistent menu changes. The QR is intended for `https://acwaops.github.io/waseem-cafe/`; verify that URL after Pages deployment before printing.
+## Static menu previews
 
-A GitHub Actions workflow publishes `preview/` whenever it changes on `main`. In repository **Settings → Pages**, choose **GitHub Actions** as the build and deployment source if it is not already selected. Check the Actions run for success; the Pages environment displays the resulting URL.
+- Cream & espresso menu: `https://acwaops.github.io/waseem-cafe/`
+- Black-and-white print menu: `https://acwaops.github.io/waseem-cafe/black-white.html`
 
-## Full Next.js application
-The `app/` and `lib/` folders are the separate full-stack version. GitHub Pages cannot run its API/admin backend; use a Next.js-compatible application host and persistent KV/database service for those features.
+These are static visual previews. The cream version includes a client-side cart that creates a pre-filled WhatsApp order draft to +966 51 131 3965; the customer must tap Send in WhatsApp. Both pages include tap-to-call and a QR intended to open the cream preview URL. Check the Pages deployment before printing; QR is for the static preview, not the full backend/admin site. GitHub Pages does not run the admin editor or persist menu edits.
 
-The customer preview uses the supplied items and prices: Latte hot ⃁5 / iced ⃁8; Cappuccino hot ⃁5 / iced ⃁8; Mocha hot ⃁5 / iced ⃁8; Americano hot ⃁5 / iced ⃁10; V60 ⃁10; Karak Tea hot ⃁3; Fresh Juice ⃁5. WhatsApp destination: +966 51 131 3965.
+The separate `app/` and `lib/` folders contain the unfinished full-stack app. Current default menu: Latte hot ⃁5 / iced ⃁8; Cappuccino hot ⃁5 / iced ⃁8; Mocha hot ⃁5 / iced ⃁8; Americano hot ⃁5 / iced ⃁10; V60 ⃁10; Karak Tea hot ⃁3; Fresh Juice ⃁5.
