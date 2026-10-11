@@ -1,34 +1,21 @@
 # Waseem Cafe
 
-A responsive English-language menu site with a cream-and-espresso theme, a menu API, WhatsApp contact link, QR code based on the deployed page URL, and a long black-and-white print stylesheet.
+Responsive English menu with cart, WhatsApp order draft, tap-to-call, QR and a private menu editor.
 
-## Run locally
+## Customer ordering
+Customers choose hot/iced options and quantities, review the cart and total, then tap **Order on WhatsApp**. WhatsApp opens a pre-filled message to +966511313965; the customer sends it manually. No customer name or pickup/delivery form is requested. Call link: `tel:+966511313965` (display number 051 131 3965).
 
-Requires Node.js 20 or newer.
+## Local setup
+Node.js 20+. Run `npm install`, copy `.env.example` to `.env.local`, set `ADMIN_PASSWORD` and `SESSION_SECRET`, then `npm run dev`. Open http://localhost:3000. Never commit real secrets.
 
-```bash
-npm install
-npm run dev
-```
+## Persistent menu and admin
+The admin is at `/admin/login`. Menu edits use Vercel KV / Upstash Redis via `@vercel/kv`. Create a KV store, configure `KV_REST_API_URL` and `KV_REST_API_TOKEN`, and set `ADMIN_PASSWORD` plus `SESSION_SECRET` in the host's private environment settings. Without KV configuration edits cannot persist. Admin APIs require a signed, HTTP-only session cookie.
 
-Open http://localhost:3000. The QR encodes the current page URL. A locally generated QR points to localhost and is not useful to customers; deploy first, then print a QR from the public URL and test it with a phone.
+## Deployment
+Import this repository to Vercel or another compatible Next.js host, configure all four environment variables, deploy and test `/admin/login`, public menu, cart, WhatsApp draft, and phone call link. This commit does not provision the KV account, configure secrets or publish the site.
 
-## Menu API
+## QR and printing
+QR uses the current public origin once deployed; localhost QR is development-only. Print CSS creates a black-and-white long-menu layout targeting 210 mm width. Continuous roll length and usable width depend on the actual printer and driver; test before printing.
 
-`GET /api/menu` returns the menu data as JSON.
-
-## Deploy
-
-Import this repository into a Next.js-compatible host such as Vercel and deploy. Confirm the public URL works on a phone. The menu QR component uses the current site origin, so on the deployed site it will encode that public address.
-
-## Print
-
-Use the browser print dialog and enable background graphics only if desired. The print stylesheet converts the page to black and white and requests a long page sized 210 mm wide. Browser and printer drivers may ignore automatic page length. Confirm the printer model, roll/paper width and driver settings, and print a short test before printing the full menu.
-
-## Mascot artwork
-
-The current mascot shapes are placeholders, not a finished likeness-based illustration. Add approved artwork assets once prepared; do not use the concept-sheet image as the production menu itself.
-
-## Currency
-
-Prices display the requested Saudi riyal symbol `⃁`. Verify the symbol renders correctly in the chosen browser and printer font; an official vector asset can be substituted if needed.
+## Menu
+Latte hot ⃁5 / iced ⃁8; Cappuccino hot ⃁5 / iced ⃁8; Mocha hot ⃁5 / iced ⃁8; Americano hot ⃁5 / iced ⃁10; V60 ⃁10; Karak Tea hot ⃁3; Fresh Juice ⃁5.
