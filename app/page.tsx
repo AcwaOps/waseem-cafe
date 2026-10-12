@@ -156,6 +156,8 @@ export default function Home() {
         </div>
 
         <div className="brand-logo-wrap">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/waseem-mascot-bust.png" alt="Waseem Mascot" className="header-mascot-img" />
           <WsLogo size={96} />
         </div>
 
@@ -434,13 +436,19 @@ export default function Home() {
       {/* Footer */}
       <footer className="menu-footer">
         <div className="footer-content">
-          <div className="footer-qr-card">
-            {url ? (
-              <QRCodeSVG value={url} size={118} level="M" fgColor="#0E382C" includeMargin />
-            ) : (
-              <div style={{ width: 118, height: 118 }} />
-            )}
-            <p>Scan to view & share live menu</p>
+          <div className="footer-qr-wrap">
+            <div className="footer-qr-card">
+              {url ? (
+                <QRCodeSVG value={url} size={118} level="M" fgColor="#0E382C" includeMargin />
+              ) : (
+                <div style={{ width: 118, height: 118 }} />
+              )}
+              <p>Scan to view & share live menu</p>
+            </div>
+            <div className="footer-mascot-wrap">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/waseem-mascot-standing.png" alt="Waseem with coffee" className="footer-mascot-img" />
+            </div>
           </div>
 
           <div className="footer-links">

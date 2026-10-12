@@ -95,7 +95,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 16px;
   margin: 0 auto 12px;
+}
+
+.header-mascot-img {
+  width: 78px;
+  height: auto;
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35));
+  display: block;
 }
 
 .ws-logo-svg {
@@ -732,6 +740,14 @@ body {
   gap: 20px;
 }
 
+.footer-qr-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
 .footer-qr-card {
   background: #ffffff;
   padding: 12px;
@@ -748,6 +764,23 @@ body {
   font-weight: 600;
   color: var(--ws-text-muted);
   margin: 8px 0 2px;
+}
+
+.footer-mascot-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-mascot-img {
+  height: 155px;
+  width: auto;
+  filter: drop-shadow(0 6px 14px rgba(10, 38, 31, 0.2));
+  transition: transform 0.25s ease;
+}
+
+.footer-mascot-img:hover {
+  transform: scale(1.05);
 }
 
 .footer-links {
