@@ -7,6 +7,7 @@ const ALLOWED_CATEGORIES = [
   'Espresso & Milk',
   'Iced & Refreshing',
   'Tea & Fresh Juices',
+  'Desserts & Bakery',
   'Coffee',
   'Tea & Juice',
 ];
@@ -39,19 +40,26 @@ export async function POST(req: NextRequest) {
   const item: MenuItem = {
     id,
     name: body.name.trim(),
-    nameAr: typeof body.nameAr === 'string' ? body.nameAr.trim() : undefined,
+    nameAr: typeof body.nameAr === 'string' && body.nameAr.trim() ? body.nameAr.trim() : undefined,
     category: body.category,
     hot: typeof body.hot === 'number' ? body.hot : undefined,
     iced: typeof body.iced === 'number' ? body.iced : undefined,
     price: typeof body.price === 'number' ? body.price : undefined,
-    description: typeof body.description === 'string' ? body.description.trim() : undefined,
-    notes: typeof body.notes === 'string' ? body.notes.trim() : undefined,
-    tag: typeof body.tag === 'string' ? body.tag.trim() : undefined,
-    image: typeof body.image === 'string' ? body.image.trim() : undefined,
+    description: typeof body.description === 'string' && body.description.trim() ? body.description.trim() : undefined,
+    notes: typeof body.notes === 'string' && body.notes.trim() ? body.notes.trim() : undefined,
+    tag: typeof body.tag === 'string' && body.tag.trim() ? body.tag.trim() : undefined,
+    image: typeof body.image === 'string' && body.image.trim() ? body.image.trim() : undefined,
     active: body.active !== false,
   };
 
-  const next = [...items.filter((x) => x.id !== id), item];
+  const existingIndex = items.findIndex((x) => x.id === id);
+  let next: MenuItem[];
+  if (existingIndex !== -1) {
+    next = [...items];
+    next[existingIndex] = item;
+  } else {
+    next = [...items, item];
+  }
   await writeMenu(next);
 
   return NextResponse.json({ ok: true, item });

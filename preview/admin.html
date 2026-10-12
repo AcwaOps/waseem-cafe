@@ -8,7 +8,7 @@
   <title>Waseem Cafe | Operations, Prices & Inventory Command Center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --ws-emerald-deep: #0a261f;
@@ -36,14 +36,14 @@
     html { background: #08211b; color: var(--ws-text-main); -webkit-font-smoothing: antialiased; }
     body {
       margin: 0;
-      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'DM Sans', 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
       background: #08211b;
       min-height: 100vh;
       color: var(--ws-text-main);
     }
 
     .admin-wrapper {
-      width: min(100%, 1200px);
+      width: min(100%, 1220px);
       margin: 0 auto;
       min-height: 100vh;
       background: var(--ws-cream);
@@ -112,17 +112,28 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 14px;
+      padding: 7px 14px;
       border-radius: 20px;
       font-size: 12px;
       font-weight: 700;
       background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       color: #fff;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+    }
+    .status-pill:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: var(--ws-gold-light);
+    }
+    .status-pill.closed-pill {
+      background: rgba(244, 63, 94, 0.22);
+      border-color: rgba(251, 113, 133, 0.6);
     }
     .status-dot {
-      width: 8px;
-      height: 8px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
       background: #22c55e;
       box-shadow: 0 0 8px #22c55e;
@@ -146,7 +157,7 @@
       background: transparent;
       border: 1px solid rgba(255,255,255,0.3);
       color: #fff;
-      padding: 6px 14px;
+      padding: 7px 14px;
       border-radius: 8px;
       font-size: 12px;
       font-weight: 600;
@@ -156,6 +167,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      font-family: inherit;
     }
     .btn-nav:hover {
       background: rgba(255,255,255,0.15);
@@ -169,6 +181,33 @@
     }
     .btn-nav.public-view:hover {
       background: var(--ws-gold-light);
+    }
+
+    /* Store Closed Global Admin Banner */
+    .store-closed-admin-bar {
+      background: linear-gradient(90deg, #9f1239, #e11d48);
+      color: #fff;
+      padding: 10px 24px;
+      font-size: 13px;
+      font-weight: 700;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .store-closed-admin-bar.visible {
+      display: flex;
+    }
+    .store-closed-admin-bar button {
+      background: #fff;
+      color: #9f1239;
+      border: none;
+      padding: 5px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
     }
 
     /* Tabs Bar */
@@ -197,6 +236,7 @@
       border-bottom: 3px solid transparent;
       white-space: nowrap;
       transition: all 0.2s;
+      font-family: inherit;
     }
     .tab-btn:hover {
       color: var(--ws-emerald);
@@ -226,38 +266,6 @@
     .pane-body {
       padding: 26px 28px 40px;
       flex: 1;
-    }
-
-    /* Notice Banner */
-    .alert-banner {
-      background: var(--ws-warning-bg);
-      border: 1px solid #fde68a;
-      border-left: 5px solid var(--ws-warning);
-      border-radius: 10px;
-      padding: 12px 18px;
-      margin-bottom: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .alert-banner-text {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      color: #92400e;
-    }
-    .alert-banner-btn {
-      background: #d97706;
-      color: #fff;
-      border: none;
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
     }
 
     /* KPI Summary Cards */
@@ -346,6 +354,7 @@
       color: var(--ws-text-muted);
       cursor: pointer;
       transition: all 0.2s;
+      font-family: inherit;
     }
     .pill-opt.active {
       background: #ffffff;
@@ -451,6 +460,7 @@
       align-items: center;
       gap: 6px;
       transition: all 0.2s;
+      font-family: inherit;
     }
     .btn-primary:hover { background: #134d3d; transform: translateY(-1px); }
 
@@ -467,6 +477,7 @@
       align-items: center;
       gap: 6px;
       transition: all 0.2s;
+      font-family: inherit;
     }
     .btn-outline:hover { background: var(--ws-emerald-subtle); }
 
@@ -483,6 +494,7 @@
       align-items: center;
       gap: 6px;
       transition: all 0.2s;
+      font-family: inherit;
     }
     .btn-danger:hover { background: #e11d48; }
 
@@ -650,15 +662,80 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 10px;
+      gap: 12px;
+    }
+    .price-item-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+    }
+    .price-item-thumb {
+      width: 58px;
+      height: 58px;
+      flex: 0 0 58px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--ws-emerald);
+      border: 1px solid var(--ws-line);
+      cursor: pointer;
+      position: relative;
+    }
+    .price-item-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .price-item-thumb-fallback {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      color: var(--ws-gold-light);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .price-item-thumb-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,38,31,0.65);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.15s;
+      text-align: center;
+    }
+    .price-item-thumb:hover .price-item-thumb-overlay {
+      opacity: 1;
+    }
+
+    .price-item-title {
+      flex: 1;
+      min-width: 0;
     }
     .price-item-title h4 {
-      margin: 0 0 3px;
-      font-size: 16px;
+      margin: 0 0 2px;
+      font-size: 15px;
       font-weight: 800;
       color: var(--ws-emerald);
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      flex-wrap: wrap;
     }
-    .price-item-title span {
+    .price-item-title .ar-sub {
+      font-size: 12px;
+      color: var(--ws-gold-dark);
+      font-weight: 600;
+    }
+    .price-item-title span.cat-label {
       font-size: 11px;
       color: var(--ws-text-muted);
       text-transform: uppercase;
@@ -667,7 +744,7 @@
     }
     .price-inputs-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 10px;
       background: #f7f5f0;
       padding: 12px;
@@ -715,6 +792,8 @@
       justify-content: space-between;
       align-items: center;
       padding-top: 6px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
     .toggle-86 {
       display: inline-flex;
@@ -732,7 +811,7 @@
       color: #fff;
       border: none;
       border-radius: 6px;
-      padding: 7px 14px;
+      padding: 7px 12px;
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
@@ -740,9 +819,34 @@
       align-items: center;
       gap: 4px;
       transition: background 0.15s;
+      font-family: inherit;
     }
     .btn-save-price:hover {
       background: #144e3e;
+    }
+    .btn-icon-action {
+      background: #f5f2eb;
+      color: var(--ws-text-main);
+      border: 1px solid var(--ws-line);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: inherit;
+    }
+    .btn-icon-action:hover {
+      background: var(--ws-emerald-subtle);
+      border-color: var(--ws-emerald);
+      color: var(--ws-emerald);
+    }
+    .btn-icon-action.delete:hover {
+      background: var(--ws-danger-bg);
+      border-color: var(--ws-danger);
+      color: var(--ws-danger);
     }
 
     /* POS Screen */
@@ -753,7 +857,7 @@
     }
     .pos-items-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
       gap: 12px;
     }
     .pos-item-btn {
@@ -762,11 +866,10 @@
       border-radius: 12px;
       padding: 14px;
       text-align: left;
-      cursor: pointer;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 105px;
+      min-height: 112px;
       transition: all 0.15s;
     }
     .pos-item-btn:hover {
@@ -783,11 +886,6 @@
     .pos-item-cat {
       font-size: 11px;
       color: var(--ws-text-muted);
-    }
-    .pos-item-price {
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--ws-emerald);
     }
 
     .pos-ticket {
@@ -831,26 +929,141 @@
       margin-bottom: 14px;
     }
 
-    /* Modal dialog */
+    /* Modal dialogs */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(10,38,31,0.8);
-      backdrop-filter: blur(4px);
+      background: rgba(10,38,31,0.82);
+      backdrop-filter: blur(5px);
       display: none;
       align-items: center;
       justify-content: center;
       padding: 20px;
       z-index: 1000;
+      overflow-y: auto;
     }
     .modal-backdrop.open { display: flex; }
     .modal-card {
       background: #ffffff;
-      border-radius: 16px;
-      width: min(100%, 480px);
-      padding: 24px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      border: 1px solid var(--ws-gold);
+      border-radius: 18px;
+      width: min(100%, 540px);
+      max-height: 92vh;
+      overflow-y: auto;
+      padding: 26px;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.45);
+      border: 2px solid var(--ws-gold);
+      position: relative;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--ws-line);
+    }
+    .modal-header h3 {
+      margin: 0;
+      font-size: 18px;
+      font-family: 'Cinzel', serif;
+      color: var(--ws-emerald);
+    }
+    .modal-close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--ws-line);
+      background: #f7f5f0;
+      color: var(--ws-text-main);
+      font-size: 15px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+    .modal-close-btn:hover {
+      background: var(--ws-danger-bg);
+      color: var(--ws-danger);
+      border-color: #fecdd3;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .form-field.full {
+      grid-column: 1 / -1;
+    }
+    .form-field label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ws-text-main);
+    }
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1.5px solid var(--ws-line);
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--ws-text-main);
+      background: #fff;
+      outline: none;
+    }
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      border-color: var(--ws-emerald);
+    }
+
+    /* Photo Upload Dropzone */
+    .photo-upload-box {
+      border: 2px dashed var(--ws-gold);
+      background: #faf8f3;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .photo-preview-frame {
+      width: 84px;
+      height: 84px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--ws-emerald);
+      border: 1px solid var(--ws-line);
+      flex: 0 0 84px;
+      display: grid;
+      place-items: center;
+      color: var(--ws-gold-light);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 4px 10px rgba(14,56,44,0.12);
+    }
+    .photo-preview-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .photo-upload-controls {
+      flex: 1;
+      min-width: 180px;
+    }
+    .photo-upload-controls p {
+      margin: 4px 0 8px;
+      font-size: 11px;
+      color: var(--ws-text-muted);
+      line-height: 1.4;
     }
 
     /* PIN Gate Overlay */
@@ -925,6 +1138,7 @@
       color: var(--ws-emerald);
       cursor: pointer;
       transition: all 0.15s;
+      font-family: inherit;
     }
     .pin-key:hover {
       background: var(--ws-emerald-subtle);
@@ -957,11 +1171,12 @@
       .pos-layout { grid-template-columns: 1fr; }
       .pane-body { padding: 18px 16px; }
       .admin-wrapper { box-shadow: none; }
+      .form-grid { grid-template-columns: 1fr; }
     }
 
     @media print {
       body { background: #fff !important; color: #000 !important; }
-      .top-nav, .tabs-bar, .no-print, .btn-nav, .alert-banner { display: none !important; }
+      .top-nav, .tabs-bar, .no-print, .btn-nav, .store-closed-admin-bar { display: none !important; }
       .admin-wrapper { box-shadow: none !important; width: 100% !important; }
       .pane-body { padding: 0 !important; }
     }
@@ -977,7 +1192,7 @@
       </div>
       <h2>Waseem Cafe Control Room</h2>
       <p>Authorized Cafe Manager Access Only</p>
-      <div class="pin-display" id="pin-dots">••••</div>
+      <div class="pin-display" id="pin-dots">····</div>
       <div class="pin-keypad">
         <button class="pin-key" onclick="pressPin('1')">1</button>
         <button class="pin-key" onclick="pressPin('2')">2</button>
@@ -992,17 +1207,205 @@
         <button class="pin-key" onclick="pressPin('0')">0</button>
         <button class="pin-key" onclick="verifyPin()">↵</button>
       </div>
-      <button class="btn-primary" style="width:100%;margin-bottom:8px;" onclick="verifyPin()">
-        Unlock Dashboard
+      <button class="btn-primary" style="width:100%;justify-content:center;margin-bottom:8px;" onclick="verifyPin()">
+        🔓 Unlock Dashboard
       </button>
-      <div style="font-size:11px;color:#888;margin-top:10px;">
-        Default PIN: <b>1234</b> · <a href="#" onclick="quickUnlock()" style="color:var(--ws-gold-dark);">Quick Demo Access</a>
+      <div style="font-size:11px;color:#777;margin-top:10px;" id="pin-hint-label">
+        Enter your 4-digit Manager PIN · <a href="index.html" style="color:var(--ws-emerald);font-weight:700;text-decoration:none;">← Return to Menu</a>
       </div>
     </div>
   </div>
 
   <!-- Toast Notification -->
   <div class="toast-msg" id="toast-msg"></div>
+
+  <!-- MODAL 1: ADD / EDIT MENU ITEM & PHOTO UPLOAD -->
+  <div class="modal-backdrop" id="item-modal" onclick="closeItemModal()">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="item-modal-title">Add New Menu Item</h3>
+        <button class="modal-close-btn" onclick="closeItemModal()">✕</button>
+      </div>
+      <form onsubmit="saveMenuItemModal(event)">
+        <input type="hidden" id="edit-item-id">
+
+        <div class="form-grid">
+          <!-- Photo Upload Zone -->
+          <div class="form-field full">
+            <label>Drink Photo (Upload from Phone/Computer or URL)</label>
+            <div class="photo-upload-box">
+              <div class="photo-preview-frame" id="modal-photo-preview">
+                <span>WS</span>
+              </div>
+              <div class="photo-upload-controls">
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <label class="btn-primary" style="padding:7px 14px;font-size:12px;cursor:pointer;margin:0;">
+                    📷 Upload Photo
+                    <input type="file" id="item-photo-file" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
+                  </label>
+                  <button type="button" class="btn-icon-action delete" id="btn-remove-photo" style="display:none;" onclick="clearModalPhoto()">
+                    🗑️ Remove Photo
+                  </button>
+                </div>
+                <p>Auto-optimizes & center-crops photos to crisp 600×600px HD format for instant loading on the public menu and lightbox.</p>
+                <input type="text" id="edit-item-image-url" placeholder="Or paste image path / URL (e.g. images/latte-art.jpg)" oninput="handlePhotoUrlInput(this.value)" style="width:100%;font-size:12px;padding:7px 10px;">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label>Drink Name (English) *</label>
+            <input type="text" id="edit-item-name" required placeholder="e.g. Pistachio Latte">
+          </div>
+
+          <div class="form-field">
+            <label>Drink Name (Arabic)</label>
+            <input type="text" id="edit-item-name-ar" dir="rtl" placeholder="مثال: بستاشيو لاتيه">
+          </div>
+
+          <div class="form-field">
+            <label>Category *</label>
+            <select id="edit-item-cat">
+              <option value="Specialty Coffee">Specialty Coffee</option>
+              <option value="Espresso & Milk">Espresso & Milk</option>
+              <option value="Iced & Refreshing">Iced & Refreshing</option>
+              <option value="Tea & Fresh Juices">Tea & Fresh Juices</option>
+              <option value="Desserts & Bakery">Desserts & Bakery</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label>Highlight Tag / Badge</label>
+            <input type="text" id="edit-item-tag" placeholder="e.g. Signature, New, Popular">
+          </div>
+
+          <div class="form-field full">
+            <label>Prices (SAR) — Fill in Hot & Iced, or Single/Regular Price *</label>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+              <div>
+                <span style="font-size:11px;color:var(--ws-text-muted);font-weight:700;">♨️ Hot (SAR)</span>
+                <input type="number" step="0.5" min="0" id="edit-item-hot" placeholder="e.g. 10" style="width:100%;margin-top:4px;">
+              </div>
+              <div>
+                <span style="font-size:11px;color:var(--ws-text-muted);font-weight:700;">🧊 Iced (SAR)</span>
+                <input type="number" step="0.5" min="0" id="edit-item-iced" placeholder="e.g. 12" style="width:100%;margin-top:4px;">
+              </div>
+              <div>
+                <span style="font-size:11px;color:var(--ws-text-muted);font-weight:700;">🥤 Regular (SAR)</span>
+                <input type="number" step="0.5" min="0" id="edit-item-price" placeholder="e.g. 12" style="width:100%;margin-top:4px;">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-field full">
+            <label>Flavor Notes (Golden Subtitle)</label>
+            <input type="text" id="edit-item-notes" placeholder="e.g. Creamy • Roasted Pistachio • Velvety">
+          </div>
+
+          <div class="form-field full">
+            <label>Description</label>
+            <textarea id="edit-item-desc" rows="2" placeholder="Describe the ingredients, roast profile, or preparation..."></textarea>
+          </div>
+
+          <div class="form-field full">
+            <label style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="edit-item-avail" checked style="width:16px;height:16px;">
+              <span>Available on Public Customer Menu (Uncheck to mark Sold Out / 86'd)</span>
+            </label>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;padding-top:14px;border-top:1px solid var(--ws-line);">
+          <button type="button" class="btn-outline" onclick="closeItemModal()">Cancel</button>
+          <button type="submit" class="btn-primary">💾 Save Menu Item</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: CHANGE PASSCODE (PIN) -->
+  <div class="modal-backdrop" id="pin-modal" onclick="closePinModal()">
+    <div class="modal-card" style="max-width:420px;" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>🔑 Change Manager Passcode</h3>
+        <button class="modal-close-btn" onclick="closePinModal()">✕</button>
+      </div>
+      <form onsubmit="saveNewPin(event)">
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div class="form-field">
+            <label>Current 4-Digit PIN *</label>
+            <input type="password" id="current-pin-input" inputmode="numeric" maxlength="8" required placeholder="Enter current PIN">
+          </div>
+          <div class="form-field">
+            <label>New 4-Digit PIN *</label>
+            <input type="password" id="new-pin-input" inputmode="numeric" pattern="\d{4}" maxlength="4" required placeholder="Enter new 4-digit PIN (e.g. 5588)">
+          </div>
+          <div class="form-field">
+            <label>Confirm New 4-Digit PIN *</label>
+            <input type="password" id="confirm-pin-input" inputmode="numeric" pattern="\d{4}" maxlength="4" required placeholder="Repeat new 4-digit PIN">
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;padding-top:14px;border-top:1px solid var(--ws-line);">
+          <button type="button" class="btn-outline" onclick="closePinModal()">Cancel</button>
+          <button type="submit" class="btn-primary">🔒 Update Passcode</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: ADD NEW INVENTORY SUPPLY -->
+  <div class="modal-backdrop" id="supply-modal" onclick="closeSupplyModal()">
+    <div class="modal-card" style="max-width:460px;" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>📦 Add New Inventory Supply</h3>
+        <button class="modal-close-btn" onclick="closeSupplyModal()">✕</button>
+      </div>
+      <form onsubmit="saveNewSupply(event)">
+        <div class="form-grid">
+          <div class="form-field full">
+            <label>Item / Ingredient Name *</label>
+            <input type="text" id="supply-name" required placeholder="e.g. Madagascar Vanilla Syrup">
+          </div>
+          <div class="form-field full">
+            <label>Brand / Specification *</label>
+            <input type="text" id="supply-spec" required placeholder="e.g. Monin 1L Glass Bottle">
+          </div>
+          <div class="form-field">
+            <label>Category</label>
+            <select id="supply-cat">
+              <option value="Coffee Beans">Coffee Beans</option>
+              <option value="Dairy">Dairy</option>
+              <option value="Produce">Produce</option>
+              <option value="Tea & Herbs">Tea & Herbs</option>
+              <option value="Syrups & Flavors">Syrups & Flavors</option>
+              <option value="Supplies">Supplies</option>
+              <option value="Packaging">Packaging</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Measurement Unit *</label>
+            <input type="text" id="supply-unit" required placeholder="e.g. kg, Liters, Bottles, Cups">
+          </div>
+          <div class="form-field">
+            <label>Current Stock Qty *</label>
+            <input type="number" step="0.5" min="0" id="supply-qty" required placeholder="e.g. 12">
+          </div>
+          <div class="form-field">
+            <label>Min Alert Threshold *</label>
+            <input type="number" step="0.5" min="0" id="supply-min" required placeholder="e.g. 4">
+          </div>
+          <div class="form-field full">
+            <label>Max Target Stock Capacity *</label>
+            <input type="number" step="0.5" min="1" id="supply-max" required placeholder="e.g. 24">
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;padding-top:14px;border-top:1px solid var(--ws-line);">
+          <button type="button" class="btn-outline" onclick="closeSupplyModal()">Cancel</button>
+          <button type="submit" class="btn-primary">➕ Add to Warehouse</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Main Admin Wrapper -->
   <div class="admin-wrapper">
@@ -1019,7 +1422,7 @@
       </div>
 
       <div class="nav-actions">
-        <div class="status-pill" id="store-status-pill" onclick="toggleStoreStatus()" style="cursor:pointer;" title="Click to toggle store open/closed">
+        <div class="status-pill" id="store-status-pill" onclick="toggleStoreStatus()" title="Click to toggle store Open or Closed on the Customer Menu">
           <span class="status-dot" id="store-status-dot"></span>
           <span id="store-status-text">Store Open</span>
         </div>
@@ -1027,11 +1430,22 @@
         <a href="index.html" class="btn-nav public-view">
           <span>🌿</span> View Customer Menu
         </a>
+        <button class="btn-nav" onclick="openPinModal()" title="Change 4-Digit Admin Passcode">
+          <span>🔑</span> Change PIN
+        </button>
         <button class="btn-nav" onclick="lockPortal()">
           <span>🔒</span> Lock
         </button>
       </div>
     </header>
+
+    <!-- Store Closed Warning Banner inside Admin -->
+    <div class="store-closed-admin-bar" id="store-closed-admin-bar">
+      <div>
+        🌙 <strong>CAFE IS CURRENTLY SET TO CLOSED:</strong> Customers viewing the public menu see a "Cafe Currently Closed" banner and ordering is paused.
+      </div>
+      <button onclick="toggleStoreStatus()">🟢 Reopen Cafe Now</button>
+    </div>
 
     <!-- Navigation Tabs -->
     <nav class="tabs-bar">
@@ -1061,11 +1475,11 @@
           <h2 style="margin:0 0 4px;font-size:20px;color:var(--ws-emerald);">Live Sales Performance</h2>
           <p style="margin:0;font-size:13px;color:var(--ws-text-muted);">Real-time metrics calculated dynamically from today's orders.</p>
         </div>
-        <div style="display:flex;gap:8px;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
           <button class="btn-outline" onclick="exportSalesCsv()">
             📥 Export Sales (CSV)
           </button>
-          <button class="btn-outline" onclick="switchTab('pos')">
+          <button class="btn-primary" onclick="switchTab('pos')">
             ⚡ Open Quick POS →
           </button>
         </div>
@@ -1182,6 +1596,7 @@
                 <th>Payment</th>
                 <th>Total</th>
                 <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody id="orders-table-body">
@@ -1198,21 +1613,24 @@
         <div>
           <h2 style="margin:0 0 4px;font-size:20px;color:var(--ws-emerald);">Price & Menu Editor</h2>
           <p style="margin:0;font-size:13px;color:var(--ws-text-muted);">
-            Directly modify prices for any drink (Hot, Iced, Regular). Changes sync immediately with the customer web menu and POS.
+            Add new drinks, upload photos, edit descriptions, or change prices. All updates appear immediately on the customer menu.
           </p>
         </div>
-        <div style="display:flex;gap:10px;">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn-primary" onclick="openAddItemModal()">
+            ➕ Add New Menu Item
+          </button>
           <button class="btn-outline" onclick="resetMenuToDefaults()">
-            ↺ Reset to Default Prices
+            ↺ Reset to Default Menu
           </button>
         </div>
       </div>
 
       <!-- Instruction Callout -->
       <div style="background:#eaf2ee;border:1px solid #c7ddd3;border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--ws-emerald);display:flex;align-items:center;gap:10px;">
-        <span style="font-size:20px;">💡</span>
+        <span style="font-size:20px;">📸</span>
         <div>
-          <strong>How it works:</strong> Type the new price (SAR) in any field and click <b>Save Price</b>. The new price takes effect on the customer menu and Quick POS instantly. Toggle <b>86 (Out of Stock)</b> to temporarily mark any drink as Sold Out.
+          <strong>Pro Tip:</strong> Click <b>➕ Add New Menu Item</b> to create a new drink with a photo from your phone or computer, or click <b>📷 Edit / Photo</b> on any existing drink card to upload/change its photo, Arabic name, flavor notes, or prices.
         </div>
       </div>
 
@@ -1231,7 +1649,10 @@
           </p>
         </div>
 
-        <div style="display:flex;gap:10px;">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn-primary" onclick="openSupplyModal()">
+            ➕ Add Supply Item
+          </button>
           <button class="btn-outline" onclick="exportInventoryCsv()">
             📥 Export Inventory (CSV)
           </button>
@@ -1258,12 +1679,13 @@
       <div class="pos-layout">
         <!-- Drink Picker -->
         <div>
-          <div style="display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;">
+          <div style="display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;" id="pos-cat-pills">
             <button class="pill-opt active" onclick="filterPosCat('All', this)">All Drinks</button>
             <button class="pill-opt" onclick="filterPosCat('Specialty Coffee', this)">Specialty Coffee</button>
             <button class="pill-opt" onclick="filterPosCat('Espresso & Milk', this)">Espresso & Milk</button>
             <button class="pill-opt" onclick="filterPosCat('Iced & Refreshing', this)">Iced & Refreshing</button>
             <button class="pill-opt" onclick="filterPosCat('Tea & Fresh Juices', this)">Tea & Juices</button>
+            <button class="pill-opt" onclick="filterPosCat('Desserts & Bakery', this)">Desserts & Bakery</button>
           </div>
 
           <div class="pos-items-grid" id="pos-items-grid">
@@ -1280,7 +1702,7 @@
 
           <div class="ticket-total">
             <span>Total:</span>
-            <span id="pos-total-val">SAR 0</span>
+            <span id="pos-total-val">SAR 0.00</span>
           </div>
 
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px;">
@@ -1373,51 +1795,113 @@
       { id: 'bags-takeaway', name: 'Waseem Custom Takeaway Bags', nameEn: 'Embossed Paper Bags', qty: 220, unit: 'Bags', min: 50, max: 500, category: 'Packaging' }
     ];
 
-    // --- DEFAULT DRINK MENU ---
+    // --- DEFAULT DRINK MENU (FULL METADATA) ---
     const DEFAULT_MENU_ITEMS = [
-      { id: 'v60-colombia', name: 'V60 Specialty Coffee', category: 'Specialty Coffee', hot: 10, iced: 12, available: true },
-      { id: 'iced-v60', name: 'Iced V60', category: 'Specialty Coffee', price: 12, available: true },
-      { id: 'americano', name: 'Americano', category: 'Espresso & Milk', hot: 5, iced: 10, available: true },
-      { id: 'latte', name: 'Caffe Latte', category: 'Espresso & Milk', hot: 5, iced: 8, available: true },
-      { id: 'cappuccino', name: 'Cappuccino', category: 'Espresso & Milk', hot: 5, iced: 8, available: true },
-      { id: 'mocha', name: 'Caffe Mocha', category: 'Espresso & Milk', hot: 5, iced: 8, available: true },
-      { id: 'spanish-latte', name: 'Spanish Latte', category: 'Iced & Refreshing', hot: 7, iced: 10, available: true },
-      { id: 'avocado-juice', name: 'Fresh Avocado Juice', category: 'Tea & Fresh Juices', price: 12, available: true },
-      { id: 'karak-tea', name: 'Karak Tea', category: 'Tea & Fresh Juices', hot: 3, available: true },
-      { id: 'fresh-orange', name: 'Fresh Orange Juice', category: 'Tea & Fresh Juices', price: 8, available: true },
-      { id: 'hibiscus-iced', name: 'Iced Karkadeh (Hibiscus)', category: 'Tea & Fresh Juices', price: 7, available: true }
+      { id: 'v60-colombia', name: 'V60 Specialty Coffee', nameAr: 'قهوة مختصة V60', category: 'Specialty Coffee', hot: 10, iced: 12, description: 'Single Origin Colombia 100% Arabica. Bloom • Pour • Brew • Enjoy.', notes: 'Caramel • Chocolate • Nutty', tag: 'Signature', image: 'images/v60-colombia.jpg', available: true },
+      { id: 'iced-v60', name: 'Iced V60', nameAr: 'آيس V60', category: 'Specialty Coffee', price: 12, description: 'Slow pour-over brewed directly over crystal-clear ice for peak clarity.', notes: 'Smooth • Clean • Flavorful', tag: 'Barista Choice', image: 'images/iced-coffee.jpg', available: true },
+      { id: 'americano', name: 'Americano', nameAr: 'أمريكانو', category: 'Espresso & Milk', hot: 5, iced: 10, description: 'Double espresso pulled over fresh hot or iced water.', notes: 'Simple • Rich • Classic', image: 'images/americano-hot.jpg', available: true },
+      { id: 'latte', name: 'Caffe Latte', nameAr: 'كافيه لاتيه', category: 'Espresso & Milk', hot: 5, iced: 8, description: 'Rich espresso folded into velvety microfoam with artisanal latte art.', notes: 'Smooth & Silky Microfoam', tag: 'Bestseller', image: 'images/latte-art.jpg', available: true },
+      { id: 'cappuccino', name: 'Cappuccino', nameAr: 'كابتشينو', category: 'Espresso & Milk', hot: 5, iced: 8, description: 'Balanced double shot with equal parts steamed milk and dense froth.', notes: 'Rich & Frothy', available: true },
+      { id: 'mocha', name: 'Caffe Mocha', nameAr: 'كافيه موكا', category: 'Espresso & Milk', hot: 5, iced: 8, description: 'Deep espresso paired with rich Dutch cocoa and steamed milk.', notes: 'Dark Chocolate & Espresso', available: true },
+      { id: 'spanish-latte', name: 'Spanish Latte', nameAr: 'سبانش لاتيه', category: 'Iced & Refreshing', hot: 7, iced: 10, description: 'Specialty espresso sweetened with sweetened condensed milk.', notes: 'Sweet, Creamy & Indulgent', tag: 'Popular', available: true },
+      { id: 'avocado-juice', name: 'Fresh Avocado Juice', nameAr: 'عصير أفوكادو طازج', category: 'Tea & Fresh Juices', price: 12, description: 'Hand-picked fresh avocados blended smooth with fresh milk and honey.', notes: 'Fresh • Natural • Healthy • Delicious', tag: 'Healthy Choice', image: 'images/avocado-juice.jpg', available: true },
+      { id: 'karak-tea', name: 'Karak Tea', nameAr: 'شاي كرك أصيل', category: 'Tea & Fresh Juices', hot: 3, description: 'Slow-simmered traditional spiced black tea with evaporated milk & cardamom.', notes: 'Aromatic & Spiced', tag: 'Traditional', available: true },
+      { id: 'fresh-orange', name: 'Fresh Orange Juice', nameAr: 'عصير برتقال طازج', category: 'Tea & Fresh Juices', price: 8, description: 'Pure 100% freshly pressed oranges, no added sugars or preservatives.', notes: 'Cold Pressed & Vibrant', available: true },
+      { id: 'hibiscus-iced', name: 'Iced Karkadeh (Hibiscus)', nameAr: 'كركديه مثلج', category: 'Tea & Fresh Juices', price: 7, description: 'Slow-brewed natural hibiscus flower infusion chilled over ice.', notes: 'Tart, Sweet & Refreshing', available: true }
     ];
 
+    function loadMergedMenu() {
+      try {
+        const raw = localStorage.getItem('waseem_menu_items');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            return parsed.map(savedItem => {
+              const def = DEFAULT_MENU_ITEMS.find(d => d.id === savedItem.id);
+              if (def) {
+                return {
+                  ...def,
+                  ...savedItem,
+                  nameAr: savedItem.nameAr !== undefined ? savedItem.nameAr : def.nameAr,
+                  description: savedItem.description !== undefined ? savedItem.description : def.description,
+                  notes: savedItem.notes !== undefined ? savedItem.notes : def.notes,
+                  tag: savedItem.tag !== undefined ? savedItem.tag : def.tag,
+                  image: savedItem.image !== undefined ? savedItem.image : def.image,
+                  available: savedItem.available !== false
+                };
+              }
+              return { ...savedItem, available: savedItem.available !== false };
+            });
+          }
+        }
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(DEFAULT_MENU_ITEMS));
+    }
+
     // --- STATE INITIALIZATION (100% REAL DATA, ZERO MOCK ORDERS) ---
-    let ingredients = JSON.parse(localStorage.getItem('waseem_ingredients') || 'null') || DEFAULT_INGREDIENTS;
-    let menuItems = JSON.parse(localStorage.getItem('waseem_menu_items') || 'null') || DEFAULT_MENU_ITEMS;
-    let orders = JSON.parse(localStorage.getItem('waseem_orders') || '[]'); // Starts empty!
+    let ingredients = JSON.parse(localStorage.getItem('waseem_ingredients') || 'null') || JSON.parse(JSON.stringify(DEFAULT_INGREDIENTS));
+    let menuItems = loadMergedMenu();
+    let orders = JSON.parse(localStorage.getItem('waseem_orders') || '[]');
     let currentPosCart = [];
     let selectedPay = 'Mada';
     let isStoreOpen = localStorage.getItem('waseem_store_open') !== 'false';
     let enteredPin = '';
-    const CORRECT_PIN = '1234';
+    let modalPhotoData = '';
+
+    function getSavedPin() {
+      return localStorage.getItem('waseem_admin_pin') || '1234';
+    }
 
     function saveState() {
-      localStorage.setItem('waseem_ingredients', JSON.stringify(ingredients));
-      localStorage.setItem('waseem_menu_items', JSON.stringify(menuItems));
-      localStorage.setItem('waseem_orders', JSON.stringify(orders));
-      localStorage.setItem('waseem_store_open', isStoreOpen);
+      try {
+        localStorage.setItem('waseem_ingredients', JSON.stringify(ingredients));
+        localStorage.setItem('waseem_menu_items', JSON.stringify(menuItems));
+        localStorage.setItem('waseem_orders', JSON.stringify(orders));
+        localStorage.setItem('waseem_store_open', isStoreOpen ? 'true' : 'false');
+      } catch (err) {
+        alert('Storage quota exceeded! Try removing or re-uploading a smaller photo.');
+      }
     }
+
+    // Persist upgraded menu metadata immediately on load
+    saveState();
 
     function showToast(text) {
       const t = document.getElementById('toast-msg');
       t.textContent = text;
       t.style.display = 'block';
-      setTimeout(() => { t.style.display = 'none'; }, 3000);
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => { t.style.display = 'none'; }, 3200);
     }
 
-    // --- PIN GATE FUNCTIONS ---
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // --- PIN GATE & PASSCODE MANAGEMENT ---
+    function updatePinHint() {
+      const hint = document.getElementById('pin-hint-label');
+      if (!hint) return;
+      const isDefault = !localStorage.getItem('waseem_admin_pin') || localStorage.getItem('waseem_admin_pin') === '1234';
+      hint.innerHTML = (isDefault ? 'Default PIN: <b>1234</b> (Changeable in top bar) · ' : '🔒 Custom Manager PIN Active · ') +
+        '<a href="index.html" style="color:var(--ws-emerald);font-weight:700;text-decoration:none;">← Customer Menu</a>';
+    }
+    updatePinHint();
+
     function pressPin(n) {
-      if (enteredPin.length < 4) {
+      const targetLen = getSavedPin().length || 4;
+      if (enteredPin.length < targetLen) {
         enteredPin += n;
         updatePinDisplay();
-        if (enteredPin.length === 4) verifyPin();
+        if (enteredPin.length === targetLen) {
+          setTimeout(verifyPin, 120);
+        }
       }
     }
     function clearPin() {
@@ -1426,34 +1910,79 @@
     }
     function updatePinDisplay() {
       const d = document.getElementById('pin-dots');
-      d.textContent = '•'.repeat(enteredPin.length).padEnd(4, '·');
+      const targetLen = Math.max(4, getSavedPin().length);
+      d.textContent = '•'.repeat(enteredPin.length).padEnd(targetLen, '·');
     }
     function verifyPin() {
-      if (enteredPin === CORRECT_PIN) {
+      if (enteredPin === getSavedPin()) {
         document.getElementById('pin-overlay').style.display = 'none';
         sessionStorage.setItem('waseem_admin_auth', 'true');
-        showToast('Welcome, Captain Waseem!');
+        enteredPin = '';
+        updatePinDisplay();
+        showToast('Welcome back, Captain Waseem!');
       } else {
-        alert('Invalid PIN code. Please enter the manager PIN.');
+        alert('Invalid PIN code. Please enter your authorized Manager PIN.');
         clearPin();
       }
-    }
-    function quickUnlock() {
-      document.getElementById('pin-overlay').style.display = 'none';
-      sessionStorage.setItem('waseem_admin_auth', 'true');
-      showToast('Quick demo access granted');
     }
     function lockPortal() {
       sessionStorage.removeItem('waseem_admin_auth');
       enteredPin = '';
       updatePinDisplay();
+      updatePinHint();
       document.getElementById('pin-overlay').style.display = 'flex';
     }
     if (sessionStorage.getItem('waseem_admin_auth') === 'true') {
       document.getElementById('pin-overlay').style.display = 'none';
     }
 
-    // --- CLOCK & STORE STATUS ---
+    // Keyboard support for PIN lock screen
+    window.addEventListener('keydown', (e) => {
+      const overlay = document.getElementById('pin-overlay');
+      if (!overlay || overlay.style.display === 'none') return;
+      if (e.key >= '0' && e.key <= '9') {
+        pressPin(e.key);
+      } else if (e.key === 'Backspace' || e.key === 'Escape') {
+        clearPin();
+      } else if (e.key === 'Enter') {
+        verifyPin();
+      }
+    });
+
+    function openPinModal() {
+      document.getElementById('current-pin-input').value = '';
+      document.getElementById('new-pin-input').value = '';
+      document.getElementById('confirm-pin-input').value = '';
+      document.getElementById('pin-modal').classList.add('open');
+    }
+    function closePinModal() {
+      document.getElementById('pin-modal').classList.remove('open');
+    }
+    function saveNewPin(e) {
+      e.preventDefault();
+      const curr = document.getElementById('current-pin-input').value.trim();
+      const next = document.getElementById('new-pin-input').value.trim();
+      const conf = document.getElementById('confirm-pin-input').value.trim();
+
+      if (curr !== getSavedPin()) {
+        alert('Current PIN is incorrect.');
+        return;
+      }
+      if (!/^\d{4}$/.test(next)) {
+        alert('New PIN must be exactly 4 numeric digits (0-9).');
+        return;
+      }
+      if (next !== conf) {
+        alert('New PIN and Confirm PIN do not match.');
+        return;
+      }
+      localStorage.setItem('waseem_admin_pin', next);
+      updatePinHint();
+      closePinModal();
+      showToast('🔑 Manager Passcode updated successfully!');
+    }
+
+    // --- CLOCK & STORE OPEN/CLOSED STATUS ---
     function updateClock() {
       const d = new Date();
       document.getElementById('live-clock').textContent = d.toLocaleTimeString('en-US', { hour12: true });
@@ -1464,23 +1993,49 @@
     updateClock();
 
     function updateStoreStatusUI() {
+      const pill = document.getElementById('store-status-pill');
       const dot = document.getElementById('store-status-dot');
       const txt = document.getElementById('store-status-text');
+      const bar = document.getElementById('store-closed-admin-bar');
+
       if (isStoreOpen) {
+        pill.className = 'status-pill';
         dot.className = 'status-dot';
-        txt.textContent = 'Store Open';
+        txt.textContent = 'Store Open (Click to Close)';
+        if (bar) bar.classList.remove('visible');
       } else {
+        pill.className = 'status-pill closed-pill';
         dot.className = 'status-dot closed';
-        txt.textContent = 'Store Closed';
+        txt.textContent = 'Store Closed (Click to Open)';
+        if (bar) bar.classList.add('visible');
       }
     }
     function toggleStoreStatus() {
       isStoreOpen = !isStoreOpen;
       saveState();
       updateStoreStatusUI();
-      showToast(isStoreOpen ? 'Store status: OPEN' : 'Store status: CLOSED');
+      showToast(isStoreOpen ? '🟢 Store is now OPEN on Customer Menu!' : '🔴 Store is now CLOSED on Customer Menu!');
     }
     updateStoreStatusUI();
+
+    // Listen for cross-tab storage updates
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'waseem_store_open') {
+        isStoreOpen = localStorage.getItem('waseem_store_open') !== 'false';
+        updateStoreStatusUI();
+      } else if (e.key === 'waseem_menu_items') {
+        menuItems = loadMergedMenu();
+        renderPriceEditor();
+        renderPosItems();
+      } else if (e.key === 'waseem_ingredients') {
+        ingredients = JSON.parse(localStorage.getItem('waseem_ingredients') || 'null') || DEFAULT_INGREDIENTS;
+        renderInventory();
+      } else if (e.key === 'waseem_orders') {
+        orders = JSON.parse(localStorage.getItem('waseem_orders') || '[]');
+        renderAnalytics();
+        renderZReport();
+      }
+    });
 
     // --- TAB SWITCHING ---
     function switchTab(tabId) {
@@ -1508,7 +2063,6 @@
       const totalGross = orders.reduce((sum, o) => sum + (o.total || 0), 0);
       const avgTicket = count ? (totalGross / count) : 0;
 
-      // Item counts for top seller
       const itemCounts = {};
       orders.forEach(o => {
         if (o.lines) {
@@ -1532,7 +2086,6 @@
       document.getElementById('kpi-top').textContent = topItem;
       document.getElementById('kpi-top-detail').textContent = topQty ? (topQty + ' cups sold today') : 'No sales recorded yet';
 
-      // Category breakdown
       const catTotals = {
         'Specialty Coffee': 0,
         'Espresso & Milk': 0,
@@ -1542,7 +2095,8 @@
       orders.forEach(o => {
         if (o.lines) {
           o.lines.forEach(l => {
-            const m = menuItems.find(x => x.name === l.name);
+            const baseName = l.name.replace(/\s*\((Hot|Iced)\)$/, '');
+            const m = menuItems.find(x => x.name === baseName || x.name === l.name);
             const cat = m ? m.category : 'Espresso & Milk';
             catTotals[cat] = (catTotals[cat] || 0) + (l.price * l.qty);
           });
@@ -1564,7 +2118,7 @@
           return `
             <div class="cat-bar-item">
               <div class="cat-bar-header">
-                <span>${cName}</span>
+                <span>${escapeHtml(cName)}</span>
                 <span>${pct}% · SAR ${cRev.toFixed(2)}</span>
               </div>
               <div class="cat-bar-track">
@@ -1575,7 +2129,6 @@
         }).join('');
       }
 
-      // Payment breakdown
       let madaTotal = 0, appleTotal = 0, cashTotal = 0;
       orders.forEach(o => {
         if (o.method === 'Mada') madaTotal += o.total;
@@ -1590,13 +2143,12 @@
       document.getElementById('apple-pct').textContent = applePct + '%';
       document.getElementById('cash-pct').textContent = cashPct + '%';
 
-      // Table body
       const tbody = document.getElementById('orders-table-body');
       document.getElementById('orders-log-count').textContent = count + ' orders today';
       if (!orders.length) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="6" style="text-align:center;padding:32px 14px;color:var(--ws-text-muted);">
+            <td colspan="7" style="text-align:center;padding:32px 14px;color:var(--ws-text-muted);">
               No transactions recorded today.<br>Orders placed through <b>Quick POS Register</b> will appear here live.
             </td>
           </tr>
@@ -1604,71 +2156,87 @@
       } else {
         tbody.innerHTML = orders.slice().reverse().map(o => `
           <tr>
-            <td><strong>${o.id}</strong></td>
-            <td>${o.time}</td>
-            <td>${o.items}</td>
-            <td><span class="stock-badge ok">${o.method}</span></td>
-            <td><strong>SAR ${o.total.toFixed(2)}</strong></td>
+            <td><strong>${escapeHtml(o.id)}</strong></td>
+            <td>${escapeHtml(o.time)}</td>
+            <td>${escapeHtml(o.items)}</td>
+            <td><span class="stock-badge ok">${escapeHtml(o.method)}</span></td>
+            <td><strong>SAR ${Number(o.total).toFixed(2)}</strong></td>
             <td><span style="color:var(--ws-success);font-weight:700;">● Completed</span></td>
+            <td>
+              <button class="btn-icon-action delete" style="padding:4px 8px;font-size:11px;" onclick="deleteOrder('${escapeHtml(o.id)}')" title="Void / Delete Order">
+                🗑️ Void
+              </button>
+            </td>
           </tr>
         `).join('');
       }
     }
 
-    // --- TAB 2: PRICES & MENU EDITOR ---
+    function deleteOrder(orderId) {
+      if (!confirm(`Void and remove order ${orderId} from today's register log?`)) return;
+      orders = orders.filter(o => o.id !== orderId);
+      saveState();
+      renderAnalytics();
+      renderZReport();
+      showToast(`Order ${orderId} voided.`);
+    }
+
+    // --- TAB 2: PRICES, MENU EDITOR & PHOTO UPLOAD ---
     function renderPriceEditor() {
       const cont = document.getElementById('price-editor-container');
       cont.innerHTML = menuItems.map(item => {
-        const isDual = (item.hot !== undefined && item.iced !== undefined);
-        const hasHotOnly = (item.hot !== undefined && item.iced === undefined);
-        const hasSingle = (item.price !== undefined);
+        const hasHot = item.hot !== undefined && item.hot !== null && item.hot !== '';
+        const hasIced = item.iced !== undefined && item.iced !== null && item.iced !== '';
+        const hasSingle = item.price !== undefined && item.price !== null && item.price !== '';
 
         return `
           <div class="price-item-card">
             <div class="price-item-header">
-              <div class="price-item-title">
-                <h4>${item.name}</h4>
-                <span>${item.category}</span>
+              <div class="price-item-brand">
+                <div class="price-item-thumb" onclick="openEditItemModal('${escapeHtml(item.id)}')" title="Click to upload or change photo">
+                  ${item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\\'price-item-thumb-fallback\\'>WS</div>')">` : `<div class="price-item-thumb-fallback">WS</div>`}
+                  <div class="price-item-thumb-overlay">📷 Photo</div>
+                </div>
+                <div class="price-item-title">
+                  <h4>
+                    <span>${escapeHtml(item.name)}</span>
+                    ${item.nameAr ? `<span class="ar-sub">${escapeHtml(item.nameAr)}</span>` : ''}
+                  </h4>
+                  <span class="cat-label">${escapeHtml(item.category)}${item.tag ? ` · ★ ${escapeHtml(item.tag)}` : ''}</span>
+                </div>
               </div>
-              <span class="stock-badge ${item.available ? 'ok' : 'empty'}" id="status-badge-${item.id}">
+              <span class="stock-badge ${item.available ? 'ok' : 'empty'}" id="status-badge-${escapeHtml(item.id)}">
                 ${item.available ? 'Available' : '86\'d (Sold Out)'}
               </span>
             </div>
 
             <div class="price-inputs-row">
-              ${isDual ? `
+              ${hasHot ? `
                 <div class="price-field">
-                  <label>Hot Price</label>
+                  <label>♨️ Hot Price</label>
                   <div class="price-field-input">
                     <span>SAR</span>
-                    <input type="number" step="0.5" id="price-hot-${item.id}" value="${item.hot}">
-                  </div>
-                </div>
-                <div class="price-field">
-                  <label>Iced Price</label>
-                  <div class="price-field-input">
-                    <span>SAR</span>
-                    <input type="number" step="0.5" id="price-iced-${item.id}" value="${item.iced}">
+                    <input type="number" step="0.5" min="0" id="price-hot-${escapeHtml(item.id)}" value="${item.hot}">
                   </div>
                 </div>
               ` : ''}
 
-              ${hasHotOnly ? `
+              ${hasIced ? `
                 <div class="price-field">
-                  <label>Hot Price</label>
+                  <label>🧊 Iced Price</label>
                   <div class="price-field-input">
                     <span>SAR</span>
-                    <input type="number" step="0.5" id="price-hot-${item.id}" value="${item.hot}">
+                    <input type="number" step="0.5" min="0" id="price-iced-${escapeHtml(item.id)}" value="${item.iced}">
                   </div>
                 </div>
               ` : ''}
 
               ${hasSingle ? `
                 <div class="price-field">
-                  <label>Regular Price</label>
+                  <label>🥤 Regular Price</label>
                   <div class="price-field-input">
                     <span>SAR</span>
-                    <input type="number" step="0.5" id="price-reg-${item.id}" value="${item.price}">
+                    <input type="number" step="0.5" min="0" id="price-reg-${escapeHtml(item.id)}" value="${item.price}">
                   </div>
                 </div>
               ` : ''}
@@ -1676,13 +2244,21 @@
 
             <div class="price-item-footer">
               <label class="toggle-86">
-                <input type="checkbox" id="avail-${item.id}" ${item.available ? 'checked' : ''} onchange="toggleItem86('${item.id}', this.checked)">
+                <input type="checkbox" id="avail-${escapeHtml(item.id)}" ${item.available ? 'checked' : ''} onchange="toggleItem86('${escapeHtml(item.id)}', this.checked)">
                 <span>Active on Menu</span>
               </label>
 
-              <button class="btn-save-price" onclick="saveItemPrice('${item.id}')">
-                💾 Save Price
-              </button>
+              <div style="display:flex;gap:6px;align-items:center;">
+                <button class="btn-icon-action" onclick="openEditItemModal('${escapeHtml(item.id)}')" title="Edit Photo, Details & Prices">
+                  📷 Edit / Photo
+                </button>
+                <button class="btn-icon-action delete" onclick="deleteMenuItem('${escapeHtml(item.id)}')" title="Delete Item">
+                  🗑️
+                </button>
+                <button class="btn-save-price" onclick="saveItemPrice('${escapeHtml(item.id)}')">
+                  💾 Save Price
+                </button>
+              </div>
             </div>
           </div>
         `;
@@ -1697,13 +2273,14 @@
       const icedInput = document.getElementById('price-iced-' + itemId);
       const regInput = document.getElementById('price-reg-' + itemId);
 
-      if (hotInput) item.hot = parseFloat(hotInput.value) || item.hot;
-      if (icedInput) item.iced = parseFloat(icedInput.value) || item.iced;
-      if (regInput) item.price = parseFloat(regInput.value) || item.price;
+      if (hotInput && hotInput.value !== '') item.hot = parseFloat(hotInput.value);
+      if (icedInput && icedInput.value !== '') item.iced = parseFloat(icedInput.value);
+      if (regInput && regInput.value !== '') item.price = parseFloat(regInput.value);
 
       saveState();
-      showToast(`Updated price for ${item.name}! Saved to public menu.`);
+      showToast(`✅ Updated price for "${item.name}"! Live on customer menu.`);
       renderPriceEditor();
+      renderPosItems();
     }
 
     function toggleItem86(itemId, isAvailable) {
@@ -1711,21 +2288,219 @@
       if (!item) return;
       item.available = isAvailable;
       saveState();
-      showToast(`${item.name} is now ${isAvailable ? 'Available' : '86\'d (Sold Out)'}`);
+      showToast(`${item.name} is now ${isAvailable ? '🟢 Available on Menu' : '🔴 86\'d (Sold Out)'}`);
       const badge = document.getElementById('status-badge-' + itemId);
       if (badge) {
         badge.className = `stock-badge ${isAvailable ? 'ok' : 'empty'}`;
         badge.textContent = isAvailable ? 'Available' : '86\'d (Sold Out)';
       }
+      renderPosItems();
+    }
+
+    function deleteMenuItem(itemId) {
+      const item = menuItems.find(x => x.id === itemId);
+      if (!item) return;
+      if (!confirm(`Are you sure you want to delete "${item.name}" from the menu?`)) return;
+      menuItems = menuItems.filter(x => x.id !== itemId);
+      saveState();
+      renderPriceEditor();
+      renderPosItems();
+      showToast(`🗑️ Deleted "${item.name}" from menu.`);
     }
 
     function resetMenuToDefaults() {
-      if (confirm('Reset all drink prices and availability back to standard defaults?')) {
+      if (confirm('Reset all drinks, photos, prices, and availability back to standard defaults?')) {
         menuItems = JSON.parse(JSON.stringify(DEFAULT_MENU_ITEMS));
         saveState();
         renderPriceEditor();
-        showToast('Menu prices reset to defaults');
+        renderPosItems();
+        showToast('↺ Menu reset to original defaults');
       }
+    }
+
+    // --- ADD / EDIT ITEM MODAL & CLIENT-SIDE CANVAS PHOTO COMPRESSION ---
+    function updateModalPhotoPreview(src) {
+      modalPhotoData = src || '';
+      const frame = document.getElementById('modal-photo-preview');
+      const removeBtn = document.getElementById('btn-remove-photo');
+      const urlInput = document.getElementById('edit-item-image-url');
+
+      if (modalPhotoData) {
+        frame.innerHTML = `<img src="${escapeHtml(modalPhotoData)}" alt="Preview" onerror="this.parentElement.innerHTML='<span>WS</span>'">`;
+        removeBtn.style.display = 'inline-flex';
+        if (!modalPhotoData.startsWith('data:')) {
+          urlInput.value = modalPhotoData;
+        } else {
+          urlInput.value = '';
+          urlInput.placeholder = '✅ Custom uploaded photo ready (600×600 HD)';
+        }
+      } else {
+        frame.innerHTML = '<span>WS</span>';
+        removeBtn.style.display = 'none';
+        urlInput.value = '';
+        urlInput.placeholder = 'Or paste image path / URL (e.g. images/latte-art.jpg)';
+      }
+    }
+
+    function clearModalPhoto() {
+      document.getElementById('item-photo-file').value = '';
+      updateModalPhotoPreview('');
+    }
+
+    function handlePhotoUrlInput(val) {
+      const trimmed = val.trim();
+      modalPhotoData = trimmed;
+      const frame = document.getElementById('modal-photo-preview');
+      const removeBtn = document.getElementById('btn-remove-photo');
+      if (trimmed) {
+        frame.innerHTML = `<img src="${escapeHtml(trimmed)}" alt="Preview" onerror="this.parentElement.innerHTML='<span>WS</span>'">`;
+        removeBtn.style.display = 'inline-flex';
+      } else {
+        frame.innerHTML = '<span>WS</span>';
+        removeBtn.style.display = 'none';
+      }
+    }
+
+    function handlePhotoUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        alert('Please select a valid image file (JPG, PNG, WEBP).');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          // Smart center-crop & resize to 600x600 square HD JPEG (fits both 1:1 thumbnail and 460x360 lightbox cleanly)
+          const TARGET_SIZE = 600;
+          const canvas = document.createElement('canvas');
+          canvas.width = TARGET_SIZE;
+          canvas.height = TARGET_SIZE;
+          const ctx = canvas.getContext('2d');
+
+          // Fill warm espresso-emerald background in case of transparent PNG
+          ctx.fillStyle = '#0e382c';
+          ctx.fillRect(0, 0, TARGET_SIZE, TARGET_SIZE);
+
+          const minDim = Math.min(img.width, img.height);
+          const sx = (img.width - minDim) / 2;
+          const sy = (img.height - minDim) / 2;
+
+          ctx.drawImage(img, sx, sy, minDim, minDim, 0, 0, TARGET_SIZE, TARGET_SIZE);
+
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.84);
+          updateModalPhotoPreview(compressedDataUrl);
+          showToast('📸 Photo optimized & ready!');
+        };
+        img.onerror = function() {
+          alert('Could not process image file. Please try another photo.');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function openAddItemModal() {
+      document.getElementById('item-modal-title').textContent = '➕ Add New Menu Item';
+      document.getElementById('edit-item-id').value = '';
+      document.getElementById('edit-item-name').value = '';
+      document.getElementById('edit-item-name-ar').value = '';
+      document.getElementById('edit-item-cat').value = 'Specialty Coffee';
+      document.getElementById('edit-item-tag').value = '';
+      document.getElementById('edit-item-hot').value = '';
+      document.getElementById('edit-item-iced').value = '';
+      document.getElementById('edit-item-price').value = '';
+      document.getElementById('edit-item-notes').value = '';
+      document.getElementById('edit-item-desc').value = '';
+      document.getElementById('edit-item-avail').checked = true;
+      document.getElementById('item-photo-file').value = '';
+      updateModalPhotoPreview('');
+      document.getElementById('item-modal').classList.add('open');
+    }
+
+    function openEditItemModal(itemId) {
+      const item = menuItems.find(x => x.id === itemId);
+      if (!item) return;
+
+      document.getElementById('item-modal-title').textContent = '✏️ Edit Item: ' + item.name;
+      document.getElementById('edit-item-id').value = item.id;
+      document.getElementById('edit-item-name').value = item.name || '';
+      document.getElementById('edit-item-name-ar').value = item.nameAr || '';
+      document.getElementById('edit-item-cat').value = item.category || 'Specialty Coffee';
+      document.getElementById('edit-item-tag').value = item.tag || '';
+      document.getElementById('edit-item-hot').value = item.hot !== undefined ? item.hot : '';
+      document.getElementById('edit-item-iced').value = item.iced !== undefined ? item.iced : '';
+      document.getElementById('edit-item-price').value = item.price !== undefined ? item.price : '';
+      document.getElementById('edit-item-notes').value = item.notes || '';
+      document.getElementById('edit-item-desc').value = item.description || '';
+      document.getElementById('edit-item-avail').checked = item.available !== false;
+      document.getElementById('item-photo-file').value = '';
+      updateModalPhotoPreview(item.image || '');
+      document.getElementById('item-modal').classList.add('open');
+    }
+
+    function closeItemModal() {
+      document.getElementById('item-modal').classList.remove('open');
+    }
+
+    function saveMenuItemModal(e) {
+      e.preventDefault();
+      const existingId = document.getElementById('edit-item-id').value.trim();
+      const name = document.getElementById('edit-item-name').value.trim();
+      const nameAr = document.getElementById('edit-item-name-ar').value.trim();
+      const category = document.getElementById('edit-item-cat').value;
+      const tag = document.getElementById('edit-item-tag').value.trim();
+      const hotRaw = document.getElementById('edit-item-hot').value.trim();
+      const icedRaw = document.getElementById('edit-item-iced').value.trim();
+      const priceRaw = document.getElementById('edit-item-price').value.trim();
+      const notes = document.getElementById('edit-item-notes').value.trim();
+      const description = document.getElementById('edit-item-desc').value.trim();
+      const available = document.getElementById('edit-item-avail').checked;
+
+      if (!name) {
+        alert('Please enter the drink name.');
+        return;
+      }
+
+      const hot = hotRaw !== '' ? parseFloat(hotRaw) : undefined;
+      const iced = icedRaw !== '' ? parseFloat(icedRaw) : undefined;
+      const price = priceRaw !== '' ? parseFloat(priceRaw) : undefined;
+
+      if (hot === undefined && iced === undefined && price === undefined) {
+        alert('Please enter at least one price (Hot, Iced, or Regular).');
+        return;
+      }
+
+      const itemObj = {
+        id: existingId || ('item-' + Date.now()),
+        name,
+        nameAr: nameAr || undefined,
+        category,
+        hot,
+        iced,
+        price,
+        notes: notes || undefined,
+        description: description || undefined,
+        tag: tag || undefined,
+        image: modalPhotoData || undefined,
+        available
+      };
+
+      if (existingId) {
+        const idx = menuItems.findIndex(x => x.id === existingId);
+        if (idx !== -1) menuItems[idx] = itemObj;
+        else menuItems.push(itemObj);
+      } else {
+        menuItems.push(itemObj);
+      }
+
+      saveState();
+      closeItemModal();
+      renderPriceEditor();
+      renderPosItems();
+      showToast(`✅ "${name}" saved and published to the customer menu!`);
     }
 
     // --- TAB 3: INVENTORY ---
@@ -1734,7 +2509,7 @@
       let lowCount = 0;
 
       cont.innerHTML = ingredients.map(ing => {
-        const pct = Math.min(100, Math.round((ing.qty / ing.max) * 100));
+        const pct = Math.min(100, Math.round((ing.qty / (ing.max || 1)) * 100));
         let status = 'ok';
         let badgeText = 'Normal';
         let barColor = 'var(--ws-emerald)';
@@ -1755,22 +2530,22 @@
           `Hello! This is Waseem Cafe.\nWe need an urgent replenishment order for:\n` +
           `• Item: ${ing.name} (${ing.nameEn})\n` +
           `• Current Stock: ${ing.qty} ${ing.unit}\n` +
-          `• Target Order: ${(ing.max - ing.qty).toFixed(1)} ${ing.unit}\n\nPlease confirm availability and delivery.`
+          `• Target Order: ${Math.max(1, (ing.max - ing.qty)).toFixed(1)} ${ing.unit}\n\nPlease confirm availability and delivery.`
         );
 
         return `
           <div class="stock-card ${status === 'low' || status === 'empty' ? 'critical' : ''}">
             <div class="stock-head">
               <div class="stock-name-wrap">
-                <h4>${ing.name}</h4>
-                <span>${ing.nameEn} · ${ing.category}</span>
+                <h4>${escapeHtml(ing.name)}</h4>
+                <span>${escapeHtml(ing.nameEn)} · ${escapeHtml(ing.category)}</span>
               </div>
               <span class="stock-badge ${status}">${badgeText}</span>
             </div>
 
             <div class="stock-gauge-wrap">
               <div class="stock-gauge-labels">
-                <span>Stock: <b>${ing.qty} ${ing.unit}</b></span>
+                <span>Stock: <b>${ing.qty} ${escapeHtml(ing.unit)}</b></span>
                 <span style="color:var(--ws-text-muted);font-size:11px;">Min ${ing.min} / Max ${ing.max}</span>
               </div>
               <div class="stock-gauge-bar">
@@ -1780,14 +2555,19 @@
 
             <div class="stock-actions">
               <div class="qty-stepper">
-                <button onclick="changeStock('${ing.id}', -1)">−</button>
+                <button onclick="changeStock('${escapeHtml(ing.id)}', -1)">−</button>
                 <span>${ing.qty}</span>
-                <button onclick="changeStock('${ing.id}', 1)">+</button>
+                <button onclick="changeStock('${escapeHtml(ing.id)}', 1)">+</button>
               </div>
 
-              <a class="btn-wa-reorder" href="https://wa.me/966511313965?text=${reorderMsg}" target="_blank">
-                <span>💬</span> Reorder via WA
-              </a>
+              <div style="display:flex;gap:6px;align-items:center;">
+                <a class="btn-wa-reorder" href="https://wa.me/966511313965?text=${reorderMsg}" target="_blank">
+                  <span>💬</span> Reorder via WA
+                </a>
+                <button class="btn-icon-action delete" style="padding:5px 8px;" onclick="deleteSupply('${escapeHtml(ing.id)}')" title="Remove Supply Item">
+                  🗑️
+                </button>
+              </div>
             </div>
           </div>
         `;
@@ -1804,6 +2584,60 @@
       renderInventory();
     }
 
+    function openSupplyModal() {
+      document.getElementById('supply-name').value = '';
+      document.getElementById('supply-spec').value = '';
+      document.getElementById('supply-cat').value = 'Coffee Beans';
+      document.getElementById('supply-unit').value = 'kg';
+      document.getElementById('supply-qty').value = '';
+      document.getElementById('supply-min').value = '';
+      document.getElementById('supply-max').value = '';
+      document.getElementById('supply-modal').classList.add('open');
+    }
+
+    function closeSupplyModal() {
+      document.getElementById('supply-modal').classList.remove('open');
+    }
+
+    function saveNewSupply(e) {
+      e.preventDefault();
+      const name = document.getElementById('supply-name').value.trim();
+      const nameEn = document.getElementById('supply-spec').value.trim();
+      const category = document.getElementById('supply-cat').value;
+      const unit = document.getElementById('supply-unit').value.trim();
+      const qty = parseFloat(document.getElementById('supply-qty').value) || 0;
+      const min = parseFloat(document.getElementById('supply-min').value) || 0;
+      const max = parseFloat(document.getElementById('supply-max').value) || 10;
+
+      if (!name || !unit) return;
+
+      ingredients.push({
+        id: 'sup-' + Date.now(),
+        name,
+        nameEn,
+        category,
+        unit,
+        qty,
+        min,
+        max
+      });
+
+      saveState();
+      closeSupplyModal();
+      renderInventory();
+      showToast(`📦 Added "${name}" to Inventory Warehouse!`);
+    }
+
+    function deleteSupply(ingId) {
+      const ing = ingredients.find(x => x.id === ingId);
+      if (!ing) return;
+      if (!confirm(`Remove "${ing.name}" from warehouse tracking?`)) return;
+      ingredients = ingredients.filter(x => x.id !== ingId);
+      saveState();
+      renderInventory();
+      showToast(`🗑️ Removed "${ing.name}".`);
+    }
+
     function exportInventoryCsv() {
       const headers = ['ID', 'Name', 'Description', 'Category', 'Current Qty', 'Unit', 'Min Threshold', 'Max Target'];
       const rows = ingredients.map(i => [i.id, `"${i.name}"`, `"${i.nameEn}"`, `"${i.category}"`, i.qty, `"${i.unit}"`, i.min, i.max]);
@@ -1815,7 +2649,7 @@
     let posCatFilter = 'All';
     function filterPosCat(cat, btn) {
       posCatFilter = cat;
-      document.querySelectorAll('#pane-pos .pill-opt').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#pane-pos #pos-cat-pills .pill-opt').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       renderPosItems();
     }
@@ -1829,38 +2663,34 @@
           return `
             <div class="pos-item-btn" style="opacity:0.5;cursor:not-allowed;">
               <div>
-                <div class="pos-item-name">${item.name}</div>
-                <div class="pos-item-cat">${item.category}</div>
+                <div class="pos-item-name">${escapeHtml(item.name)}</div>
+                <div class="pos-item-cat">${escapeHtml(item.category)}</div>
               </div>
               <div style="font-size:11px;color:var(--ws-danger);font-weight:700;">86'd (Sold Out)</div>
             </div>
           `;
         }
 
-        // Generate buttons for hot/iced or regular
-        let buttons = '';
-        if (item.hot !== undefined && item.iced !== undefined) {
-          buttons = `
-            <div style="display:flex;gap:4px;margin-top:6px;">
-              <button class="btn-primary" style="padding:4px 8px;font-size:11px;" onclick="addPosTicket('${item.name} (Hot)', ${item.hot})">Hot SAR ${item.hot}</button>
-              <button class="btn-outline" style="padding:4px 8px;font-size:11px;" onclick="addPosTicket('${item.name} (Iced)', ${item.iced})">Iced SAR ${item.iced}</button>
-            </div>
-          `;
-        } else if (item.hot !== undefined) {
-          buttons = `
-            <button class="btn-primary" style="padding:4px 8px;font-size:11px;margin-top:6px;" onclick="addPosTicket('${item.name} (Hot)', ${item.hot})">Hot SAR ${item.hot}</button>
-          `;
-        } else {
-          buttons = `
-            <button class="btn-primary" style="padding:4px 8px;font-size:11px;margin-top:6px;" onclick="addPosTicket('${item.name}', ${item.price})">Regular SAR ${item.price}</button>
-          `;
+        let buttons = '<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;">';
+        if (item.hot !== undefined && item.hot !== '') {
+          buttons += `<button class="btn-primary" style="padding:5px 9px;font-size:11px;" onclick="addPosTicketById('${escapeHtml(item.id)}', 'Hot', ${Number(item.hot)})">Hot SAR ${item.hot}</button>`;
         }
+        if (item.iced !== undefined && item.iced !== '') {
+          buttons += `<button class="btn-outline" style="padding:5px 9px;font-size:11px;" onclick="addPosTicketById('${escapeHtml(item.id)}', 'Iced', ${Number(item.iced)})">Iced SAR ${item.iced}</button>`;
+        }
+        if (item.price !== undefined && item.price !== '') {
+          buttons += `<button class="btn-primary" style="padding:5px 9px;font-size:11px;" onclick="addPosTicketById('${escapeHtml(item.id)}', 'Regular', ${Number(item.price)})">Regular SAR ${item.price}</button>`;
+        }
+        buttons += '</div>';
 
         return `
           <div class="pos-item-btn">
-            <div>
-              <div class="pos-item-name">${item.name}</div>
-              <div class="pos-item-cat">${item.category}</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              ${item.image ? `<img src="${escapeHtml(item.image)}" alt="" style="width:34px;height:34px;border-radius:6px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">` : ''}
+              <div>
+                <div class="pos-item-name">${escapeHtml(item.name)}</div>
+                <div class="pos-item-cat">${escapeHtml(item.category)}</div>
+              </div>
             </div>
             ${buttons}
           </div>
@@ -1868,10 +2698,13 @@
       }).join('');
     }
 
-    function addPosTicket(name, price) {
-      const existing = currentPosCart.find(x => x.name === name);
+    function addPosTicketById(itemId, variant, price) {
+      const item = menuItems.find(x => x.id === itemId);
+      if (!item) return;
+      const label = variant === 'Regular' ? item.name : `${item.name} (${variant})`;
+      const existing = currentPosCart.find(x => x.name === label);
       if (existing) existing.qty++;
-      else currentPosCart.push({ name, price, qty: 1 });
+      else currentPosCart.push({ name: label, price: Number(price), qty: 1 });
       renderPosTicket();
     }
 
@@ -1897,7 +2730,7 @@
         return `
           <div class="ticket-line">
             <div>
-              <b>${x.name}</b>
+              <b>${escapeHtml(x.name)}</b>
               <div style="font-size:11px;color:#666;">SAR ${x.price} each</div>
             </div>
             <div style="display:flex;align-items:center;gap:6px;">
@@ -1964,7 +2797,7 @@
       saveState();
       currentPosCart = [];
       renderPosTicket();
-      showToast(`Order ${orderNum} completed! (SAR ${total.toFixed(2)})`);
+      showToast(`✅ Order ${orderNum} completed! (SAR ${total.toFixed(2)})`);
     }
 
     // --- TAB 5: Z-REPORT ---
@@ -2003,8 +2836,8 @@
         `📊 *15% VAT:* SAR ${vat.toFixed(2)}\n` +
         `💵 *Net Revenue:* SAR ${net.toFixed(2)}\n` +
         `🧾 *Total Orders:* ${count}\n\n` +
-        `💳 *Mada:* SAR ${document.getElementById('z-mada').textContent}\n` +
-        `📱 *Apple Pay:* SAR ${document.getElementById('z-apple').textContent}\n` +
+        `💳 *Mada:* ${document.getElementById('z-mada').textContent}\n` +
+        `📱 *Apple Pay:* ${document.getElementById('z-apple').textContent}\n` +
         `💵 *Cash in Drawer:* ${document.getElementById('z-cash').textContent}\n\n` +
         `_Shift balanced and closed by Captain Waseem._`
       );

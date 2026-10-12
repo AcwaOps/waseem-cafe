@@ -18,12 +18,20 @@ export type MenuItem = {
   active: boolean;
 };
 
+export type CafeSettings = {
+  storeOpen: boolean;
+  adminPasscode: string;
+};
+
 const KEY = 'waseem-cafe:menu:v2';
+const SETTINGS_KEY = 'waseem-cafe:settings:v1';
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DATA_FILE = path.join(DATA_DIR, 'menu.json');
+const SETTINGS_FILE = path.join(DATA_DIR, 'settings.json');
 
 // In-memory cache for fast local access
 let memoryStore: MenuItem[] | null = null;
+let memorySettings: CafeSettings | null = null;
 
 async function readFromFile(): Promise<MenuItem[] | null> {
   try {
@@ -46,7 +54,6 @@ async function writeToFile(menu: MenuItem[]) {
 }
 
 export async function readMenu(): Promise<MenuItem[]> {
-  // 1. Try Vercel KV if environment variables are present
   if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
     try {
       const stored = await kv.get<MenuItem[]>(KEY);
@@ -56,35 +63,83 @@ export async function readMenu(): Promise<MenuItem[]> {
     }
   }
 
-  // 2. Try in-memory store
   if (memoryStore && memoryStore.length > 0) {
     return memoryStore;
   }
 
-  // 3. Try local file storage
   const fileData = await readFromFile();
   if (fileData) {
     memoryStore = fileData;
     return fileData;
   }
 
-  // 4. Fallback to initialMenu
   memoryStore = [...initialMenu];
   return memoryStore;
 }
 
 export async function writeMenu(menu: MenuItem[]) {
   memoryStore = menu;
-
-  // Persist to local file
   await writeToFile(menu);
 
-  // Persist to Vercel KV if available
   if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
     try {
       await kv.set(KEY, menu);
     } catch (e) {
       console.warn('Vercel KV write failed:', e);
     }
+  }
+}
+
+export async function readSettings(): Promise<CafeSettings> {
+  const defaultSettings: CafeSettings = {
+    storeOpen: true,
+    adminPasscode: process.env.ADMIN_PASSWORD || '1234',
+  };
+
+  if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+    try {
+      const stored = await kv.get<CafeSettings>(SETTINGS_KEY);
+      if (stored && typeof stored.storeOpen === 'boolean') {
+        return {
+          storeOpen: stored.storeOpen,
+          adminPasscode: stored.adminPasscode || defaultSettings.adminPasscode,
+        };
+      }
+    } catch {}
+  }
+
+  if (memorySettings) {
+    return memorySettings;
+  }
+
+  try {
+    const raw = await fs.readFile(SETTINGS_FILE, 'utf-8');
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed.storeOpen === 'boolean') {
+      memorySettings = {
+        storeOpen: parsed.storeOpen,
+        adminPasscode: parsed.adminPasscode || defaultSettings.adminPasscode,
+      };
+      return memorySettings;
+    }
+  } catch {}
+
+  memorySettings = defaultSettings;
+  return memorySettings;
+}
+
+export async function writeSettings(settings: CafeSettings) {
+  memorySettings = settings;
+  try {
+    await fs.mkdir(DATA_DIR, { recursive: true });
+    await fs.writeFile(SETTINGS_FILE, JSON.stringify(settings, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Failed to write settings file:', err);
+  }
+
+  if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+    try {
+      await kv.set(SETTINGS_KEY, settings);
+    } catch {}
   }
 }

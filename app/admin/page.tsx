@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import type { MenuItem } from '@/lib/store';
 
 const CATEGORIES = [
@@ -8,6 +8,7 @@ const CATEGORIES = [
   'Espresso & Milk',
   'Iced & Refreshing',
   'Tea & Fresh Juices',
+  'Desserts & Bakery',
 ];
 
 type Ingredient = {
@@ -66,6 +67,7 @@ const BLANK_ITEM = {
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<'analytics' | 'inventory' | 'pos' | 'menu' | 'zreport'>('analytics');
   const [items, setItems] = useState<MenuItem[]>([]);
+  const [storeOpen, setStoreOpen] = useState<boolean>(true);
   const [ingredients, setIngredients] = useState<Ingredient[]>(DEFAULT_INGREDIENTS);
   const [orders, setOrders] = useState<OrderRecord[]>(DEFAULT_ORDERS);
   const [form, setForm] = useState<any>(BLANK_ITEM);
@@ -74,6 +76,12 @@ export default function AdminPage() {
   const [posCart, setPosCart] = useState<{ id: string; name: string; price: number; qty: number }[]>([]);
   const [posMethod, setPosMethod] = useState('Mada');
   const [timeStr, setTimeStr] = useState('');
+
+  // Passcode modal state
+  const [pinModalOpen, setPinModalOpen] = useState(false);
+  const [currentPin, setCurrentPin] = useState('');
+  const [newPin, setNewPin] = useState('');
+  const [confirmPin, setConfirmPin] = useState('');
 
   // Clock
   useEffect(() => {
@@ -117,6 +125,7 @@ export default function AdminPage() {
       }
       const data = await res.json();
       if (data?.menu) setItems(data.menu);
+      if (typeof data?.storeOpen === 'boolean') setStoreOpen(data.storeOpen);
     } catch {
       setMsg({ text: 'Error connecting to menu service', error: true });
     } finally {
@@ -127,6 +136,95 @@ export default function AdminPage() {
   useEffect(() => {
     loadMenu();
   }, []);
+
+  async function handleToggleStoreOpen() {
+    const nextOpen = !storeOpen;
+    try {
+      const res = await fetch('/api/admin/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ storeOpen: nextOpen }),
+      });
+      if (res.ok) {
+        setStoreOpen(nextOpen);
+        setMsg({
+          text: nextOpen
+            ? '🟢 Store is now OPEN on the Customer Menu!'
+            : '🔴 Store is now CLOSED on the Customer Menu!',
+        });
+      } else {
+        setMsg({ text: 'Unauthorized or failed to toggle store status', error: true });
+      }
+    } catch {
+      setMsg({ text: 'Network error toggling store status', error: true });
+    }
+  }
+
+  async function handleChangePasscode(e: FormEvent) {
+    e.preventDefault();
+    if (newPin.trim() !== confirmPin.trim()) {
+      setMsg({ text: 'New passcode and confirmation do not match', error: true });
+      return;
+    }
+    try {
+      const res = await fetch('/api/admin/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          currentPasscode: currentPin.trim(),
+          newPasscode: newPin.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setPinModalOpen(false);
+        setCurrentPin('');
+        setNewPin('');
+        setConfirmPin('');
+        setMsg({ text: '🔑 Manager Passcode updated successfully!' });
+      } else {
+        setMsg({ text: data.error || 'Failed to update passcode', error: true });
+      }
+    } catch {
+      setMsg({ text: 'Error updating passcode', error: true });
+    }
+  }
+
+  function handlePhotoFileChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setMsg({ text: 'Please select a valid image file (JPG, PNG, WEBP)', error: true });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new Image();
+      img.onload = () => {
+        const TARGET = 600;
+        const canvas = document.createElement('canvas');
+        canvas.width = TARGET;
+        canvas.height = TARGET;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        ctx.fillStyle = '#0e382c';
+        ctx.fillRect(0, 0, TARGET, TARGET);
+
+        const minDim = Math.min(img.width, img.height);
+        const sx = (img.width - minDim) / 2;
+        const sy = (img.height - minDim) / 2;
+        ctx.drawImage(img, sx, sy, minDim, minDim, 0, 0, TARGET, TARGET);
+
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.84);
+        setForm((prev: any) => ({ ...prev, image: dataUrl }));
+        setMsg({ text: '📸 Photo optimized & ready to save!' });
+      };
+      img.src = ev.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
 
   // Stock adjustments
   function adjustStock(id: string, delta: number) {
@@ -156,7 +254,7 @@ export default function AdminPage() {
     const total = posCart.reduce((sum, item) => sum + item.qty * item.price, 0);
     const summary = posCart.map((i) => `${i.qty}× ${i.name}`).join(', ');
     const newOrder: OrderRecord = {
-      id: `WS-${1049 + orders.length}`,
+      id: `WS-${1001 + orders.length}`,
       time: timeStr || 'Just now',
       items: summary,
       method: posMethod,
@@ -202,7 +300,7 @@ export default function AdminPage() {
       });
 
       if (res.ok) {
-        setMsg({ text: `Successfully saved "${payload.name}"` });
+        setMsg({ text: `✅ Successfully saved "${payload.name}"` });
         setForm(BLANK_ITEM);
         loadMenu();
       } else {
@@ -228,7 +326,7 @@ export default function AdminPage() {
         setMsg({
           text: updated.active
             ? `🟢 "${item.name}" is now Active on public menu`
-            : `🔴 "${item.name}" has been 86'd (Hidden from public menu)`,
+            : `🔴 "${item.name}" has been 86'd (Marked Sold Out on public menu)`,
         });
       }
     } catch {
@@ -301,34 +399,79 @@ export default function AdminPage() {
               Waseem Cafe · Operations Command Center
             </h1>
             <p style={{ margin: '2px 0 0', fontSize: 11, color: 'var(--ws-gold-light)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-              Inventory, Live Sales & Barista Operations
+              Inventory, Live Sales, Prices & Barista Operations
             </p>
           </div>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <button
+            onClick={handleToggleStoreOpen}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '7px 14px',
+              borderRadius: 20,
+              fontSize: 12,
+              fontWeight: 700,
+              cursor: 'pointer',
+              background: storeOpen ? 'rgba(255,255,255,0.15)' : 'rgba(244, 63, 94, 0.25)',
+              border: `1px solid ${storeOpen ? 'rgba(255,255,255,0.3)' : 'rgba(251, 113, 133, 0.6)'}`,
+              color: '#fff',
+            }}
+          >
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                background: storeOpen ? '#22c55e' : '#f43f5e',
+                boxShadow: `0 0 8px ${storeOpen ? '#22c55e' : '#f43f5e'}`,
+              }}
+            />
+            <span>{storeOpen ? 'Store Open (Click to Close)' : 'Store Closed (Click to Open)'}</span>
+          </button>
+
           <span style={{ fontSize: 13, background: 'rgba(255,255,255,0.1)', padding: '6px 12px', borderRadius: 20 }}>
             🕒 {timeStr || 'Riyadh, KSA'}
           </span>
+
           <a
             href="/"
             style={{
-              color: '#fff',
+              color: '#0a261f',
               textDecoration: 'none',
               fontSize: 13,
-              fontWeight: 600,
-              padding: '6px 14px',
+              fontWeight: 700,
+              padding: '7px 14px',
               borderRadius: 8,
-              background: 'rgba(255,255,255,0.15)',
-              border: '1px solid rgba(255,255,255,0.2)',
+              background: 'var(--ws-gold)',
             }}
           >
-            ☕ Customer Menu
+            🌿 Customer Menu
           </a>
+
+          <button
+            onClick={() => setPinModalOpen(true)}
+            style={{
+              padding: '7px 14px',
+              borderRadius: 8,
+              border: '1px solid rgba(255,255,255,0.3)',
+              color: '#fff',
+              background: 'transparent',
+              cursor: 'pointer',
+              fontSize: 13,
+              fontWeight: 600,
+            }}
+          >
+            🔑 Change PIN
+          </button>
+
           <button
             onClick={handleLogout}
             style={{
-              padding: '6px 14px',
+              padding: '7px 14px',
               borderRadius: 8,
               border: '1px solid #ef4444',
               color: '#fca5a5',
@@ -343,35 +486,126 @@ export default function AdminPage() {
         </div>
       </header>
 
-      {/* Mascot Greeting */}
-      <section
-        style={{
-          background: '#ffffff',
-          borderRadius: 14,
-          border: '1px solid var(--ws-line)',
-          padding: '16px 20px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 16,
-          marginBottom: 20,
-          boxShadow: '0 4px 12px rgba(14,56,44,0.04)',
-        }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/waseem-mascot-standing.png"
-          alt="Waseem Mascot"
-          style={{ height: 82 }}
-        />
-        <div>
-          <h2 style={{ margin: '0 0 4px', fontSize: 16, color: 'var(--ws-emerald)', fontWeight: 800 }}>
-            Welcome, Captain Waseem! ☕
-          </h2>
-          <p style={{ margin: 0, fontSize: 13, color: 'var(--ws-text-muted)' }}>
-            Monitor live sales performance, adjust raw ingredient stock levels, and ring up quick cashier orders on the fly.
-          </p>
+      {/* Store Closed Banner inside Admin */}
+      {!storeOpen && (
+        <div
+          style={{
+            background: 'linear-gradient(90deg, #9f1239, #e11d48)',
+            color: '#fff',
+            padding: '12px 20px',
+            borderRadius: 12,
+            marginBottom: 18,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 12,
+            fontSize: 13,
+            fontWeight: 700,
+          }}
+        >
+          <span>
+            🌙 CAFE IS CURRENTLY SET TO CLOSED: Customers see a &quot;Cafe Currently Closed&quot; banner on the public menu and ordering is paused.
+          </span>
+          <button
+            onClick={handleToggleStoreOpen}
+            style={{
+              background: '#fff',
+              color: '#9f1239',
+              border: 'none',
+              padding: '6px 14px',
+              borderRadius: 6,
+              fontWeight: 800,
+              fontSize: 12,
+              cursor: 'pointer',
+            }}
+          >
+            🟢 Reopen Cafe Now
+          </button>
         </div>
-      </section>
+      )}
+
+      {/* Passcode Change Modal */}
+      {pinModalOpen && (
+        <div
+          onClick={() => setPinModalOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(10,38,31,0.8)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 20,
+            zIndex: 1000,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: '#fff',
+              borderRadius: 16,
+              width: 'min(100%, 420px)',
+              padding: 24,
+              border: '2px solid var(--ws-gold)',
+              boxShadow: '0 25px 60px rgba(0,0,0,0.4)',
+            }}
+          >
+            <h3 style={{ margin: '0 0 14px', color: 'var(--ws-emerald)', fontFamily: 'Cinzel, serif' }}>
+              🔑 Change Manager Passcode
+            </h3>
+            <form onSubmit={handleChangePasscode} style={{ display: 'grid', gap: 12 }}>
+              <label className="admin-field">
+                Current Passcode *
+                <input
+                  type="password"
+                  required
+                  value={currentPin}
+                  onChange={(e) => setCurrentPin(e.target.value)}
+                  placeholder="Enter current passcode (default: 1234)"
+                />
+              </label>
+              <label className="admin-field">
+                New Passcode *
+                <input
+                  type="password"
+                  required
+                  minLength={4}
+                  value={newPin}
+                  onChange={(e) => setNewPin(e.target.value)}
+                  placeholder="Enter new passcode (min 4 digits)"
+                />
+              </label>
+              <label className="admin-field">
+                Confirm New Passcode *
+                <input
+                  type="password"
+                  required
+                  minLength={4}
+                  value={confirmPin}
+                  onChange={(e) => setConfirmPin(e.target.value)}
+                  placeholder="Confirm new passcode"
+                />
+              </label>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
+                <button
+                  type="button"
+                  onClick={() => setPinModalOpen(false)}
+                  style={{ padding: '8px 16px', borderRadius: 8, border: '1px solid var(--ws-line)', background: '#fff', cursor: 'pointer' }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  style={{ padding: '8px 16px', borderRadius: 8, border: 'none', background: 'var(--ws-emerald)', color: '#fff', fontWeight: 700, cursor: 'pointer' }}
+                >
+                  🔒 Update Passcode
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Tabs */}
       <nav
@@ -400,6 +634,22 @@ export default function AdminPage() {
           }}
         >
           📊 Sales & Analytics
+        </button>
+
+        <button
+          onClick={() => setActiveTab('menu')}
+          style={{
+            padding: '12px 18px',
+            border: 'none',
+            background: 'none',
+            borderBottom: activeTab === 'menu' ? '3px solid var(--ws-emerald)' : 'none',
+            color: activeTab === 'menu' ? 'var(--ws-emerald)' : 'var(--ws-text-muted)',
+            fontWeight: 700,
+            cursor: 'pointer',
+            fontSize: 14,
+          }}
+        >
+          🏷️ Prices, Photos & Menu Editor
         </button>
 
         <button
@@ -443,22 +693,6 @@ export default function AdminPage() {
         </button>
 
         <button
-          onClick={() => setActiveTab('menu')}
-          style={{
-            padding: '12px 18px',
-            border: 'none',
-            background: 'none',
-            borderBottom: activeTab === 'menu' ? '3px solid var(--ws-emerald)' : 'none',
-            color: activeTab === 'menu' ? 'var(--ws-emerald)' : 'var(--ws-text-muted)',
-            fontWeight: 700,
-            cursor: 'pointer',
-            fontSize: 14,
-          }}
-        >
-          ☕ Menu Item Manager (86)
-        </button>
-
-        <button
           onClick={() => setActiveTab('zreport')}
           style={{
             padding: '12px 18px',
@@ -495,7 +729,6 @@ export default function AdminPage() {
       {/* TAB 1: ANALYTICS */}
       {activeTab === 'analytics' && (
         <div>
-          {/* KPI Cards */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 24 }}>
             <div style={{ background: '#fff', padding: 18, borderRadius: 12, border: '1px solid var(--ws-line)', borderTop: '4px solid var(--ws-emerald)' }}>
               <div style={{ fontSize: 13, color: 'var(--ws-text-muted)', fontWeight: 600 }}>Gross Sales (Today)</div>
@@ -506,7 +739,7 @@ export default function AdminPage() {
             <div style={{ background: '#fff', padding: 18, borderRadius: 12, border: '1px solid var(--ws-line)', borderTop: '4px solid var(--ws-gold)' }}>
               <div style={{ fontSize: 13, color: 'var(--ws-text-muted)', fontWeight: 600 }}>Completed Orders</div>
               <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--ws-text-main)', margin: '6px 0' }}>{totalOrdersCount} orders</div>
-              <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>Today's transaction count</div>
+              <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>Today&apos;s transaction count</div>
             </div>
 
             <div style={{ background: '#fff', padding: 18, borderRadius: 12, border: '1px solid var(--ws-line)', borderTop: '4px solid #14b8a6' }}>
@@ -523,12 +756,11 @@ export default function AdminPage() {
                 {totalOrdersCount > 0 ? 'Recorded Drinks' : 'Awaiting Orders'}
               </div>
               <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>
-                {totalOrdersCount > 0 ? `${totalOrdersCount} drinks served` : 'No sales recorded yet'}
+                {totalOrdersCount > 0 ? `${totalOrdersCount} orders served` : 'No sales recorded yet'}
               </div>
             </div>
           </div>
 
-          {/* Recent Orders Feed */}
           <div style={{ background: '#fff', borderRadius: 14, border: '1px solid var(--ws-line)', padding: 20 }}>
             <h3 style={{ margin: '0 0 14px', fontSize: 16, color: 'var(--ws-emerald)', fontWeight: 800 }}>
               Live Recent Orders Feed
@@ -652,7 +884,7 @@ export default function AdminPage() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20 }}>
           <div>
             <h3 style={{ margin: '0 0 12px', fontSize: 16, color: 'var(--ws-emerald)' }}>Tap any drink to add to register:</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 12 }}>
               {items.map((it) => (
                 <button
                   key={it.id}
@@ -666,7 +898,16 @@ export default function AdminPage() {
                     cursor: 'pointer',
                   }}
                 >
-                  <div style={{ fontSize: 22 }}>☕</div>
+                  {it.image ? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      src={it.image}
+                      alt={it.name}
+                      style={{ width: 42, height: 42, borderRadius: 8, objectFit: 'cover', margin: '0 auto 4px', display: 'block' }}
+                    />
+                  ) : (
+                    <div style={{ fontSize: 22 }}>☕</div>
+                  )}
                   <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--ws-emerald)', marginTop: 4 }}>
                     {it.name}
                   </div>
@@ -678,7 +919,6 @@ export default function AdminPage() {
             </div>
           </div>
 
-          {/* Ticket */}
           <div style={{ background: '#fff', borderRadius: 14, border: '2px solid var(--ws-gold)', padding: 18, height: 'fit-content' }}>
             <h4 style={{ margin: '0 0 12px', color: 'var(--ws-emerald)', borderBottom: '1px solid var(--ws-line)', paddingBottom: 8 }}>
               🧾 Register Ticket
@@ -743,16 +983,97 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* TAB 4: MENU ITEMS & 86 AVAILABILITY */}
+      {/* TAB 4: MENU ITEMS, PHOTOS & PRICES */}
       {activeTab === 'menu' && (
         <div>
-          {/* Editor Form */}
           <section className="admin-form-card">
             <h2 style={{ margin: '0 0 16px', color: 'var(--ws-emerald)', fontFamily: 'Cinzel, serif', fontSize: 18 }}>
-              {form.id ? `Edit Item: ${form.name}` : 'Add New Menu Item'}
+              {form.id ? `✏️ Edit Item: ${form.name}` : '➕ Add New Menu Item & Photo'}
             </h2>
 
             <form onSubmit={handleSave}>
+              {/* Photo Upload Zone */}
+              <div
+                style={{
+                  border: '2px dashed var(--ws-gold)',
+                  background: '#faf8f3',
+                  borderRadius: 12,
+                  padding: 16,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 16,
+                  flexWrap: 'wrap',
+                  marginBottom: 16,
+                }}
+              >
+                <div
+                  style={{
+                    width: 80,
+                    height: 80,
+                    borderRadius: 10,
+                    overflow: 'hidden',
+                    background: 'var(--ws-emerald)',
+                    display: 'grid',
+                    placeItems: 'center',
+                    color: 'var(--ws-gold-light)',
+                    fontFamily: 'Cinzel, serif',
+                    fontWeight: 700,
+                  }}
+                >
+                  {form.image ? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img src={form.image} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (
+                    <span>WS</span>
+                  )}
+                </div>
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', marginBottom: 6 }}>
+                    <label
+                      style={{
+                        background: 'var(--ws-emerald)',
+                        color: '#fff',
+                        padding: '7px 14px',
+                        borderRadius: 8,
+                        fontSize: 12,
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      📷 Upload Photo from Device
+                      <input type="file" accept="image/*" onChange={handlePhotoFileChange} style={{ display: 'none' }} />
+                    </label>
+                    {form.image && (
+                      <button
+                        type="button"
+                        onClick={() => setForm({ ...form, image: '' })}
+                        style={{
+                          padding: '6px 12px',
+                          borderRadius: 6,
+                          border: '1px solid #ef4444',
+                          color: '#ef4444',
+                          background: '#fff',
+                          fontSize: 12,
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        🗑️ Remove Photo
+                      </button>
+                    )}
+                  </div>
+                  <p style={{ margin: '0 0 6px', fontSize: 11, color: 'var(--ws-text-muted)' }}>
+                    Photos are automatically center-cropped and optimized to 600×600px HD for perfect rendering on the menu and lightbox.
+                  </p>
+                  <input
+                    value={form.image?.startsWith('data:') ? '' : form.image}
+                    onChange={(e) => setForm({ ...form, image: e.target.value })}
+                    placeholder={form.image?.startsWith('data:') ? '✅ Custom uploaded photo ready' : 'Or paste image URL / path (e.g. /images/v60-colombia.jpg)'}
+                    style={{ width: '100%', padding: '7px 10px', borderRadius: 6, border: '1px solid var(--ws-line)', fontSize: 12 }}
+                  />
+                </div>
+              </div>
+
               <div className="admin-form-grid">
                 <label className="admin-field">
                   Name (English) *
@@ -760,7 +1081,7 @@ export default function AdminPage() {
                     required
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="e.g. V60 Specialty Coffee"
+                    placeholder="e.g. Pistachio Latte"
                   />
                 </label>
 
@@ -769,7 +1090,7 @@ export default function AdminPage() {
                   <input
                     value={form.nameAr}
                     onChange={(e) => setForm({ ...form, nameAr: e.target.value })}
-                    placeholder="e.g. قهوة مختصة V60"
+                    placeholder="e.g. بستاشيو لاتيه"
                   />
                 </label>
 
@@ -792,7 +1113,7 @@ export default function AdminPage() {
                   <input
                     value={form.tag}
                     onChange={(e) => setForm({ ...form, tag: e.target.value })}
-                    placeholder="e.g. Signature, Bestseller"
+                    placeholder="e.g. Signature, Bestseller, New"
                   />
                 </label>
 
@@ -830,11 +1151,20 @@ export default function AdminPage() {
                 </label>
 
                 <label className="admin-field">
-                  Image Path / URL
+                  Flavor Notes
                   <input
-                    value={form.image}
-                    onChange={(e) => setForm({ ...form, image: e.target.value })}
-                    placeholder="/images/v60-colombia.jpg"
+                    value={form.notes}
+                    onChange={(e) => setForm({ ...form, notes: e.target.value })}
+                    placeholder="e.g. Caramel • Chocolate • Nutty"
+                  />
+                </label>
+
+                <label className="admin-field" style={{ gridColumn: '1 / -1' }}>
+                  Description
+                  <input
+                    value={form.description}
+                    onChange={(e) => setForm({ ...form, description: e.target.value })}
+                    placeholder="Describe the roast, origin, or preparation..."
                   />
                 </label>
               </div>
@@ -845,7 +1175,7 @@ export default function AdminPage() {
                   className="action-btn"
                   style={{ background: 'var(--ws-emerald)', color: '#fff', padding: '10px 20px', fontSize: 14, borderRadius: 8, cursor: 'pointer' }}
                 >
-                  💾 {form.id ? 'Save Changes' : 'Add Item'}
+                  💾 {form.id ? 'Save Changes' : 'Add Item to Menu'}
                 </button>
                 {form.id && (
                   <button
@@ -861,7 +1191,6 @@ export default function AdminPage() {
             </form>
           </section>
 
-          {/* Items with Quick 86 Toggle */}
           <section>
             <h3 style={{ color: 'var(--ws-emerald)', fontSize: 18, marginBottom: 12 }}>
               Current Menu Items & Availability Control ({items.length} items)
@@ -883,16 +1212,43 @@ export default function AdminPage() {
                       borderRadius: 10,
                       border: '1px solid var(--ws-line)',
                       opacity: it.active ? 1 : 0.6,
+                      gap: 12,
+                      flexWrap: 'wrap',
                     }}
                   >
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: 15 }}>
-                        {it.name} {it.nameAr && <span style={{ color: '#888', fontSize: 12 }}>({it.nameAr})</span>}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <div
+                        style={{
+                          width: 52,
+                          height: 52,
+                          borderRadius: 8,
+                          overflow: 'hidden',
+                          background: 'var(--ws-emerald)',
+                          display: 'grid',
+                          placeItems: 'center',
+                          color: 'var(--ws-gold-light)',
+                          fontFamily: 'Cinzel, serif',
+                          fontWeight: 700,
+                          fontSize: 13,
+                          flexShrink: 0,
+                        }}
+                      >
+                        {it.image ? (
+                          /* eslint-disable-next-line @next/next/no-img-element */
+                          <img src={it.image} alt={it.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        ) : (
+                          <span>WS</span>
+                        )}
                       </div>
-                      <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>
-                        {it.category} · {it.hot !== undefined && `Hot: SAR ${it.hot} `}
-                        {it.iced !== undefined && `Iced: SAR ${it.iced} `}
-                        {it.price !== undefined && `Price: SAR ${it.price}`}
+                      <div>
+                        <div style={{ fontWeight: 700, fontSize: 15 }}>
+                          {it.name} {it.nameAr && <span style={{ color: '#888', fontSize: 12 }}>({it.nameAr})</span>}
+                        </div>
+                        <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>
+                          {it.category} · {it.hot !== undefined && `Hot: SAR ${it.hot} `}
+                          {it.iced !== undefined && `Iced: SAR ${it.iced} `}
+                          {it.price !== undefined && `Regular: SAR ${it.price}`}
+                        </div>
                       </div>
                     </div>
 
@@ -910,7 +1266,7 @@ export default function AdminPage() {
                           border: `1px solid ${it.active ? '#86efac' : '#fca5a5'}`,
                         }}
                       >
-                        {it.active ? '🟢 Active (Visible)' : '🔴 86\'d (Hidden)'}
+                        {it.active ? '🟢 Active (Visible)' : "🔴 86'd (Sold Out)"}
                       </button>
                       <button
                         onClick={() => {
@@ -932,7 +1288,7 @@ export default function AdminPage() {
                         }}
                         style={{ padding: '6px 10px', borderRadius: 6, border: '1px solid var(--ws-line)', background: '#fff', cursor: 'pointer' }}
                       >
-                        ✏️ Edit
+                        📷 Edit / Photo
                       </button>
                       <button
                         onClick={() => handleDelete(it.id, it.name)}
@@ -964,7 +1320,7 @@ export default function AdminPage() {
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
               <span>VAT (15% ZATCA Standard):</span>
-              <strong>SAR {(grossSales - (grossSales / 1.15)).toFixed(2)}</strong>
+              <strong>SAR {(grossSales - grossSales / 1.15).toFixed(2)}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
               <span>Net Revenue (Excl. Tax):</span>

@@ -31,10 +31,9 @@ const DISPLAY_PHONE = '051 131 3965';
 const WA_NUMBER = '966511313965';
 const sar = (n: number) => `⃁ ${n}`;
 
-
-
 export default function Home() {
   const [items, setItems] = useState<Item[]>([]);
+  const [storeOpen, setStoreOpen] = useState<boolean>(true);
   const [cart, setCart] = useState<CartLine[]>([]);
   const [activeCat, setActiveCat] = useState<string>('All');
   const [search, setSearch] = useState<string>('');
@@ -48,7 +47,10 @@ export default function Home() {
       .then((r) => r.json())
       .then((d) => {
         if (d?.menu) {
-          setItems(d.menu.filter((x: Item) => x.active !== false));
+          setItems(d.menu);
+        }
+        if (typeof d?.storeOpen === 'boolean') {
+          setStoreOpen(d.storeOpen);
         }
       })
       .catch(() => setErr('Could not load menu dynamically. Serving offline selections.'));
@@ -87,6 +89,11 @@ export default function Home() {
   const cartItemCount = useMemo(() => cart.reduce((s, x) => s + x.qty, 0), [cart]);
 
   function addToCart(item: Item, variant: string, price: number) {
+    if (!storeOpen) {
+      alert('🌙 Waseem Cafe is currently closed. Ordering will reopen soon!');
+      return;
+    }
+    if (item.active === false) return;
     setCart((old) => {
       const found = old.find((x) => x.id === item.id && x.variant === variant);
       if (found) {
@@ -127,8 +134,37 @@ export default function Home() {
     <main className="menu-sheet">
       {/* Brand Header */}
       <header className="brand-hero">
-        <div className="brand-badge">
-          <span>🌿</span> Specialty Coffee · 100% Arabica
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 14 }}>
+          <div className="brand-badge" style={{ marginBottom: 0 }}>
+            <span>🌿</span> Specialty Coffee · 100% Arabica
+          </div>
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 7,
+              padding: '5px 14px',
+              borderRadius: 30,
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              background: storeOpen ? 'rgba(21, 128, 61, 0.35)' : 'rgba(225, 29, 72, 0.35)',
+              border: `1px solid ${storeOpen ? 'rgba(74, 222, 128, 0.5)' : 'rgba(251, 113, 133, 0.6)'}`,
+              color: storeOpen ? '#dcfce7' : '#ffe4e6',
+            }}
+          >
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                background: storeOpen ? '#4ade80' : '#fb7185',
+                boxShadow: `0 0 8px ${storeOpen ? '#4ade80' : '#fb7185'}`,
+              }}
+            />
+            <span>{storeOpen ? 'Open Now · مفتوح الآن' : 'Currently Closed · مغلق حالياً'}</span>
+          </div>
         </div>
 
         <div className="brand-logo-wrap">
@@ -175,6 +211,40 @@ export default function Home() {
 
       {/* Main Content Area */}
       <div className="menu-content">
+        {/* Store Closed Banner */}
+        {!storeOpen && (
+          <div
+            role="alert"
+            style={{
+              background: 'linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%)',
+              border: '1.5px solid #fda4af',
+              borderLeft: '6px solid #e11d48',
+              borderRadius: 14,
+              padding: '16px 20px',
+              marginBottom: 22,
+              boxShadow: '0 6px 20px rgba(225, 29, 72, 0.08)',
+            }}
+          >
+            <h3
+              style={{
+                margin: '0 0 4px',
+                fontSize: 16,
+                fontWeight: 800,
+                color: '#9f1239',
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: 8,
+              }}
+            >
+              <span>🌙 Waseem Cafe is Currently Closed</span>
+              <span dir="rtl">مقهى وسيم مغلق حالياً</span>
+            </h3>
+            <p style={{ margin: 0, fontSize: 13, color: '#881337', lineHeight: 1.45 }}>
+              We are currently outside operating hours or taking a short break. Feel free to explore our specialty menu below — online ordering will resume as soon as we reopen!
+            </p>
+          </div>
+        )}
 
         {/* Search & Category Filter Controls */}
         <div className="controls-bar">
@@ -204,6 +274,7 @@ export default function Home() {
                 {cat === 'Espresso & Milk' && '🥛 '}
                 {cat === 'Iced & Refreshing' && '🧊 '}
                 {cat === 'Tea & Fresh Juices' && '🍃 '}
+                {cat === 'Desserts & Bakery' && '🥐 '}
                 {cat}
               </button>
             ))}
@@ -241,7 +312,11 @@ export default function Home() {
 
               <div className="items-grid">
                 {catItems.map((item) => (
-                  <article className="drink-card" key={item.id}>
+                  <article
+                    className="drink-card"
+                    key={item.id}
+                    style={!item.active ? { opacity: 0.65, background: '#fcfbf9' } : undefined}
+                  >
                     {/* Item Thumbnail */}
                     <div
                       className="drink-thumb"
@@ -249,7 +324,7 @@ export default function Home() {
                         item.image &&
                         setModalImg({
                           src: item.image,
-                          title: item.name,
+                          title: item.name + (item.nameAr ? ` · ${item.nameAr}` : ''),
                           desc: item.notes || item.description || '',
                         })
                       }
@@ -279,43 +354,64 @@ export default function Home() {
                       {item.description && <p className="drink-desc">{item.description}</p>}
 
                       {/* Add Buttons with Pricing */}
-                      <div className="drink-actions">
-                        {item.hot !== undefined && (
-                          <button
-                            className="action-btn"
-                            onClick={() => addToCart(item, 'Hot', item.hot!)}
-                            aria-label={`Add Hot ${item.name}`}
+                      {!item.active ? (
+                        <div style={{ marginTop: 8 }}>
+                          <span
+                            style={{
+                              background: '#fff1f2',
+                              color: '#e11d48',
+                              border: '1px solid #fecdd3',
+                              padding: '4px 10px',
+                              borderRadius: 6,
+                              fontSize: 11,
+                              fontWeight: 700,
+                            }}
                           >
-                            <span className="action-btn-icon">♨️</span>
-                            <span>Hot</span>
-                            <span className="action-btn-price">{sar(item.hot)}</span>
-                            <span>＋</span>
-                          </button>
-                        )}
-                        {item.iced !== undefined && (
-                          <button
-                            className="action-btn"
-                            onClick={() => addToCart(item, 'Iced', item.iced!)}
-                            aria-label={`Add Iced ${item.name}`}
-                          >
-                            <span className="action-btn-icon">🧊</span>
-                            <span>Iced</span>
-                            <span className="action-btn-price">{sar(item.iced)}</span>
-                            <span>＋</span>
-                          </button>
-                        )}
-                        {item.price !== undefined && (
-                          <button
-                            className="action-btn"
-                            onClick={() => addToCart(item, 'Regular', item.price!)}
-                            aria-label={`Add ${item.name}`}
-                          >
-                            <span>Regular</span>
-                            <span className="action-btn-price">{sar(item.price)}</span>
-                            <span>＋</span>
-                          </button>
-                        )}
-                      </div>
+                            ⛔ Sold Out (نفدت الكمية)
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="drink-actions">
+                          {item.hot !== undefined && (
+                            <button
+                              className="action-btn"
+                              onClick={() => addToCart(item, 'Hot', item.hot!)}
+                              aria-label={`Add Hot ${item.name}`}
+                              style={!storeOpen ? { opacity: 0.65, cursor: 'not-allowed' } : undefined}
+                            >
+                              <span className="action-btn-icon">♨️</span>
+                              <span>Hot</span>
+                              <span className="action-btn-price">{sar(item.hot)}</span>
+                              <span>{storeOpen ? '＋' : '🌙'}</span>
+                            </button>
+                          )}
+                          {item.iced !== undefined && (
+                            <button
+                              className="action-btn"
+                              onClick={() => addToCart(item, 'Iced', item.iced!)}
+                              aria-label={`Add Iced ${item.name}`}
+                              style={!storeOpen ? { opacity: 0.65, cursor: 'not-allowed' } : undefined}
+                            >
+                              <span className="action-btn-icon">🧊</span>
+                              <span>Iced</span>
+                              <span className="action-btn-price">{sar(item.iced)}</span>
+                              <span>{storeOpen ? '＋' : '🌙'}</span>
+                            </button>
+                          )}
+                          {item.price !== undefined && (
+                            <button
+                              className="action-btn"
+                              onClick={() => addToCart(item, 'Regular', item.price!)}
+                              aria-label={`Add ${item.name}`}
+                              style={!storeOpen ? { opacity: 0.65, cursor: 'not-allowed' } : undefined}
+                            >
+                              <span>Regular</span>
+                              <span className="action-btn-price">{sar(item.price)}</span>
+                              <span>{storeOpen ? '＋' : '🌙'}</span>
+                            </button>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </article>
                 ))}
@@ -336,7 +432,11 @@ export default function Home() {
           <div className="cart-body">
             {cart.length === 0 ? (
               <div className="cart-empty">
-                <p>Your order is empty. Tap any drink button above (Hot, Iced, or Regular) to add items.</p>
+                <p>
+                  {storeOpen
+                    ? 'Your order is empty. Tap any drink button above (Hot, Iced, or Regular) to add items.'
+                    : '🌙 Cafe is currently closed for online orders.'}
+                </p>
               </div>
             ) : (
               <>
@@ -377,14 +477,23 @@ export default function Home() {
                     <span>{sar(total)}</span>
                   </div>
 
-                  <a
-                    className="order-wa-btn"
-                    target="_blank"
-                    rel="noreferrer"
-                    href={`https://wa.me/${WA_NUMBER}?text=${orderText}`}
-                  >
-                    <span>💬</span> Send Order via WhatsApp ({sar(total)})
-                  </a>
+                  {storeOpen ? (
+                    <a
+                      className="order-wa-btn"
+                      target="_blank"
+                      rel="noreferrer"
+                      href={`https://wa.me/${WA_NUMBER}?text=${orderText}`}
+                    >
+                      <span>💬</span> Send Order via WhatsApp ({sar(total)})
+                    </a>
+                  ) : (
+                    <div
+                      className="order-wa-btn"
+                      style={{ background: '#94a3b8', cursor: 'not-allowed', pointerEvents: 'none' }}
+                    >
+                      <span>🌙</span> Cafe Currently Closed — Ordering Paused
+                    </div>
+                  )}
                 </div>
               </>
             )}

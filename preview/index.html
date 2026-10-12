@@ -24,6 +24,8 @@
       --ws-text-muted: #5e6f68;
       --ws-line: #e6dfd3;
       --ws-line-subtle: #f0ebe2;
+      --ws-danger: #e11d48;
+      --ws-danger-bg: #fff1f2;
     }
 
     * { box-sizing: border-box; }
@@ -49,20 +51,59 @@
       border-bottom: 2px solid var(--ws-gold);
     }
 
+    .hero-badges-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
     .brand-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 4px 14px;
+      padding: 5px 14px;
       border-radius: 30px;
       border: 1px solid rgba(197, 168, 128, 0.4);
       background: rgba(14, 56, 44, 0.6);
       font-size: 11px;
       font-weight: 600;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--ws-gold-light);
-      margin-bottom: 14px;
+    }
+
+    .live-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 14px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(21, 128, 61, 0.35);
+      border: 1px solid rgba(74, 222, 128, 0.5);
+      color: #dcfce7;
+    }
+    .live-status-badge.closed {
+      background: rgba(225, 29, 72, 0.35);
+      border-color: rgba(251, 113, 133, 0.6);
+      color: #ffe4e6;
+    }
+    .live-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 8px #4ade80;
+    }
+    .live-status-badge.closed .live-status-dot {
+      background: #fb7185;
+      box-shadow: 0 0 8px #fb7185;
     }
 
     .logo-wrap {
@@ -144,61 +185,37 @@
     /* Content */
     .content { padding: 22px 24px 40px; }
 
-    /* Featured Gallery */
-    .featured-head {
-      font-family: 'Cinzel', serif;
-      font-size: 14px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ws-emerald);
-      margin: 0 0 10px;
+    /* Store Closed Banner */
+    .store-closed-banner {
+      display: none;
+      background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+      border: 1.5px solid #fda4af;
+      border-left: 6px solid var(--ws-danger);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 22px;
+      box-shadow: 0 6px 20px rgba(225, 29, 72, 0.08);
+    }
+    .store-closed-banner.visible {
+      display: block;
+    }
+    .store-closed-banner h3 {
+      margin: 0 0 4px;
+      font-size: 16px;
+      font-weight: 800;
+      color: #9f1239;
       display: flex;
       align-items: center;
-      gap: 6px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
     }
-
-    .featured-scroll {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: thin;
-      margin-bottom: 24px;
+    .store-closed-banner p {
+      margin: 0;
+      font-size: 13px;
+      color: #881337;
+      line-height: 1.45;
     }
-
-    .featured-card {
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(10,38,31,0.08);
-      border: 1px solid var(--ws-line);
-      background: #000;
-      cursor: pointer;
-      flex: 0 0 130px;
-      aspect-ratio: 1 / 1.1;
-      scroll-snap-align: start;
-    }
-
-    .featured-card img {
-      width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;
-    }
-
-    .featured-card:hover img { transform: scale(1.06); }
-
-    .featured-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(0deg, rgba(10,38,31,0.92) 0%, transparent 60%);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 8px 10px;
-      color: #fff;
-    }
-
-    .featured-tag { font-size: 9px; font-weight: 700; color: var(--ws-gold-light); text-transform: uppercase; }
-    .featured-name { font-size: 11px; font-weight: 700; margin: 2px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     /* Filter Controls */
     .controls {
@@ -247,6 +264,7 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
+      font-family: inherit;
     }
 
     .cat-pill:hover { background: var(--ws-emerald-subtle); border-color: var(--ws-emerald); }
@@ -297,8 +315,9 @@
       background: var(--ws-emerald);
       border: 1px solid var(--ws-line);
       cursor: pointer;
+      position: relative;
     }
-    .item-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .item-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .item-thumb-blank {
       width: 100%; height: 100%; display: grid; place-items: center;
       color: var(--ws-gold-light); font-family: 'Cinzel', serif; font-weight: 700; font-size: 16px;
@@ -326,9 +345,20 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s;
+      font-family: inherit;
     }
     .action-btn:hover { background: var(--ws-emerald); color: #fff; }
     .action-btn b { font-weight: 700; }
+    .action-btn.closed-btn {
+      border-color: #cbd5e1;
+      color: #64748b;
+      background: #f8fafc;
+      cursor: not-allowed;
+    }
+    .action-btn.closed-btn:hover {
+      background: #f1f5f9;
+      color: #475569;
+    }
 
     /* Order Cart */
     .cart-box {
@@ -370,6 +400,14 @@
       font-size: 14px;
       font-weight: 700;
       box-shadow: 0 4px 14px rgba(37,211,102,0.3);
+      border: none;
+      cursor: pointer;
+    }
+    .cart-order-btn.disabled-closed {
+      background: #94a3b8;
+      box-shadow: none;
+      cursor: not-allowed;
+      pointer-events: none;
     }
 
     /* Footer */
@@ -404,8 +442,9 @@
     .modal-box {
       max-width: 460px; width: 100%; background: #fff; border-radius: 16px; overflow: hidden;
       border: 1px solid var(--ws-gold); position: relative;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45);
     }
-    .modal-box img { width: 100%; height: 360px; object-fit: cover; display: block; }
+    .modal-box img { width: 100%; height: 360px; object-fit: cover; display: block; background: var(--ws-emerald); }
     .modal-caption { padding: 16px; background: var(--ws-chalkboard); color: #fff; }
     .modal-close {
       position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%;
@@ -413,17 +452,23 @@
       display: grid; place-items: center; cursor: pointer;
     }
 
-    @media print {
-      @page { size: A4 portrait; margin: 8mm 10mm; }
-      body, .sheet { background: #fff !important; color: #000 !important; box-shadow: none !important; }
-      .brand-hero { background: #fff !important; color: #000 !important; border-bottom: 2px solid #000 !important; padding: 4mm 0 !important; }
-      .brand-badge, .quick-actions, .controls, .featured-section, .cart-box, .footer-links, .modal { display: none !important; }
-      .brand-title, .brand-ar, .group-title, .item-name { color: #000 !important; }
-      .logo-svg path, .logo-svg text, .logo-svg line { fill: #000 !important; stroke: #000 !important; }
-      .item-card { border: none !important; border-bottom: 1px dotted #888 !important; padding: 2.5mm 0 !important; break-inside: avoid; }
-      .item-thumb { display: none !important; }
-      .action-btn { border-color: #000 !important; color: #000 !important; }
-      .footer { background: #fff !important; border-top: 1px solid #000 !important; }
+    /* Toast */
+    .menu-toast {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ws-emerald-deep);
+      color: #fff;
+      border: 1px solid var(--ws-gold);
+      padding: 10px 18px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+      display: none;
+      z-index: 200;
+      white-space: nowrap;
     }
   </style>
 </head>
@@ -431,8 +476,14 @@
   <main class="sheet">
     <!-- Header -->
     <header class="brand-hero">
-      <div class="brand-badge"><span>🌿</span> Specialty Coffee · 100% Arabica</div>
-      
+      <div class="hero-badges-row">
+        <div class="brand-badge"><span>🌿</span> Specialty Coffee · 100% Arabica</div>
+        <div class="live-status-badge" id="hero-store-status">
+          <span class="live-status-dot"></span>
+          <span id="hero-store-status-text">Open Now</span>
+        </div>
+      </div>
+
       <div class="logo-wrap" style="display:flex;align-items:center;justify-content:center;gap:16px;">
         <img src="images/waseem-mascot-bust.png" id="mascot-header-btn" title="Captain Waseem" alt="Captain Waseem Mascot" style="height:118px;width:auto;object-fit:contain;filter:drop-shadow(0 6px 16px rgba(0,0,0,0.4));cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
         <svg class="logo-svg" viewBox="0 0 100 100" fill="none">
@@ -462,6 +513,16 @@
     </header>
 
     <div class="content">
+      <!-- Store Closed Reflection Banner -->
+      <div class="store-closed-banner" id="store-closed-banner" role="alert">
+        <h3>
+          <span>🌙 Waseem Cafe is Currently Closed</span>
+          <span dir="rtl">مقهى وسيم مغلق حالياً</span>
+        </h3>
+        <p>
+          We are currently outside operating hours or taking a short break. Feel free to explore our specialty menu below — online ordering will resume as soon as we reopen!
+        </p>
+      </div>
 
       <!-- Controls -->
       <div class="controls">
@@ -521,24 +582,27 @@
         </div>
       </div>
     </div>
+
+    <!-- Toast Notification -->
+    <div class="menu-toast" id="menu-toast"></div>
   </main>
 
   <script>
     const MENU_URL = 'https://acwaops.github.io/waseem-cafe/';
     const WA_PHONE = '966511313965';
 
-    const MENU_ITEMS = [
-      { id: 'v60-colombia', name: 'V60 Specialty Coffee', nameAr: 'قهوة مختصة V60', category: 'Specialty Coffee', hot: 10, iced: 12, description: 'Single Origin Colombia 100% Arabica. Bloom • Pour • Brew • Enjoy.', notes: 'Caramel • Chocolate • Nutty', tag: 'Signature', image: 'images/v60-colombia.jpg' },
-      { id: 'iced-v60', name: 'Iced V60', nameAr: 'آيس V60', category: 'Specialty Coffee', price: 12, description: 'Slow pour-over brewed directly over crystal-clear ice for peak clarity.', notes: 'Smooth • Clean • Flavorful', tag: 'Barista Choice', image: 'images/iced-coffee.jpg' },
-      { id: 'americano', name: 'Americano', nameAr: 'أمريكانو', category: 'Espresso & Milk', hot: 5, iced: 10, description: 'Double espresso pulled over fresh hot or iced water.', notes: 'Simple • Rich • Classic', image: 'images/americano-hot.jpg' },
-      { id: 'latte', name: 'Caffe Latte', nameAr: 'كافيه لاتيه', category: 'Espresso & Milk', hot: 5, iced: 8, description: 'Rich espresso folded into velvety microfoam with artisanal latte art.', notes: 'Smooth & Silky Microfoam', tag: 'Bestseller', image: 'images/latte-art.jpg' },
-      { id: 'cappuccino', name: 'Cappuccino', nameAr: 'كابتشينو', category: 'Espresso & Milk', hot: 5, iced: 8, description: 'Balanced double shot with equal parts steamed milk and dense froth.', notes: 'Rich & Frothy' },
-      { id: 'mocha', name: 'Caffe Mocha', nameAr: 'كافيه موكا', category: 'Espresso & Milk', hot: 5, iced: 8, description: 'Deep espresso paired with rich Dutch cocoa and steamed milk.', notes: 'Dark Chocolate & Espresso' },
-      { id: 'spanish-latte', name: 'Spanish Latte', nameAr: 'سبانش لاتيه', category: 'Iced & Refreshing', hot: 7, iced: 10, description: 'Specialty espresso sweetened with sweetened condensed milk.', notes: 'Sweet, Creamy & Indulgent', tag: 'Popular' },
-      { id: 'avocado-juice', name: 'Fresh Avocado Juice', nameAr: 'عصير أفوكادو طازج', category: 'Tea & Fresh Juices', price: 12, description: 'Hand-picked fresh avocados blended smooth with fresh milk and honey.', notes: 'Fresh • Natural • Healthy • Delicious', tag: 'Healthy Choice', image: 'images/avocado-juice.jpg' },
-      { id: 'karak-tea', name: 'Karak Tea', nameAr: 'شاي كرك أصيل', category: 'Tea & Fresh Juices', hot: 3, description: 'Slow-simmered traditional spiced black tea with evaporated milk & cardamom.', notes: 'Aromatic & Spiced', tag: 'Traditional' },
-      { id: 'fresh-orange', name: 'Fresh Orange Juice', nameAr: 'عصير برتقال طازج', category: 'Tea & Fresh Juices', price: 8, description: 'Pure 100% freshly pressed oranges, no added sugars or preservatives.', notes: 'Cold Pressed & Vibrant' },
-      { id: 'hibiscus-iced', name: 'Iced Karkadeh (Hibiscus)', nameAr: 'كركديه مثلج', category: 'Tea & Fresh Juices', price: 7, description: 'Slow-brewed natural hibiscus flower infusion chilled over ice.', notes: 'Tart, Sweet & Refreshing' }
+    const DEFAULT_MENU_ITEMS = [
+      { id: 'v60-colombia', name: 'V60 Specialty Coffee', nameAr: 'قهوة مختصة V60', category: 'Specialty Coffee', hot: 10, iced: 12, description: 'Single Origin Colombia 100% Arabica. Bloom • Pour • Brew • Enjoy.', notes: 'Caramel • Chocolate • Nutty', tag: 'Signature', image: 'images/v60-colombia.jpg', available: true },
+      { id: 'iced-v60', name: 'Iced V60', nameAr: 'آيس V60', category: 'Specialty Coffee', price: 12, description: 'Slow pour-over brewed directly over crystal-clear ice for peak clarity.', notes: 'Smooth • Clean • Flavorful', tag: 'Barista Choice', image: 'images/iced-coffee.jpg', available: true },
+      { id: 'americano', name: 'Americano', nameAr: 'أمريكانو', category: 'Espresso & Milk', hot: 5, iced: 10, description: 'Double espresso pulled over fresh hot or iced water.', notes: 'Simple • Rich • Classic', image: 'images/americano-hot.jpg', available: true },
+      { id: 'latte', name: 'Caffe Latte', nameAr: 'كافيه لاتيه', category: 'Espresso & Milk', hot: 5, iced: 8, description: 'Rich espresso folded into velvety microfoam with artisanal latte art.', notes: 'Smooth & Silky Microfoam', tag: 'Bestseller', image: 'images/latte-art.jpg', available: true },
+      { id: 'cappuccino', name: 'Cappuccino', nameAr: 'كابتشينو', category: 'Espresso & Milk', hot: 5, iced: 8, description: 'Balanced double shot with equal parts steamed milk and dense froth.', notes: 'Rich & Frothy', available: true },
+      { id: 'mocha', name: 'Caffe Mocha', nameAr: 'كافيه موكا', category: 'Espresso & Milk', hot: 5, iced: 8, description: 'Deep espresso paired with rich Dutch cocoa and steamed milk.', notes: 'Dark Chocolate & Espresso', available: true },
+      { id: 'spanish-latte', name: 'Spanish Latte', nameAr: 'سبانش لاتيه', category: 'Iced & Refreshing', hot: 7, iced: 10, description: 'Specialty espresso sweetened with sweetened condensed milk.', notes: 'Sweet, Creamy & Indulgent', tag: 'Popular', available: true },
+      { id: 'avocado-juice', name: 'Fresh Avocado Juice', nameAr: 'عصير أفوكادو طازج', category: 'Tea & Fresh Juices', price: 12, description: 'Hand-picked fresh avocados blended smooth with fresh milk and honey.', notes: 'Fresh • Natural • Healthy • Delicious', tag: 'Healthy Choice', image: 'images/avocado-juice.jpg', available: true },
+      { id: 'karak-tea', name: 'Karak Tea', nameAr: 'شاي كرك أصيل', category: 'Tea & Fresh Juices', hot: 3, description: 'Slow-simmered traditional spiced black tea with evaporated milk & cardamom.', notes: 'Aromatic & Spiced', tag: 'Traditional', available: true },
+      { id: 'fresh-orange', name: 'Fresh Orange Juice', nameAr: 'عصير برتقال طازج', category: 'Tea & Fresh Juices', price: 8, description: 'Pure 100% freshly pressed oranges, no added sugars or preservatives.', notes: 'Cold Pressed & Vibrant', available: true },
+      { id: 'hibiscus-iced', name: 'Iced Karkadeh (Hibiscus)', nameAr: 'كركديه مثلج', category: 'Tea & Fresh Juices', price: 7, description: 'Slow-brewed natural hibiscus flower infusion chilled over ice.', notes: 'Tart, Sweet & Refreshing', available: true }
     ];
 
     let currentCat = 'All';
@@ -547,37 +611,101 @@
 
     const sar = n => '⃁ ' + n;
 
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function showMenuToast(text) {
+      const el = document.getElementById('menu-toast');
+      if (!el) return;
+      el.textContent = text;
+      el.style.display = 'block';
+      clearTimeout(window._menuToastTimer);
+      window._menuToastTimer = setTimeout(() => {
+        el.style.display = 'none';
+      }, 2800);
+    }
+
+    function isCafeOpen() {
+      return localStorage.getItem('waseem_store_open') !== 'false';
+    }
+
+    function updateStoreOpenReflection() {
+      const open = isCafeOpen();
+      const heroBadge = document.getElementById('hero-store-status');
+      const heroText = document.getElementById('hero-store-status-text');
+      const banner = document.getElementById('store-closed-banner');
+
+      if (open) {
+        heroBadge.className = 'live-status-badge';
+        heroText.textContent = 'Open Now · مفتوح الآن';
+        banner.classList.remove('visible');
+      } else {
+        heroBadge.className = 'live-status-badge closed';
+        heroText.textContent = 'Currently Closed · مغلق حالياً';
+        banner.classList.add('visible');
+      }
+    }
+
     function getActiveMenu() {
       try {
         const saved = localStorage.getItem('waseem_menu_items');
         if (saved) {
           const list = JSON.parse(saved);
-          if (Array.isArray(list) && list.length) {
-            return MENU_ITEMS.map(def => {
-              const f = list.find(x => x.id === def.id);
-              if (f) {
+          if (Array.isArray(list) && list.length > 0) {
+            return list.map(item => {
+              const def = DEFAULT_MENU_ITEMS.find(d => d.id === item.id);
+              if (def) {
                 return {
                   ...def,
-                  hot: f.hot !== undefined ? f.hot : def.hot,
-                  iced: f.iced !== undefined ? f.iced : def.iced,
-                  price: f.price !== undefined ? f.price : def.price,
-                  available: f.available !== false,
+                  ...item,
+                  nameAr: item.nameAr !== undefined ? item.nameAr : def.nameAr,
+                  description: item.description !== undefined ? item.description : def.description,
+                  notes: item.notes !== undefined ? item.notes : def.notes,
+                  tag: item.tag !== undefined ? item.tag : def.tag,
+                  image: item.image !== undefined ? item.image : def.image,
+                  available: item.available !== false
                 };
               }
-              return def;
+              return {
+                ...item,
+                available: item.available !== false
+              };
             });
           }
         }
       } catch (e) {}
-      return MENU_ITEMS;
+      return DEFAULT_MENU_ITEMS;
     }
 
     function renderCategories() {
-      const cats = ['All', 'Specialty Coffee', 'Espresso & Milk', 'Iced & Refreshing', 'Tea & Fresh Juices'];
+      const baseCats = ['All', 'Specialty Coffee', 'Espresso & Milk', 'Iced & Refreshing', 'Tea & Fresh Juices'];
+      const activeItems = getActiveMenu();
+      activeItems.forEach(it => {
+        if (it.category && !baseCats.includes(it.category)) {
+          baseCats.push(it.category);
+        }
+      });
+
+      const icons = {
+        'All': '✨ ',
+        'Specialty Coffee': '☕ ',
+        'Espresso & Milk': '🥛 ',
+        'Iced & Refreshing': '🧊 ',
+        'Tea & Fresh Juices': '🍃 ',
+        'Desserts & Bakery': '🥐 '
+      };
+
       const bar = document.getElementById('cat-bar');
-      bar.innerHTML = cats.map(c => `
-        <button class="cat-pill ${c === currentCat ? 'active' : ''}" onclick="selectCat('${c}')">
-          ${c === 'All' ? '✨ ' : ''}${c === 'Specialty Coffee' ? '☕ ' : ''}${c === 'Espresso & Milk' ? '🥛 ' : ''}${c === 'Iced & Refreshing' ? '🧊 ' : ''}${c === 'Tea & Fresh Juices' ? '🍃 ' : ''}${c}
+      bar.innerHTML = baseCats.map(c => `
+        <button class="cat-pill ${c === currentCat ? 'active' : ''}" onclick="selectCat('${escapeHtml(c)}')">
+          ${icons[c] || '☕ '}${escapeHtml(c)}
         </button>
       `).join('');
     }
@@ -591,10 +719,16 @@
     function renderMenu() {
       const container = document.getElementById('menu-container');
       const allItems = getActiveMenu();
+      const cafeOpen = isCafeOpen();
+
       const filtered = allItems.filter(it => {
         const mCat = currentCat === 'All' || it.category === currentCat;
         const q = searchQuery.toLowerCase().trim();
-        const mSearch = !q || it.name.toLowerCase().includes(q) || (it.nameAr && it.nameAr.includes(q)) || (it.notes && it.notes.toLowerCase().includes(q));
+        const mSearch = !q ||
+          (it.name && it.name.toLowerCase().includes(q)) ||
+          (it.nameAr && it.nameAr.includes(q)) ||
+          (it.notes && it.notes.toLowerCase().includes(q)) ||
+          (it.description && it.description.toLowerCase().includes(q));
         return mCat && mSearch;
       });
 
@@ -605,57 +739,79 @@
 
       const groups = {};
       filtered.forEach(it => {
-        if (!groups[it.category]) groups[it.category] = [];
-        groups[it.category].push(it);
+        const cat = it.category || 'Specialty Coffee';
+        if (!groups[cat]) groups[cat] = [];
+        groups[cat].push(it);
       });
 
       container.innerHTML = Object.entries(groups).map(([cat, items]) => `
         <section class="group">
           <div class="group-head">
-            <h2 class="group-title">${cat}</h2>
+            <h2 class="group-title">${escapeHtml(cat)}</h2>
             <div class="group-line"></div>
           </div>
           <div class="items-grid">
-            ${items.map(it => `
-              <article class="item-card" style="${!it.available ? 'opacity:0.65;background:#fcfbf9;' : ''}">
-                <div class="item-thumb" onclick="${it.image ? `openModal('${it.image}', '${it.name}', '${it.notes || it.description || ''}')` : ''}">
-                  ${it.image ? `<img src="${it.image}" alt="${it.name}">` : `<div class="item-thumb-blank">WS</div>`}
-                </div>
-                <div class="item-detail">
-                  <div class="item-top">
-                    <div>
-                      <h3 class="item-name">${it.name} ${it.nameAr ? `<span class="item-ar">${it.nameAr}</span>` : ''}</h3>
-                    </div>
-                    ${it.tag ? `<span class="item-tag">${it.tag}</span>` : ''}
-                  </div>
-                  ${it.notes ? `<div class="item-notes">✨ ${it.notes}</div>` : ''}
-                  ${it.description ? `<div class="item-desc">${it.description}</div>` : ''}
+            ${items.map(it => {
+              const hasHot = it.hot !== undefined && it.hot !== null && it.hot !== '';
+              const hasIced = it.iced !== undefined && it.iced !== null && it.iced !== '';
+              const hasPrice = it.price !== undefined && it.price !== null && it.price !== '';
 
-                  ${!it.available ? `
-                    <div style="margin-top:8px;">
-                      <span style="background:var(--ws-danger-bg);color:var(--ws-danger);border:1px solid #fecdd3;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;">
-                        ⛔ Sold Out (نفدت الكمية)
-                      </span>
+              return `
+                <article class="item-card" style="${!it.available ? 'opacity:0.65;background:#fcfbf9;' : ''}">
+                  <div class="item-thumb" onclick="${it.image ? `openItemModal('${escapeHtml(it.id)}')` : ''}" title="${it.image ? 'Click to view full photo' : ''}">
+                    ${it.image
+                      ? `<img src="${escapeHtml(it.image)}" alt="${escapeHtml(it.name)}" loading="lazy" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\\'item-thumb-blank\\'>WS</div>')">`
+                      : `<div class="item-thumb-blank">WS</div>`
+                    }
+                  </div>
+                  <div class="item-detail">
+                    <div class="item-top">
+                      <div>
+                        <h3 class="item-name">${escapeHtml(it.name)} ${it.nameAr ? `<span class="item-ar">${escapeHtml(it.nameAr)}</span>` : ''}</h3>
+                      </div>
+                      ${it.tag ? `<span class="item-tag">${escapeHtml(it.tag)}</span>` : ''}
                     </div>
-                  ` : `
-                    <div class="item-actions">
-                      ${it.hot !== undefined ? `<button class="action-btn" onclick="addToCart('${it.name}', 'Hot', ${it.hot})"><span>♨️ Hot</span> <b>${sar(it.hot)}</b> <span>＋</span></button>` : ''}
-                      ${it.iced !== undefined ? `<button class="action-btn" onclick="addToCart('${it.name}', 'Iced', ${it.iced})"><span>🧊 Iced</span> <b>${sar(it.iced)}</b> <span>＋</span></button>` : ''}
-                      ${it.price !== undefined ? `<button class="action-btn" onclick="addToCart('${it.name}', 'Regular', ${it.price})"><span>Regular</span> <b>${sar(it.price)}</b> <span>＋</span></button>` : ''}
-                    </div>
-                  `}
-                </div>
-              </article>
-            `).join('')}
+                    ${it.notes ? `<div class="item-notes">✨ ${escapeHtml(it.notes)}</div>` : ''}
+                    ${it.description ? `<div class="item-desc">${escapeHtml(it.description)}</div>` : ''}
+
+                    ${!it.available ? `
+                      <div style="margin-top:8px;">
+                        <span style="background:var(--ws-danger-bg);color:var(--ws-danger);border:1px solid #fecdd3;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;">
+                          ⛔ Sold Out (نفدت الكمية)
+                        </span>
+                      </div>
+                    ` : `
+                      <div class="item-actions">
+                        ${hasHot ? `<button class="action-btn ${!cafeOpen ? 'closed-btn' : ''}" onclick="addToCartById('${escapeHtml(it.id)}', 'Hot', ${Number(it.hot)})"><span>♨️ Hot</span> <b>${sar(it.hot)}</b> <span>${cafeOpen ? '＋' : '🌙'}</span></button>` : ''}
+                        ${hasIced ? `<button class="action-btn ${!cafeOpen ? 'closed-btn' : ''}" onclick="addToCartById('${escapeHtml(it.id)}', 'Iced', ${Number(it.iced)})"><span>🧊 Iced</span> <b>${sar(it.iced)}</b> <span>${cafeOpen ? '＋' : '🌙'}</span></button>` : ''}
+                        ${hasPrice ? `<button class="action-btn ${!cafeOpen ? 'closed-btn' : ''}" onclick="addToCartById('${escapeHtml(it.id)}', 'Regular', ${Number(it.price)})"><span>Regular</span> <b>${sar(it.price)}</b> <span>${cafeOpen ? '＋' : '🌙'}</span></button>` : ''}
+                      </div>
+                    `}
+                  </div>
+                </article>
+              `;
+            }).join('')}
           </div>
         </section>
       `).join('');
     }
 
-    function addToCart(name, variant, price) {
-      const match = cart.find(x => x.name === name && x.variant === variant);
-      if (match) match.qty++;
-      else cart.push({ name, variant, price, qty: 1 });
+    function addToCartById(itemId, variant, price) {
+      if (!isCafeOpen()) {
+        showMenuToast('🌙 Waseem Cafe is currently closed. Ordering will reopen soon!');
+        return;
+      }
+      const item = getActiveMenu().find(x => x.id === itemId);
+      if (!item || !item.available) return;
+
+      const match = cart.find(x => x.id === item.id && x.variant === variant);
+      if (match) {
+        match.qty++;
+        match.price = Number(price);
+      } else {
+        cart.push({ id: item.id, name: item.name, variant, price: Number(price), qty: 1 });
+      }
+      showMenuToast(`☕ Added ${item.name} (${variant}) to order`);
       renderCart();
     }
 
@@ -668,6 +824,7 @@
     function renderCart() {
       const totalQty = cart.reduce((s, x) => s + x.qty, 0);
       const totalSum = cart.reduce((s, x) => s + x.qty * x.price, 0);
+      const cafeOpen = isCafeOpen();
 
       document.getElementById('cart-badge').textContent = totalQty + ' items';
       const lines = document.getElementById('cart-lines');
@@ -675,7 +832,7 @@
       const waBtn = document.getElementById('cart-wa-btn');
 
       if (!totalQty) {
-        lines.innerHTML = '<p style="color:#777;font-size:13px;margin:10px 0;text-align:center;">Choose drink options to add them to your order.</p>';
+        lines.innerHTML = `<p style="color:#777;font-size:13px;margin:10px 0;text-align:center;">${cafeOpen ? 'Choose drink options to add them to your order.' : '🌙 Cafe is currently closed for online orders.'}</p>`;
         totalRow.style.display = 'none';
         waBtn.style.display = 'none';
         return;
@@ -684,7 +841,7 @@
       lines.innerHTML = cart.map((x, i) => `
         <div class="cart-row">
           <div>
-            <b>${x.name}</b> <span style="color:var(--ws-emerald);font-size:11px;">(${x.variant})</span>
+            <b>${escapeHtml(x.name)}</b> <span style="color:var(--ws-emerald);font-size:11px;">(${escapeHtml(x.variant)})</span>
             <div style="font-size:11px;color:#666;">${sar(x.price)} each</div>
           </div>
           <div class="cart-qty">
@@ -699,20 +856,30 @@
       totalRow.style.display = 'flex';
       document.getElementById('cart-total-val').textContent = sar(totalSum);
 
-      const msg = encodeURIComponent(
-        `☕ *New Order from Waseem Cafe*\n\n` +
-        cart.map(x => `• ${x.qty}× ${x.name} (${x.variant}) — ${sar(x.qty * x.price)}`).join('\n') +
-        `\n\n💰 *Total:* ${sar(totalSum)}\n\n_Thank you for ordering with Waseem Cafe!_`
-      );
-
-      waBtn.href = `https://wa.me/${WA_PHONE}?text=${msg}`;
-      waBtn.style.display = 'flex';
+      if (!cafeOpen) {
+        waBtn.removeAttribute('href');
+        waBtn.className = 'cart-order-btn disabled-closed';
+        waBtn.innerHTML = '<span>🌙</span> Cafe Currently Closed — Ordering Paused';
+        waBtn.style.display = 'flex';
+      } else {
+        const msg = encodeURIComponent(
+          `☕ *New Order from Waseem Cafe*\n\n` +
+          cart.map(x => `• ${x.qty}× ${x.name} (${x.variant}) — ${sar(x.qty * x.price)}`).join('\n') +
+          `\n\n💰 *Total:* ${sar(totalSum)}\n\n_Thank you for ordering with Waseem Cafe!_`
+        );
+        waBtn.href = `https://wa.me/${WA_PHONE}?text=${msg}`;
+        waBtn.className = 'cart-order-btn';
+        waBtn.innerHTML = '<span>💬</span> Send Order via WhatsApp';
+        waBtn.style.display = 'flex';
+      }
     }
 
-    function openModal(src, title, desc) {
-      document.getElementById('modal-img').src = src;
-      document.getElementById('modal-title').textContent = title;
-      document.getElementById('modal-desc').textContent = desc;
+    function openItemModal(itemId) {
+      const item = getActiveMenu().find(x => x.id === itemId);
+      if (!item || !item.image) return;
+      document.getElementById('modal-img').src = item.image;
+      document.getElementById('modal-title').textContent = item.name + (item.nameAr ? ' · ' + item.nameAr : '');
+      document.getElementById('modal-desc').textContent = item.notes || item.description || '';
       document.getElementById('img-modal').classList.add('open');
     }
 
@@ -750,6 +917,16 @@
       renderMenu();
     });
 
+    // Real-time synchronization when Admin updates Store Open/Closed, Prices, or Photos in another tab
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'waseem_store_open' || e.key === 'waseem_menu_items' || !e.key) {
+        updateStoreOpenReflection();
+        renderCategories();
+        renderMenu();
+        renderCart();
+      }
+    });
+
     // Secret Mascot Admin Backdoor (Double-click / Double-tap)
     let lastTap = 0;
     function openAdminPortal() {
@@ -770,6 +947,7 @@
     attachMascotSecret(document.getElementById('mascot-header-btn'));
     attachMascotSecret(document.getElementById('mascot-footer-btn'));
 
+    updateStoreOpenReflection();
     renderCategories();
     renderMenu();
     renderCart();
