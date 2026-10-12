@@ -290,13 +290,10 @@ export default function AdminPage() {
             src="/images/waseem-mascot-bust.png"
             alt="Captain Waseem"
             style={{
-              width: 58,
-              height: 58,
-              borderRadius: '50%',
-              border: '2px solid var(--ws-gold)',
-              background: 'rgba(255,255,255,0.1)',
-              objectFit: 'cover',
-              objectPosition: 'center 15%',
+              height: 76,
+              width: 'auto',
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.35))',
             }}
           />
           <div>

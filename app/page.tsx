@@ -132,32 +132,21 @@ export default function Home() {
         </div>
 
         <div className="brand-logo-wrap">
-          <div
-            className="mascot-badge"
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/waseem-mascot-bust.png"
+            alt="Captain Waseem Mascot"
             title="Captain Waseem"
             onDoubleClick={handleMascotDblClick}
             onTouchEnd={handleMascotTouch}
             style={{
-              width: 84,
-              height: 84,
-              borderRadius: '50%',
-              border: '2.5px solid var(--ws-gold)',
-              background: 'rgba(255,255,255,0.06)',
-              overflow: 'hidden',
-              boxShadow: '0 6px 20px rgba(0,0,0,0.35)',
+              height: 118,
+              width: 'auto',
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 6px 16px rgba(0,0,0,0.4))',
               cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
             }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/waseem-mascot-bust.png"
-              alt="Captain Waseem Mascot"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%' }}
-            />
-          </div>
+          />
           <WsLogo size={96} />
         </div>
 
