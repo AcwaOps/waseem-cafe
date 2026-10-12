@@ -434,7 +434,9 @@
       <div class="brand-badge"><span>🌿</span> Specialty Coffee · 100% Arabica</div>
       
       <div class="logo-wrap" style="display:flex;align-items:center;justify-content:center;gap:14px;">
-        <img src="images/waseem-mascot-bust.png" alt="Waseem Mascot" style="height:76px;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.35));">
+        <div class="mascot-badge" id="mascot-header-btn" title="Captain Waseem" style="width:78px;height:78px;border-radius:50%;border:2px solid var(--ws-gold);background:rgba(255,255,255,0.08);overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,0.35);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <img src="images/waseem-mascot-bust.png" alt="Waseem Mascot" style="width:100%;height:100%;object-fit:cover;object-position:center 15%;">
+        </div>
         <svg class="logo-svg" viewBox="0 0 100 100" fill="none">
           <g fill="#DFC18B">
             <path d="M50 12 C46 22 47.5 30 50 34 C52.5 30 54 22 50 12 Z"/>
@@ -458,18 +460,10 @@
       <div class="quick-actions">
         <a href="tel:+966511313965" class="quick-btn quick-btn-gold">📞 Call 051 131 3965</a>
         <a href="https://wa.me/966511313965" target="_blank" rel="noopener" class="quick-btn quick-btn-outline">💬 WhatsApp Us</a>
-        <button onclick="window.print()" class="quick-btn quick-btn-outline">🖨️ Print Menu</button>
       </div>
     </header>
 
     <div class="content">
-      <!-- Real Drink Showcase from Cafe -->
-      <section class="featured-section">
-        <h3 class="featured-head"><span>☕</span> Fresh From The Barista</h3>
-        <div class="featured-scroll" id="showcase-row">
-          <!-- Populated by JS -->
-        </div>
-      </section>
 
       <!-- Controls -->
       <div class="controls">
@@ -509,13 +503,11 @@
           <div id="qr-target"></div>
           <p>Scan to view & share menu</p>
         </div>
-        <img src="images/waseem-mascot-standing.png" alt="Waseem with coffee" style="height:150px;filter:drop-shadow(0 6px 14px rgba(10,38,31,0.18));">
+        <img src="images/waseem-mascot-standing.png" id="mascot-footer-btn" alt="Waseem with coffee" style="height:150px;filter:drop-shadow(0 6px 14px rgba(10,38,31,0.18));cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
       </div>
       <div class="footer-links">
         <a href="tel:+966511313965">📞 051 131 3965</a>
         <a href="https://wa.me/966511313965" target="_blank" rel="noopener">💬 WhatsApp</a>
-        <a href="black-white.html">📄 B&W Print Menu</a>
-        <a href="admin.html" style="color:var(--ws-gold-dark);font-weight:700;">🔐 لوحة وسيم الإدارية</a>
       </div>
       <p class="footer-note">Waseem Cafe · Good Coffee · Better Days</p>
     </footer>
@@ -537,14 +529,6 @@
     const MENU_URL = 'https://acwaops.github.io/waseem-cafe/';
     const WA_PHONE = '966511313965';
 
-    const SHOWCASES = [
-      { title: 'V60 Specialty Coffee', sub: 'Colombia 100% Arabica', tag: 'Specialty', src: 'images/v60-colombia.jpg', desc: 'Single origin Colombia Arabica. Notes of Caramel, Chocolate & Roasted Nuts.' },
-      { title: 'Caffe Latte', sub: 'Velvety Microfoam', tag: 'Artisanal', src: 'images/latte-art.jpg', desc: 'Espresso with textured silky microfoam and signature rosette latte art.' },
-      { title: 'Americano', sub: 'Hot & Pure', tag: 'Classic', src: 'images/americano-hot.jpg', desc: 'Espresso + Hot Water — Simple, Rich, and Classic.' },
-      { title: 'Iced Coffee', sub: 'Iced V60 & Americano', tag: 'Refreshing', src: 'images/iced-coffee.jpg', desc: 'Smooth • Clean • Bold. Chilled over clear crystal ice.' },
-      { title: 'Fresh Avocado Juice', sub: '100% Natural', tag: 'Healthy', src: 'images/avocado-juice.jpg', desc: 'Fresh blended avocado — Natural, Healthy & Delicious.' }
-    ];
-
     const MENU_ITEMS = [
       { id: 'v60-colombia', name: 'V60 Specialty Coffee', nameAr: 'قهوة مختصة V60', category: 'Specialty Coffee', hot: 10, iced: 12, description: 'Single Origin Colombia 100% Arabica. Bloom • Pour • Brew • Enjoy.', notes: 'Caramel • Chocolate • Nutty', tag: 'Signature', image: 'images/v60-colombia.jpg' },
       { id: 'iced-v60', name: 'Iced V60', nameAr: 'آيس V60', category: 'Specialty Coffee', price: 12, description: 'Slow pour-over brewed directly over crystal-clear ice for peak clarity.', notes: 'Smooth • Clean • Flavorful', tag: 'Barista Choice', image: 'images/iced-coffee.jpg' },
@@ -565,18 +549,7 @@
 
     const sar = n => '⃁ ' + n;
 
-    function renderShowcase() {
-      const container = document.getElementById('showcase-row');
-      container.innerHTML = SHOWCASES.map(s => `
-        <div class="featured-card" onclick="openModal('${s.src}', '${s.title}', '${s.desc}')">
-          <img src="${s.src}" alt="${s.title}" loading="lazy">
-          <div class="featured-overlay">
-            <span class="featured-tag">${s.tag}</span>
-            <div class="featured-name">${s.title}</div>
-          </div>
-        </div>
-      `).join('');
-    }
+
 
     function renderCategories() {
       const cats = ['All', 'Specialty Coffee', 'Espresso & Milk', 'Iced & Refreshing', 'Tea & Fresh Juices'];
@@ -746,7 +719,26 @@
       renderMenu();
     });
 
-    renderShowcase();
+    // Secret Mascot Admin Backdoor (Double-click / Double-tap)
+    let lastTap = 0;
+    function openAdminPortal() {
+      window.location.href = 'admin.html';
+    }
+    function attachMascotSecret(el) {
+      if (!el) return;
+      el.addEventListener('dblclick', openAdminPortal);
+      el.addEventListener('touchend', (e) => {
+        const now = Date.now();
+        if (now - lastTap < 400) {
+          e.preventDefault();
+          openAdminPortal();
+        }
+        lastTap = now;
+      });
+    }
+    attachMascotSecret(document.getElementById('mascot-header-btn'));
+    attachMascotSecret(document.getElementById('mascot-footer-btn'));
+
     renderCategories();
     renderMenu();
     renderCart();

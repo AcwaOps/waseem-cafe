@@ -31,28 +31,28 @@ type OrderRecord = {
 };
 
 const DEFAULT_INGREDIENTS: Ingredient[] = [
-  { id: 'beans-colombia', name: 'بن كولومبي هويلا فاخر', nameEn: 'Huila Colombia Beans', qty: 14.5, unit: 'كجم (kg)', min: 4.0, max: 20.0, category: 'Coffee Beans' },
-  { id: 'beans-ethiopia', name: 'بن إثيوبي قوجي مجفف', nameEn: 'Ethiopian Guji Beans', qty: 8.0, unit: 'كجم (kg)', min: 3.5, max: 15.0, category: 'Coffee Beans' },
-  { id: 'milk-whole', name: 'حليب طازج كامل الدسم', nameEn: 'Fresh Whole Milk', qty: 24, unit: 'لتر (L)', min: 10, max: 40, category: 'Dairy' },
-  { id: 'milk-oat', name: 'حليب شوفان باريستا نباتي', nameEn: 'Oat Milk Barista', qty: 3, unit: 'لتر (L)', min: 6, max: 20, category: 'Dairy' },
-  { id: 'avocado-fresh', name: 'أفوكادو طازج درجة أولى', nameEn: 'Fresh Hass Avocados', qty: 12, unit: 'كجم (kg)', min: 4, max: 20, category: 'Produce' },
-  { id: 'oranges-valencia', name: 'برتقال فالنسيا للعصير', nameEn: 'Fresh Valencia Oranges', qty: 28, unit: 'كجم (kg)', min: 8, max: 40, category: 'Produce' },
-  { id: 'karak-tea-blend', name: 'شاي أسود وهيل للكرك', nameEn: 'Karak Spices & Tea', qty: 5.5, unit: 'كجم (kg)', min: 2.0, max: 10.0, category: 'Tea & Herbs' },
-  { id: 'hibiscus-flowers', name: 'أزهار كركديه طبيعية', nameEn: 'Hibiscus Flowers', qty: 4.0, unit: 'كجم (kg)', min: 1.5, max: 8.0, category: 'Tea & Herbs' },
-  { id: 'condensed-milk', name: 'حليب مكثف محلى (سبانش)', nameEn: 'Sweetened Condensed Milk', qty: 18, unit: 'علبة (Can)', min: 8, max: 36, category: 'Syrups' },
-  { id: 'v60-filters', name: 'فلاتر ورقية V60 مقاس 02', nameEn: 'Hario V60 Paper Filters', qty: 2, unit: 'باكيت (Pack 100)', min: 5, max: 20, category: 'Supplies' },
-  { id: 'cups-hot', name: 'أكواب وسيم الورقية الحارة', nameEn: 'Waseem Custom Hot Cups', qty: 350, unit: 'كوب (Cups)', min: 100, max: 1000, category: 'Packaging' },
-  { id: 'cups-iced', name: 'أكواب مثلجات بلاستيك شفافة', nameEn: 'Clear Iced Cups 16oz', qty: 280, unit: 'كوب (Cups)', min: 80, max: 800, category: 'Packaging' },
-  { id: 'bags-takeaway', name: 'أكياس وسيم الفاخرة المطبوعة', nameEn: 'Custom Takeaway Bags', qty: 190, unit: 'كيس (Bags)', min: 50, max: 500, category: 'Packaging' },
+  { id: 'beans-colombia', name: 'Colombian Huila Specialty Beans', nameEn: 'Single Origin 100% Arabica', qty: 14.5, unit: 'kg', min: 4.0, max: 20.0, category: 'Coffee Beans' },
+  { id: 'beans-ethiopia', name: 'Ethiopian Guji Natural Beans', nameEn: 'Single Origin 100% Arabica', qty: 8.0, unit: 'kg', min: 3.5, max: 15.0, category: 'Coffee Beans' },
+  { id: 'milk-whole', name: 'Fresh Whole Dairy Milk', nameEn: 'Almarai / Nadec Fresh', qty: 24, unit: 'Liters', min: 10, max: 40, category: 'Dairy' },
+  { id: 'milk-oat', name: 'Oat Milk Barista Edition', nameEn: 'Plant-Based Barista Blend', qty: 3, unit: 'Liters', min: 6, max: 20, category: 'Dairy' },
+  { id: 'avocado-fresh', name: 'Fresh Hass Avocados', nameEn: 'Selected Premium Fruit', qty: 12, unit: 'kg', min: 4, max: 20, category: 'Produce' },
+  { id: 'oranges-valencia', name: 'Fresh Valencia Oranges', nameEn: 'Cold Press Juice Fruit', qty: 28, unit: 'kg', min: 8, max: 40, category: 'Produce' },
+  { id: 'karak-tea-blend', name: 'Traditional Karak Spiced Tea', nameEn: 'Assam Tea & Cardamom', qty: 5.5, unit: 'kg', min: 2.0, max: 10.0, category: 'Tea & Herbs' },
+  { id: 'hibiscus-flowers', name: 'Natural Hibiscus Flowers', nameEn: 'Aswan Sun-Dried Flowers', qty: 4.0, unit: 'kg', min: 1.5, max: 8.0, category: 'Tea & Herbs' },
+  { id: 'condensed-milk', name: 'Sweetened Condensed Milk', nameEn: 'Spanish Latte Blend', qty: 18, unit: 'Cans', min: 8, max: 36, category: 'Syrups' },
+  { id: 'v60-filters', name: 'Hario V60 Paper Filters 02', nameEn: 'Bleached Cone Filters', qty: 2, unit: 'Packs (100 pcs)', min: 5, max: 20, category: 'Supplies' },
+  { id: 'cups-hot', name: 'Waseem Custom Hot Cups', nameEn: '8oz & 12oz Sleeves', qty: 350, unit: 'Cups', min: 100, max: 1000, category: 'Packaging' },
+  { id: 'cups-iced', name: 'Clear Iced Cups 16oz', nameEn: 'Crystal Cold Drink Cups', qty: 280, unit: 'Cups', min: 80, max: 800, category: 'Packaging' },
+  { id: 'bags-takeaway', name: 'Waseem Custom Takeaway Bags', nameEn: 'Embossed Paper Bags', qty: 190, unit: 'Bags', min: 50, max: 500, category: 'Packaging' },
 ];
 
 const DEFAULT_ORDERS: OrderRecord[] = [
-  { id: 'WS-1048', time: '10:42 م', items: '2× V60 كولومبيا، 1× سبانش لاتيه', method: 'Apple Pay', total: 32, status: 'مكتمل' },
-  { id: 'WS-1047', time: '10:28 م', items: '1× كافيه لاتيه (حليب شوفان)', method: 'مدى', total: 8, status: 'مكتمل' },
-  { id: 'WS-1046', time: '10:15 م', items: '1× عصير أفوكادو طازج، 1× كركديه مثلج', method: 'مدى', total: 19, status: 'مكتمل' },
-  { id: 'WS-1045', time: '09:50 م', items: '3× شاي كرك أصيل، 1× أمريكانو حار', method: 'نقداً', total: 14, status: 'مكتمل' },
-  { id: 'WS-1044', time: '09:32 م', items: '1× آيس V60 كولومبيا', method: 'Apple Pay', total: 12, status: 'مكتمل' },
-  { id: 'WS-1043', time: '09:10 م', items: '2× كابتشينو حار، 1× سبانش لاتيه بارد', method: 'مدى', total: 20, status: 'مكتمل' },
+  { id: 'WS-1048', time: '10:42 PM', items: '2× V60 Colombia, 1× Spanish Latte', method: 'Apple Pay', total: 32, status: 'Completed' },
+  { id: 'WS-1047', time: '10:28 PM', items: '1× Caffe Latte (Oat Milk)', method: 'Mada', total: 8, status: 'Completed' },
+  { id: 'WS-1046', time: '10:15 PM', items: '1× Fresh Avocado, 1× Iced Hibiscus', method: 'Mada', total: 19, status: 'Completed' },
+  { id: 'WS-1045', time: '09:50 PM', items: '3× Karak Tea, 1× Americano Hot', method: 'Cash', total: 14, status: 'Completed' },
+  { id: 'WS-1044', time: '09:32 PM', items: '1× Iced V60 Colombia', method: 'Apple Pay', total: 12, status: 'Completed' },
+  { id: 'WS-1043', time: '09:10 PM', items: '2× Hot Cappuccino, 1× Spanish Latte', method: 'Mada', total: 20, status: 'Completed' },
 ];
 
 const BLANK_ITEM = {
@@ -79,12 +79,12 @@ export default function AdminPage() {
   const [msg, setMsg] = useState<{ text: string; error?: boolean } | null>(null);
   const [loading, setLoading] = useState(true);
   const [posCart, setPosCart] = useState<{ id: string; name: string; price: number; qty: number }[]>([]);
-  const [posMethod, setPosMethod] = useState('مدى');
+  const [posMethod, setPosMethod] = useState('Mada');
   const [timeStr, setTimeStr] = useState('');
 
   // Clock
   useEffect(() => {
-    const updateTime = () => setTimeStr(new Date().toLocaleTimeString('ar-SA'));
+    const updateTime = () => setTimeStr(new Date().toLocaleTimeString('en-US', { hour12: true }));
     updateTime();
     const timer = setInterval(updateTime, 1000);
     return () => clearInterval(timer);
@@ -154,21 +154,21 @@ export default function AdminPage() {
       if (existing) {
         return prev.map((p) => (p.id === item.id ? { ...p, qty: p.qty + 1 } : p));
       }
-      return [...prev, { id: item.id, name: item.nameAr || item.name, price, qty: 1 }];
+      return [...prev, { id: item.id, name: item.name, price, qty: 1 }];
     });
   }
 
   function completeSale() {
     if (posCart.length === 0) return;
     const total = posCart.reduce((sum, item) => sum + item.qty * item.price, 0);
-    const summary = posCart.map((i) => `${i.qty}× ${i.name}`).join('، ');
+    const summary = posCart.map((i) => `${i.qty}× ${i.name}`).join(', ');
     const newOrder: OrderRecord = {
       id: `WS-${1049 + orders.length}`,
-      time: timeStr || 'الآن',
+      time: timeStr || 'Just now',
       items: summary,
       method: posMethod,
       total,
-      status: 'مكتمل',
+      status: 'Completed',
     };
 
     saveOrders([newOrder, ...orders]);
@@ -178,7 +178,7 @@ export default function AdminPage() {
     adjustStock('beans-colombia', -0.02 * posCart.length);
     adjustStock('cups-hot', -posCart.length);
 
-    setMsg({ text: `✅ تم تسجيل الطلب ${newOrder.id} بقيمة ${total} ر.س بنجاح!` });
+    setMsg({ text: `✅ Order #${newOrder.id} completed for SAR ${total} (${posMethod})` });
   }
 
   // Menu item save
@@ -234,8 +234,8 @@ export default function AdminPage() {
         setItems((prev) => prev.map((i) => (i.id === item.id ? updated : i)));
         setMsg({
           text: updated.active
-            ? `🟢 "${item.name}" الآن متاح بالمنيو`
-            : `🔴 "${item.name}" تم إيقافه (86'd)`,
+            ? `🟢 "${item.name}" is now Active on public menu`
+            : `🔴 "${item.name}" has been 86'd (Hidden from public menu)`,
         });
       }
     } catch {
@@ -270,7 +270,7 @@ export default function AdminPage() {
   const totalOrdersCount = orders.length + 130;
 
   return (
-    <main className="admin-shell" style={{ maxWidth: 1140, margin: '0 auto', padding: '24px 20px', direction: 'rtl' }}>
+    <main className="admin-shell" style={{ maxWidth: 1140, margin: '0 auto', padding: '24px 20px', direction: 'ltr' }}>
       {/* Header with Mascot */}
       <header
         style={{
@@ -299,21 +299,22 @@ export default function AdminPage() {
               border: '2px solid var(--ws-gold)',
               background: 'rgba(255,255,255,0.1)',
               objectFit: 'cover',
+              objectPosition: 'center 15%',
             }}
           />
           <div>
             <h1 style={{ margin: 0, fontSize: 20, fontFamily: 'Cinzel, serif', color: '#fff' }}>
-              مقهى وسيم · لوحة الإدارة الذكية
+              Waseem Cafe · Operations Command Center
             </h1>
-            <p style={{ margin: '2px 0 0', fontSize: 12, color: 'var(--ws-gold-light)', letterSpacing: '0.05em' }}>
-              WASEEM CAFE · OPERATIONS & INVENTORY COMMAND
+            <p style={{ margin: '2px 0 0', fontSize: 11, color: 'var(--ws-gold-light)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+              Inventory, Live Sales & Barista Operations
             </p>
           </div>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
           <span style={{ fontSize: 13, background: 'rgba(255,255,255,0.1)', padding: '6px 12px', borderRadius: 20 }}>
-            🕒 {timeStr || 'الرياض · KSA'}
+            🕒 {timeStr || 'Riyadh, KSA'}
           </span>
           <a
             href="/"
@@ -328,7 +329,7 @@ export default function AdminPage() {
               border: '1px solid rgba(255,255,255,0.2)',
             }}
           >
-            ☕ منيو الزبائن
+            ☕ Customer Menu
           </a>
           <button
             onClick={handleLogout}
@@ -343,7 +344,7 @@ export default function AdminPage() {
               fontWeight: 600,
             }}
           >
-            تسجيل خروج
+            Sign Out
           </button>
         </div>
       </header>
@@ -366,14 +367,14 @@ export default function AdminPage() {
         <img
           src="/images/waseem-mascot-standing.png"
           alt="Waseem Mascot"
-          style={{ height: 75, transform: 'scaleX(-1)' }}
+          style={{ height: 82 }}
         />
         <div>
           <h2 style={{ margin: '0 0 4px', fontSize: 16, color: 'var(--ws-emerald)', fontWeight: 800 }}>
-            أهلاً بك كابتن وسيم! ☕
+            Welcome, Captain Waseem! ☕
           </h2>
           <p style={{ margin: 0, fontSize: 13, color: 'var(--ws-text-muted)' }}>
-            يمكنك من هنا مراقبة المبيعات الحية، ضبط مستودع المواد الخام، وتسجيل طلبات الكاشير السريعة بضغطة زر.
+            Monitor live sales performance, adjust raw ingredient stock levels, and ring up quick cashier orders on the fly.
           </p>
         </div>
       </section>
@@ -404,7 +405,7 @@ export default function AdminPage() {
             fontSize: 14,
           }}
         >
-          📊 إحصائيات المبيعات
+          📊 Sales & Analytics
         </button>
 
         <button
@@ -423,10 +424,10 @@ export default function AdminPage() {
             gap: 6,
           }}
         >
-          📦 مستودع المواد الخام
+          📦 Raw Ingredients & Supplies
           {criticalIngCount > 0 && (
             <span style={{ background: '#fee2e2', color: '#dc2626', fontSize: 11, padding: '2px 6px', borderRadius: 10 }}>
-              {criticalIngCount} ناقص
+              {criticalIngCount} Low Alert
             </span>
           )}
         </button>
@@ -444,7 +445,7 @@ export default function AdminPage() {
             fontSize: 14,
           }}
         >
-          ⚡ كاشير وسيم السريع (POS)
+          ⚡ Quick POS Checkout
         </button>
 
         <button
@@ -460,7 +461,7 @@ export default function AdminPage() {
             fontSize: 14,
           }}
         >
-          ☕ إدارة المنيو والأسعار
+          ☕ Menu Item Manager (86)
         </button>
 
         <button
@@ -476,7 +477,7 @@ export default function AdminPage() {
             fontSize: 14,
           }}
         >
-          📋 تقرير نهاية اليوم (Z-Report)
+          📋 Daily Shift Z-Report
         </button>
       </nav>
 
@@ -503,36 +504,36 @@ export default function AdminPage() {
           {/* KPI Cards */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 24 }}>
             <div style={{ background: '#fff', padding: 18, borderRadius: 12, border: '1px solid var(--ws-line)', borderTop: '4px solid var(--ws-emerald)' }}>
-              <div style={{ fontSize: 13, color: 'var(--ws-text-muted)', fontWeight: 600 }}>إجمالي مبيعات اليوم</div>
-              <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--ws-emerald)', margin: '6px 0' }}>⃁ {grossSales.toLocaleString()}</div>
-              <div style={{ fontSize: 12, color: '#16a34a', fontWeight: 700 }}>▲ +14.2% مقارنة بأمس</div>
+              <div style={{ fontSize: 13, color: 'var(--ws-text-muted)', fontWeight: 600 }}>Gross Sales (Today)</div>
+              <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--ws-emerald)', margin: '6px 0' }}>SAR {grossSales.toLocaleString()}</div>
+              <div style={{ fontSize: 12, color: '#16a34a', fontWeight: 700 }}>▲ +14.2% vs yesterday</div>
             </div>
 
             <div style={{ background: '#fff', padding: 18, borderRadius: 12, border: '1px solid var(--ws-line)', borderTop: '4px solid var(--ws-gold)' }}>
-              <div style={{ fontSize: 13, color: 'var(--ws-text-muted)', fontWeight: 600 }}>عدد الطلبات المكتملة</div>
-              <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--ws-text-main)', margin: '6px 0' }}>{totalOrdersCount} طلب</div>
-              <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>معدل 12 طلب في الساعة</div>
+              <div style={{ fontSize: 13, color: 'var(--ws-text-muted)', fontWeight: 600 }}>Completed Orders</div>
+              <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--ws-text-main)', margin: '6px 0' }}>{totalOrdersCount} orders</div>
+              <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>Avg 12 orders/hr</div>
             </div>
 
             <div style={{ background: '#fff', padding: 18, borderRadius: 12, border: '1px solid var(--ws-line)', borderTop: '4px solid #14b8a6' }}>
-              <div style={{ fontSize: 13, color: 'var(--ws-text-muted)', fontWeight: 600 }}>متوسط قيمة الطلب</div>
+              <div style={{ fontSize: 13, color: 'var(--ws-text-muted)', fontWeight: 600 }}>Average Ticket</div>
               <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--ws-text-main)', margin: '6px 0' }}>
-                ⃁ {(grossSales / totalOrdersCount).toFixed(2)}
+                SAR {(grossSales / totalOrdersCount).toFixed(2)}
               </div>
-              <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>معدل كوبين لكل عميل</div>
+              <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>~2 cups per transaction</div>
             </div>
 
             <div style={{ background: '#fff', padding: 18, borderRadius: 12, border: '1px solid var(--ws-line)', borderTop: '4px solid #f59e0b' }}>
-              <div style={{ fontSize: 13, color: 'var(--ws-text-muted)', fontWeight: 600 }}>المشروب الأكثر طلباً</div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--ws-emerald)', margin: '6px 0' }}>V60 كولومبيا</div>
-              <div style={{ fontSize: 12, color: '#16a34a', fontWeight: 700 }}>46 كوباً مباعاً</div>
+              <div style={{ fontSize: 13, color: 'var(--ws-text-muted)', fontWeight: 600 }}>Top Selling Drink</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--ws-emerald)', margin: '6px 0' }}>V60 Colombia</div>
+              <div style={{ fontSize: 12, color: '#16a34a', fontWeight: 700 }}>46 cups sold today</div>
             </div>
           </div>
 
           {/* Recent Orders Feed */}
           <div style={{ background: '#fff', borderRadius: 14, border: '1px solid var(--ws-line)', padding: 20 }}>
             <h3 style={{ margin: '0 0 14px', fontSize: 16, color: 'var(--ws-emerald)', fontWeight: 800 }}>
-              سجل آخر الطلبات المباشرة
+              Live Recent Orders Feed
             </h3>
             <div style={{ display: 'grid', gap: 10 }}>
               {orders.map((ord) => (
@@ -554,9 +555,9 @@ export default function AdminPage() {
                     </div>
                     <div style={{ fontSize: 13, color: 'var(--ws-text-main)', marginTop: 2 }}>{ord.items}</div>
                   </div>
-                  <div style={{ textAlign: 'left' }}>
-                    <div style={{ fontWeight: 800, color: 'var(--ws-emerald)', fontSize: 15 }}>{ord.total} ر.س</div>
-                    <span style={{ fontSize: 11, background: '#e2ece7', padding: '2px 8px', borderRadius: 6 }}>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontWeight: 800, color: 'var(--ws-emerald)', fontSize: 15 }}>SAR {ord.total}</div>
+                    <span style={{ fontSize: 11, background: '#e2ece7', padding: '2px 8px', borderRadius: 6, fontWeight: 600 }}>
                       {ord.method}
                     </span>
                   </div>
@@ -571,8 +572,8 @@ export default function AdminPage() {
       {activeTab === 'inventory' && (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h3 style={{ margin: 0, fontSize: 18, color: 'var(--ws-emerald)' }}>مستودع المواد الخام والمستلزمات</h3>
-            <span style={{ fontSize: 13, color: 'var(--ws-text-muted)' }}>استخدم (+ / −) لتحديث المخزون لحظياً</span>
+            <h3 style={{ margin: 0, fontSize: 18, color: 'var(--ws-emerald)' }}>Raw Ingredients & Supplies Warehouse</h3>
+            <span style={{ fontSize: 13, color: 'var(--ws-text-muted)' }}>Use (+ / −) to adjust stock counts on the fly</span>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: 14 }}>
@@ -604,12 +605,12 @@ export default function AdminPage() {
                         color: isCrit ? '#dc2626' : '#16a34a',
                       }}
                     >
-                      {isCrit ? 'حرج' : 'متوفر'}
+                      {isCrit ? 'Low Alert' : 'In Stock'}
                     </span>
                   </div>
 
                   <div style={{ margin: '10px 0', fontSize: 13 }}>
-                    المخزون الحالي: <strong>{ing.qty} {ing.unit}</strong>
+                    Current Stock: <strong>{ing.qty} {ing.unit}</strong>
                     <div style={{ height: 6, background: '#eee', borderRadius: 4, marginTop: 4, overflow: 'hidden' }}>
                       <div style={{ width: `${pct}%`, height: '100%', background: isCrit ? '#dc2626' : '#16a34a' }} />
                     </div>
@@ -646,7 +647,7 @@ export default function AdminPage() {
       {activeTab === 'pos' && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20 }}>
           <div>
-            <h3 style={{ margin: '0 0 12px', fontSize: 16, color: 'var(--ws-emerald)' }}>انقر على المشروب لإضافته:</h3>
+            <h3 style={{ margin: '0 0 12px', fontSize: 16, color: 'var(--ws-emerald)' }}>Tap any drink to add to register:</h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 12 }}>
               {items.map((it) => (
                 <button
@@ -663,10 +664,10 @@ export default function AdminPage() {
                 >
                   <div style={{ fontSize: 22 }}>☕</div>
                   <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--ws-emerald)', marginTop: 4 }}>
-                    {it.nameAr || it.name}
+                    {it.name}
                   </div>
                   <div style={{ fontSize: 12, color: 'var(--ws-gold-dark)', fontWeight: 800 }}>
-                    {it.price ?? it.hot ?? it.iced ?? 10} ر.س
+                    SAR {it.price ?? it.hot ?? it.iced ?? 10}
                   </div>
                 </button>
               ))}
@@ -676,28 +677,28 @@ export default function AdminPage() {
           {/* Ticket */}
           <div style={{ background: '#fff', borderRadius: 14, border: '2px solid var(--ws-gold)', padding: 18, height: 'fit-content' }}>
             <h4 style={{ margin: '0 0 12px', color: 'var(--ws-emerald)', borderBottom: '1px solid var(--ws-line)', paddingBottom: 8 }}>
-              🧾 طلب الكاشير الحالي
+              🧾 Register Ticket
             </h4>
             <div style={{ minHeight: 120, marginBottom: 12 }}>
               {posCart.length === 0 ? (
-                <p style={{ color: '#888', fontSize: 12, textAlign: 'center', marginTop: 30 }}>السلة فارغة</p>
+                <p style={{ color: '#888', fontSize: 12, textAlign: 'center', marginTop: 30 }}>Cart is empty</p>
               ) : (
                 posCart.map((p, idx) => (
                   <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, margin: '6px 0' }}>
                     <span>{p.name} × {p.qty}</span>
-                    <span>{p.price * p.qty} ر.س</span>
+                    <span>SAR {p.price * p.qty}</span>
                   </div>
                 ))
               )}
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 800, fontSize: 16, borderTop: '2px solid var(--ws-emerald)', paddingTop: 10, marginBottom: 12 }}>
-              <span>الإجمالي:</span>
-              <span>{posCart.reduce((sum, p) => sum + p.qty * p.price, 0)} ر.س</span>
+              <span>Total:</span>
+              <span>SAR {posCart.reduce((sum, p) => sum + p.qty * p.price, 0)}</span>
             </div>
 
             <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
-              {['مدى', 'Apple Pay', 'نقداً'].map((m) => (
+              {['Mada', 'Apple Pay', 'Cash'].map((m) => (
                 <button
                   key={m}
                   onClick={() => setPosMethod(m)}
@@ -732,7 +733,7 @@ export default function AdminPage() {
                 cursor: 'pointer',
               }}
             >
-              ✅ إتمام الطلب وحسم المخزون
+              ✅ Complete Sale & Deduct Stock
             </button>
           </div>
         </div>
@@ -744,13 +745,13 @@ export default function AdminPage() {
           {/* Editor Form */}
           <section className="admin-form-card">
             <h2 style={{ margin: '0 0 16px', color: 'var(--ws-emerald)', fontFamily: 'Cinzel, serif', fontSize: 18 }}>
-              {form.id ? `تعديل صنف: ${form.name}` : 'إضافة صنف جديد للمنيو'}
+              {form.id ? `Edit Item: ${form.name}` : 'Add New Menu Item'}
             </h2>
 
             <form onSubmit={handleSave}>
               <div className="admin-form-grid">
                 <label className="admin-field">
-                  الاسم (إنجليزي) *
+                  Name (English) *
                   <input
                     required
                     value={form.name}
@@ -760,7 +761,7 @@ export default function AdminPage() {
                 </label>
 
                 <label className="admin-field">
-                  الاسم (عربي)
+                  Name (Arabic)
                   <input
                     value={form.nameAr}
                     onChange={(e) => setForm({ ...form, nameAr: e.target.value })}
@@ -769,7 +770,7 @@ export default function AdminPage() {
                 </label>
 
                 <label className="admin-field">
-                  القسم *
+                  Category *
                   <select
                     value={form.category}
                     onChange={(e) => setForm({ ...form, category: e.target.value })}
@@ -783,7 +784,7 @@ export default function AdminPage() {
                 </label>
 
                 <label className="admin-field">
-                  شارة / ميزة
+                  Badge / Tag
                   <input
                     value={form.tag}
                     onChange={(e) => setForm({ ...form, tag: e.target.value })}
@@ -792,7 +793,7 @@ export default function AdminPage() {
                 </label>
 
                 <label className="admin-field">
-                  سعر الحار (SAR)
+                  Hot Price (SAR)
                   <input
                     type="number"
                     min="0"
@@ -803,7 +804,7 @@ export default function AdminPage() {
                 </label>
 
                 <label className="admin-field">
-                  سعر البارد (SAR)
+                  Iced Price (SAR)
                   <input
                     type="number"
                     min="0"
@@ -814,7 +815,7 @@ export default function AdminPage() {
                 </label>
 
                 <label className="admin-field">
-                  سعر موحد (SAR)
+                  Single / Regular Price (SAR)
                   <input
                     type="number"
                     min="0"
@@ -825,7 +826,7 @@ export default function AdminPage() {
                 </label>
 
                 <label className="admin-field">
-                  مسار الصورة
+                  Image Path / URL
                   <input
                     value={form.image}
                     onChange={(e) => setForm({ ...form, image: e.target.value })}
@@ -840,7 +841,7 @@ export default function AdminPage() {
                   className="action-btn"
                   style={{ background: 'var(--ws-emerald)', color: '#fff', padding: '10px 20px', fontSize: 14, borderRadius: 8, cursor: 'pointer' }}
                 >
-                  💾 {form.id ? 'حفظ التعديلات' : 'إضافة للمنيو'}
+                  💾 {form.id ? 'Save Changes' : 'Add Item'}
                 </button>
                 {form.id && (
                   <button
@@ -849,7 +850,7 @@ export default function AdminPage() {
                     className="action-btn"
                     style={{ padding: '10px 18px', fontSize: 14, borderRadius: 8, cursor: 'pointer' }}
                   >
-                    إلغاء
+                    Cancel
                   </button>
                 )}
               </div>
@@ -859,11 +860,11 @@ export default function AdminPage() {
           {/* Items with Quick 86 Toggle */}
           <section>
             <h3 style={{ color: 'var(--ws-emerald)', fontSize: 18, marginBottom: 12 }}>
-              أصناف المنيو الحالية وتحكم التوفر ({items.length} صنف)
+              Current Menu Items & Availability Control ({items.length} items)
             </h3>
 
             {loading ? (
-              <p>جاري التحميل...</p>
+              <p>Loading items...</p>
             ) : (
               <div style={{ display: 'grid', gap: 10 }}>
                 {items.map((it) => (
@@ -882,12 +883,12 @@ export default function AdminPage() {
                   >
                     <div>
                       <div style={{ fontWeight: 700, fontSize: 15 }}>
-                        {it.nameAr || it.name} <span style={{ color: '#888', fontSize: 12 }}>({it.name})</span>
+                        {it.name} {it.nameAr && <span style={{ color: '#888', fontSize: 12 }}>({it.nameAr})</span>}
                       </div>
                       <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>
-                        {it.category} · {it.hot !== undefined && `حار: ⃁ ${it.hot} `}
-                        {it.iced !== undefined && `بارد: ⃁ ${it.iced} `}
-                        {it.price !== undefined && `سعر: ⃁ ${it.price}`}
+                        {it.category} · {it.hot !== undefined && `Hot: SAR ${it.hot} `}
+                        {it.iced !== undefined && `Iced: SAR ${it.iced} `}
+                        {it.price !== undefined && `Price: SAR ${it.price}`}
                       </div>
                     </div>
 
@@ -905,7 +906,7 @@ export default function AdminPage() {
                           border: `1px solid ${it.active ? '#86efac' : '#fca5a5'}`,
                         }}
                       >
-                        {it.active ? '🟢 متوفر (Active)' : '🔴 نفد (86\'d)'}
+                        {it.active ? '🟢 Active (Visible)' : '🔴 86\'d (Hidden)'}
                       </button>
                       <button
                         onClick={() => {
@@ -927,7 +928,7 @@ export default function AdminPage() {
                         }}
                         style={{ padding: '6px 10px', borderRadius: 6, border: '1px solid var(--ws-line)', background: '#fff', cursor: 'pointer' }}
                       >
-                        ✏️ تعديل
+                        ✏️ Edit
                       </button>
                       <button
                         onClick={() => handleDelete(it.id, it.name)}
@@ -948,38 +949,38 @@ export default function AdminPage() {
       {activeTab === 'zreport' && (
         <div style={{ maxWidth: 600, margin: '0 auto', background: '#fff', padding: 24, borderRadius: 14, border: '2px dashed var(--ws-emerald)' }}>
           <div style={{ textAlign: 'center', borderBottom: '2px solid var(--ws-emerald)', paddingBottom: 16, marginBottom: 16 }}>
-            <h2 style={{ margin: '0 0 4px', color: 'var(--ws-emerald)', fontSize: 20 }}>مقهى وسيم · تقرير إغلاق الوردية (Z-Report)</h2>
-            <div style={{ fontSize: 12, color: '#888' }}>تاريخ الوردية: {new Date().toLocaleDateString('ar-SA')}</div>
+            <h2 style={{ margin: '0 0 4px', color: 'var(--ws-emerald)', fontSize: 20 }}>Waseem Cafe · End of Shift Z-Report</h2>
+            <div style={{ fontSize: 12, color: '#888' }}>Shift Date: {new Date().toLocaleDateString('en-US')}</div>
           </div>
 
           <div style={{ display: 'grid', gap: 10, fontSize: 14, marginBottom: 20 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
-              <span>إجمالي المبيعات (Gross):</span>
-              <strong>{grossSales.toLocaleString()} ر.س</strong>
+              <span>Gross Sales (Tax Inclusive):</span>
+              <strong>SAR {grossSales.toLocaleString()}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
-              <span>ضريبة القيمة المضافة (15%):</span>
-              <strong>{(grossSales * 0.15 / 1.15).toFixed(2)} ر.س</strong>
+              <span>VAT (15% ZATCA Standard):</span>
+              <strong>SAR {(grossSales * 0.15 / 1.15).toFixed(2)}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
-              <span>صافي الدخل بدون ضريبة:</span>
-              <strong>{(grossSales - (grossSales * 0.15 / 1.15)).toFixed(2)} ر.س</strong>
+              <span>Net Revenue (Excl. Tax):</span>
+              <strong>SAR {(grossSales - (grossSales * 0.15 / 1.15)).toFixed(2)}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
-              <span>عدد الطلبات:</span>
-              <strong>{totalOrdersCount} طلب</strong>
+              <span>Total Transactions:</span>
+              <strong>{totalOrdersCount} orders</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
-              <span>مدفوعات مدى (Mada):</span>
-              <strong>{(grossSales * 0.68).toFixed(0)} ر.س</strong>
+              <span>Mada Payments:</span>
+              <strong>SAR {(grossSales * 0.68).toFixed(0)}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
               <span>Apple Pay:</span>
-              <strong>{(grossSales * 0.24).toFixed(0)} ر.س</strong>
+              <strong>SAR {(grossSales * 0.24).toFixed(0)}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
-              <span>نقداً (Cash):</span>
-              <strong>{(grossSales * 0.08).toFixed(0)} ر.س</strong>
+              <span>Cash in Register:</span>
+              <strong>SAR {(grossSales * 0.08).toFixed(0)}</strong>
             </div>
           </div>
 
@@ -997,7 +998,7 @@ export default function AdminPage() {
               cursor: 'pointer',
             }}
           >
-            🖨️ طباعة تقرير نهاية الوردية
+            🖨️ Print Shift Z-Report
           </button>
         </div>
       )}

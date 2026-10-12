@@ -31,44 +31,7 @@ const DISPLAY_PHONE = '051 131 3965';
 const WA_NUMBER = '966511313965';
 const sar = (n: number) => `⃁ ${n}`;
 
-// High-resolution showcases from the cafe
-const SHOWCASE_ITEMS = [
-  {
-    title: 'V60 Pour Over',
-    sub: 'Colombia 100% Arabica',
-    tag: 'Specialty',
-    src: '/images/v60-colombia.jpg',
-    desc: 'Bloom • Pour • Brew • Enjoy. Notes of Caramel, Chocolate & Roasted Nuts.',
-  },
-  {
-    title: 'Caffe Latte',
-    sub: 'Velvety Microfoam',
-    tag: 'Artisanal',
-    src: '/images/latte-art.jpg',
-    desc: 'Espresso with textured silky milk and signature rosette latte art.',
-  },
-  {
-    title: 'Americano',
-    sub: 'Hot & Pure',
-    tag: 'Classic',
-    src: '/images/americano-hot.jpg',
-    desc: 'Espresso + Hot Water — Simple, Rich, and Classic.',
-  },
-  {
-    title: 'Iced Coffee',
-    sub: 'Iced V60 & Americano',
-    tag: 'Refreshing',
-    src: '/images/iced-coffee.jpg',
-    desc: 'Smooth • Clean • Bold. Brewed fresh and chilled over clear ice.',
-  },
-  {
-    title: 'Fresh Avocado Juice',
-    sub: '100% Natural',
-    tag: 'Healthy',
-    src: '/images/avocado-juice.jpg',
-    desc: 'Fresh blended avocado — Natural, Healthy & Delicious.',
-  },
-];
+
 
 export default function Home() {
   const [items, setItems] = useState<Item[]>([]);
@@ -147,6 +110,19 @@ export default function Home() {
       `\n\n💰 *Total:* ${sar(total)}\n\n_Thank you for ordering with Waseem Cafe!_`
   );
 
+  const handleMascotDblClick = () => {
+    window.location.href = '/admin';
+  };
+  let lastTapTime = 0;
+  const handleMascotTouch = (e: React.TouchEvent) => {
+    const now = Date.now();
+    if (now - lastTapTime < 400) {
+      e.preventDefault();
+      window.location.href = '/admin';
+    }
+    lastTapTime = now;
+  };
+
   return (
     <main className="menu-sheet">
       {/* Brand Header */}
@@ -156,8 +132,32 @@ export default function Home() {
         </div>
 
         <div className="brand-logo-wrap">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/waseem-mascot-bust.png" alt="Waseem Mascot" className="header-mascot-img" />
+          <div
+            className="mascot-badge"
+            title="Captain Waseem"
+            onDoubleClick={handleMascotDblClick}
+            onTouchEnd={handleMascotTouch}
+            style={{
+              width: 78,
+              height: 78,
+              borderRadius: '50%',
+              border: '2px solid var(--ws-gold)',
+              background: 'rgba(255,255,255,0.08)',
+              overflow: 'hidden',
+              boxShadow: '0 6px 18px rgba(0,0,0,0.35)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/waseem-mascot-bust.png"
+              alt="Waseem Mascot"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }}
+            />
+          </div>
           <WsLogo size={96} />
         </div>
 
@@ -181,41 +181,11 @@ export default function Home() {
           >
             💬 WhatsApp Us
           </a>
-          <button onClick={() => window.print()} className="quick-btn quick-btn-outline">
-            🖨️ Print Menu
-          </button>
         </div>
       </header>
 
       {/* Main Content Area */}
       <div className="menu-content">
-        {/* Visual Showcase Gallery */}
-        <section className="featured-strip" aria-label="Featured drinks">
-          <div className="featured-strip-header">
-            <h3><span>☕</span> Fresh From The Barista</h3>
-          </div>
-          <div className="featured-scroll">
-            {SHOWCASE_ITEMS.map((item, idx) => (
-              <div
-                key={idx}
-                className="featured-card"
-                onClick={() => setModalImg({ src: item.src, title: item.title, desc: item.desc })}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') setModalImg({ src: item.src, title: item.title, desc: item.desc });
-                }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={item.src} alt={item.title} loading="lazy" />
-                <div className="featured-card-overlay">
-                  <span className="featured-card-tag">{item.tag}</span>
-                  <p className="featured-card-name">{item.title}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
 
         {/* Search & Category Filter Controls */}
         <div className="controls-bar">
@@ -447,7 +417,15 @@ export default function Home() {
             </div>
             <div className="footer-mascot-wrap">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/waseem-mascot-standing.png" alt="Waseem with coffee" className="footer-mascot-img" />
+              <img
+                src="/images/waseem-mascot-standing.png"
+                alt="Waseem with coffee"
+                className="footer-mascot-img"
+                onDoubleClick={handleMascotDblClick}
+                onTouchEnd={handleMascotTouch}
+                style={{ cursor: 'pointer' }}
+                title="Captain Waseem"
+              />
             </div>
           </div>
 
@@ -457,9 +435,6 @@ export default function Home() {
             </a>
             <a href={`https://wa.me/${WA_NUMBER}`} target="_blank" rel="noreferrer" className="footer-link">
               💬 WhatsApp
-            </a>
-            <a href="/admin" className="footer-link">
-              🔒 Admin Portal
             </a>
           </div>
 

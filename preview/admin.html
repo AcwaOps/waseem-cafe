@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0e382c">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <title>لوحة إدارة وسيم | Waseem Cafe Command & Inventory</title>
+  <title>Waseem Cafe | Operations & Inventory Command Center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --ws-emerald-deep: #0a261f;
@@ -36,7 +36,7 @@
     html { background: #08211b; color: var(--ws-text-main); -webkit-font-smoothing: antialiased; }
     body {
       margin: 0;
-      font-family: 'Noto Sans Arabic', 'DM Sans', sans-serif;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       background: #08211b;
       min-height: 100vh;
       color: var(--ws-text-main);
@@ -87,7 +87,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: top center;
+      object-position: center 15%;
     }
 
     .nav-titles h1 {
@@ -95,15 +95,16 @@
       font-size: 20px;
       font-weight: 800;
       color: #ffffff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.03em;
     }
     .nav-titles p {
       margin: 3px 0 0;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--ws-gold-light);
-      letter-spacing: 0.05em;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 600;
     }
 
     .nav-actions {
@@ -172,9 +173,8 @@
       gap: 18px;
     }
     .manager-avatar-large {
-      height: 90px;
-      filter: drop-shadow(0 6px 12px rgba(10,38,31,0.18));
-      transform: scaleX(-1); /* Facing speech bubble */
+      height: 94px;
+      filter: drop-shadow(0 6px 14px rgba(10,38,31,0.2));
     }
     .manager-bubble {
       background: #ffffff;
@@ -188,12 +188,12 @@
     .manager-bubble::after {
       content: '';
       position: absolute;
-      right: -10px;
+      left: -10px;
       top: 50%;
       transform: translateY(-50%);
-      border-width: 8px 0 8px 10px;
+      border-width: 8px 10px 8px 0;
       border-style: solid;
-      border-color: transparent transparent transparent #ffffff;
+      border-color: transparent #ffffff transparent transparent;
     }
     .manager-bubble h2 {
       margin: 0 0 4px;
@@ -209,8 +209,7 @@
     }
 
     .time-badge {
-      text-align: left;
-      font-family: 'DM Sans', sans-serif;
+      text-align: right;
     }
     .time-badge .clock {
       font-size: 24px;
@@ -221,6 +220,7 @@
     .time-badge .date {
       font-size: 12px;
       color: var(--ws-text-muted);
+      margin-top: 2px;
     }
 
     /* Tab Navigation */
@@ -258,7 +258,7 @@
       background: var(--ws-emerald-subtle);
       color: var(--ws-emerald);
       font-size: 11px;
-      padding: 2px 7px;
+      padding: 2px 8px;
       border-radius: 12px;
       font-weight: 800;
     }
@@ -277,7 +277,7 @@
     .alert-banner {
       background: linear-gradient(135deg, #fff1f2 0%, #fee2e2 100%);
       border: 1px solid #fecdd3;
-      border-right: 5px solid var(--ws-danger);
+      border-left: 5px solid var(--ws-danger);
       padding: 14px 20px;
       border-radius: 12px;
       margin-bottom: 24px;
@@ -359,7 +359,6 @@
       font-size: 26px;
       font-weight: 800;
       color: var(--ws-emerald-deep);
-      font-family: 'DM Sans', 'Noto Sans Arabic', sans-serif;
       line-height: 1.1;
       margin-bottom: 6px;
     }
@@ -371,7 +370,6 @@
       gap: 6px;
     }
     .kpi-delta-up { color: var(--ws-success); font-weight: 700; }
-    .kpi-delta-down { color: var(--ws-danger); font-weight: 700; }
 
     /* Filter Bar */
     .filter-bar {
@@ -508,7 +506,6 @@
     .stock-name-wrap span {
       font-size: 12px;
       color: var(--ws-text-muted);
-      direction: ltr;
       display: inline-block;
     }
 
@@ -616,12 +613,16 @@
       align-items: center;
       gap: 14px;
     }
-    .menu-toggle-thumb {
-      width: 48px;
-      height: 48px;
+    .menu-toggle-icon {
+      width: 46px;
+      height: 46px;
       border-radius: 8px;
-      object-fit: cover;
-      background: #e5ece8;
+      background: var(--ws-emerald-subtle);
+      color: var(--ws-emerald);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
     }
     .menu-toggle-meta h4 {
       margin: 0 0 3px;
@@ -679,7 +680,7 @@
       width: 100%;
       border-collapse: collapse;
       font-size: 13px;
-      text-align: right;
+      text-align: left;
     }
     .styled-table th {
       background: #f4f7f5;
@@ -738,7 +739,6 @@
       font-size: 12px;
       font-weight: 800;
       color: var(--ws-gold-dark);
-      font-family: 'DM Sans', sans-serif;
     }
 
     .pos-ticket {
@@ -829,7 +829,7 @@
     .pin-modal {
       position: fixed;
       inset: 0;
-      background: rgba(10, 38, 31, 0.85);
+      background: rgba(10, 38, 31, 0.88);
       backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
@@ -852,6 +852,7 @@
       font-size: 20px;
       font-weight: 800;
       color: var(--ws-emerald);
+      font-family: 'Cinzel', serif;
     }
     .pin-box p {
       margin: 0 0 20px;
@@ -874,7 +875,6 @@
       border-color: var(--ws-emerald);
     }
 
-    /* Print Styles */
     @media print {
       body, html { background: #fff !important; }
       .admin-wrapper { box-shadow: none !important; width: 100% !important; }
@@ -886,16 +886,16 @@
 </head>
 <body>
 
-  <!-- PIN Modal for Security (Default PIN: 1234 or Quick Bypass) -->
+  <!-- PIN Modal for Security (Default PIN: 1234 or Quick Demo Access) -->
   <div class="pin-modal" id="pin-modal" style="display:none;">
     <div class="pin-box">
-      <img src="images/waseem-mascot-standing.png" alt="Waseem" style="height:110px;filter:drop-shadow(0 6px 12px rgba(10,38,31,0.2));">
-      <h2>بوابة وسيم الإدارية 🔐</h2>
-      <p>أدخل الرقم السري للوصول للتحكم والمخزون والمبيعات</p>
+      <img src="images/waseem-mascot-standing.png" alt="Waseem" style="height:115px;filter:drop-shadow(0 6px 12px rgba(10,38,31,0.2));">
+      <h2>Waseem Portal Access 🔐</h2>
+      <p>Enter your 4-digit manager PIN to unlock operations & sales control</p>
       <input type="password" id="pin-input" class="pin-input" maxlength="6" placeholder="••••" autofocus>
-      <div id="pin-error" style="color:var(--ws-danger);font-size:12px;margin-bottom:12px;font-weight:700;display:none;">الرمز غير صحيح، حاول ثانية (الافتراضي: 1234)</div>
-      <button class="btn-primary" onclick="verifyPin()">دخول اللوحة</button>
-      <button class="btn-subtle" onclick="bypassPin()" style="margin-top:10px;color:var(--ws-emerald);border-color:var(--ws-line);width:100%;justify-content:center;">دخول سريع تجريبي (1234)</button>
+      <div id="pin-error" style="color:var(--ws-danger);font-size:12px;margin-bottom:12px;font-weight:700;display:none;">Incorrect PIN. Please try again (Default: 1234)</div>
+      <button class="btn-primary" onclick="verifyPin()">Unlock Dashboard</button>
+      <button class="btn-subtle" onclick="bypassPin()" style="margin-top:10px;color:var(--ws-emerald);border-color:var(--ws-line);width:100%;justify-content:center;">Quick Demo Access (1234)</button>
     </div>
   </div>
 
@@ -907,20 +907,20 @@
           <img src="images/waseem-mascot-bust.png" alt="Waseem Avatar">
         </div>
         <div class="nav-titles">
-          <h1>مقهى وسيم · لوحة الإدارة الذكية</h1>
-          <p>WASEEM CAFE · OPERATIONS & INVENTORY COMMAND CENTER</p>
+          <h1>Waseem Cafe · Operations Command</h1>
+          <p>Inventory, Live Sales & Barista Operations</p>
         </div>
       </div>
 
       <div class="nav-actions">
         <div class="status-pill" id="store-status-pill" onclick="toggleStoreStatus()">
-          <span>🟢</span> المحل مفتوح للزبائن
+          <span>🟢</span> Store Open to Public
         </div>
         <a href="index.html" class="btn-subtle">
-          <span>☕</span> منيو الزبائن
+          <span>☕</span> Customer Menu
         </a>
         <button class="btn-subtle" onclick="lockPortal()">
-          <span>🔒</span> قفل
+          <span>🔒</span> Lock Portal
         </button>
       </div>
     </header>
@@ -930,34 +930,34 @@
       <div class="manager-welcome">
         <img src="images/waseem-mascot-standing.png" alt="Waseem Mascot" class="manager-avatar-large">
         <div class="manager-bubble">
-          <h2>أهلاً بك كابتن وسيم! ☕</h2>
-          <p id="manager-msg">جميع العمليات تعمل بانسيابية اليوم. تم تحديث بيانات المبيعات ونسب المخزون لحظياً.</p>
+          <h2>Welcome, Captain Waseem! ☕</h2>
+          <p id="manager-msg">All operations are running smoothly today. Live sales metrics and inventory levels are updated in real-time.</p>
         </div>
       </div>
 
       <div class="time-badge">
         <div class="clock" id="live-clock">12:00:00</div>
-        <div class="date" id="live-date">الرياض · المملكة العربية السعودية</div>
+        <div class="date" id="live-date">Riyadh, Saudi Arabia · GMT+3</div>
       </div>
     </section>
 
     <!-- Navigation Tabs -->
     <nav class="tab-bar">
       <button class="tab-btn active" onclick="switchTab('analytics')">
-        <span>📊</span> إحصائيات المبيعات
+        <span>📊</span> Sales & Analytics
       </button>
       <button class="tab-btn" onclick="switchTab('inventory')">
-        <span>📦</span> إدارة المخزون والمستودع
-        <span class="tab-badge danger" id="stock-alert-count">2 ناقص</span>
+        <span>📦</span> Inventory & Supplies
+        <span class="tab-badge danger" id="stock-alert-count">2 Low Alert</span>
       </button>
       <button class="tab-btn" onclick="switchTab('pos')">
-        <span>⚡</span> نقطة البيع السريعة (POS)
+        <span>⚡</span> Quick POS Checkout
       </button>
       <button class="tab-btn" onclick="switchTab('menu86')">
-        <span>☕</span> تحكم توفر المنيو (86)
+        <span>☕</span> Menu 86 (Availability)
       </button>
       <button class="tab-btn" onclick="switchTab('zreport')">
-        <span>📋</span> تقرير نهاية الوردية (Z-Report)
+        <span>📋</span> Daily Shift Z-Report
       </button>
     </nav>
 
@@ -968,29 +968,29 @@
         <div class="alert-banner-text">
           <span style="font-size:22px;">⚠️</span>
           <div>
-            <strong>تنبيه مخزون حرج:</strong> صنفان وصلا لحد إعادة الطلب (حليب شوفان باريستا، فلاتر V60 ورقية).
+            <strong>Critical Stock Alert:</strong> 2 items reached reorder thresholds (Oat Milk Barista, Hario V60 Paper Filters).
           </div>
         </div>
         <button class="alert-banner-btn" onclick="switchTab('inventory')">
-          معاينة المخزون والطلب الفوري ←
+          View Stock & Reorder →
         </button>
       </div>
 
       <!-- Filter Bar -->
       <div class="filter-bar">
         <div class="pill-group">
-          <button class="pill-opt active" onclick="setPeriod('today', this)">اليوم</button>
-          <button class="pill-opt" onclick="setPeriod('week', this)">آخر 7 أيام</button>
-          <button class="pill-opt" onclick="setPeriod('month', this)">هذا الشهر</button>
-          <button class="pill-opt" onclick="setPeriod('all', this)">كل السجل</button>
+          <button class="pill-opt active" onclick="setPeriod('today', this)">Today</button>
+          <button class="pill-opt" onclick="setPeriod('week', this)">Past 7 Days</button>
+          <button class="pill-opt" onclick="setPeriod('month', this)">This Month</button>
+          <button class="pill-opt" onclick="setPeriod('all', this)">All Time</button>
         </div>
 
         <div style="display:flex;gap:8px;">
           <button class="btn-outline" onclick="exportSalesCsv()">
-            📥 تصدير المبيعات (CSV)
+            📥 Export Sales (CSV)
           </button>
           <button class="btn-outline" onclick="window.print()">
-            🖨️ طباعة ملخص
+            🖨️ Print Summary
           </button>
         </div>
       </div>
@@ -999,45 +999,45 @@
       <div class="kpi-grid">
         <div class="kpi-card emerald">
           <div class="kpi-head">
-            <span class="kpi-title">إجمالي المبيعات (Gross Sales)</span>
+            <span class="kpi-title">Gross Sales (Today)</span>
             <span class="kpi-icon">💰</span>
           </div>
-          <div class="kpi-value" id="kpi-revenue">⃁ 2,845</div>
+          <div class="kpi-value" id="kpi-revenue">SAR 2,845</div>
           <div class="kpi-footer">
-            <span class="kpi-delta-up">▲ +14.2%</span> مقارنة بيوم أمس
+            <span class="kpi-delta-up">▲ +14.2%</span> vs yesterday
           </div>
         </div>
 
         <div class="kpi-card">
           <div class="kpi-head">
-            <span class="kpi-title">عدد الطلبات المكتملة</span>
+            <span class="kpi-title">Completed Orders</span>
             <span class="kpi-icon">🧾</span>
           </div>
           <div class="kpi-value" id="kpi-orders">142</div>
           <div class="kpi-footer">
-            <span class="kpi-delta-up">▲ +8 طلبات</span> فوق المستهدف اليومي
+            <span class="kpi-delta-up">▲ +8 orders</span> above daily target
           </div>
         </div>
 
         <div class="kpi-card">
           <div class="kpi-head">
-            <span class="kpi-title">متوسط قيمة الطلب (Ticket)</span>
+            <span class="kpi-title">Average Ticket Size</span>
             <span class="kpi-icon">☕</span>
           </div>
-          <div class="kpi-value" id="kpi-avg">⃁ 20.03</div>
+          <div class="kpi-value" id="kpi-avg">SAR 20.03</div>
           <div class="kpi-footer">
-            <span>معدل كوبين لكل طلب</span>
+            <span>~2 cups per transaction</span>
           </div>
         </div>
 
         <div class="kpi-card success">
           <div class="kpi-head">
-            <span class="kpi-title">المشروب الأكثر طلباً</span>
+            <span class="kpi-title">Top Selling Drink</span>
             <span class="kpi-icon">🏆</span>
           </div>
-          <div class="kpi-value" style="font-size:20px;" id="kpi-top">V60 كولومبيا</div>
+          <div class="kpi-value" style="font-size:20px;" id="kpi-top">V60 Colombia</div>
           <div class="kpi-footer">
-            <span class="kpi-delta-up">46 كوباً مباعاً اليوم</span>
+            <span class="kpi-delta-up">46 cups sold today</span>
           </div>
         </div>
       </div>
@@ -1047,14 +1047,14 @@
         <!-- Category Sales Share -->
         <div class="admin-card">
           <div class="card-title-row">
-            <h3><span>🏷️</span> توزيع المبيعات حسب الأقسام</h3>
-            <span style="font-size:12px;color:var(--ws-text-muted);">نسبة المشاركة</span>
+            <h3><span>🏷️</span> Revenue by Category</h3>
+            <span style="font-size:12px;color:var(--ws-text-muted);">Share of Sales</span>
           </div>
 
           <div class="cat-bar-item">
             <div class="cat-bar-header">
-              <span>قهوة مختصة V60 (Specialty)</span>
-              <span>42% · 1,195 ر.س</span>
+              <span>Specialty Coffee (Pour-over)</span>
+              <span>42% · SAR 1,195</span>
             </div>
             <div class="cat-bar-track">
               <div class="cat-bar-fill emerald" style="width: 42%;"></div>
@@ -1063,8 +1063,8 @@
 
           <div class="cat-bar-item">
             <div class="cat-bar-header">
-              <span>إسبريسو ومشروبات الحليب (Espresso & Milk)</span>
-              <span>32% · 910 ر.س</span>
+              <span>Espresso & Milk Drinks</span>
+              <span>32% · SAR 910</span>
             </div>
             <div class="cat-bar-track">
               <div class="cat-bar-fill" style="width: 32%;"></div>
@@ -1073,8 +1073,8 @@
 
           <div class="cat-bar-item">
             <div class="cat-bar-header">
-              <span>المثلجات والانتعاش (Iced & Refreshing)</span>
-              <span>18% · 515 ر.س</span>
+              <span>Iced & Refreshing</span>
+              <span>18% · SAR 515</span>
             </div>
             <div class="cat-bar-track">
               <div class="cat-bar-fill warm" style="width: 18%;"></div>
@@ -1083,8 +1083,8 @@
 
           <div class="cat-bar-item">
             <div class="cat-bar-header">
-              <span>الشاي والعصائر الطازجة (Tea & Juices)</span>
-              <span>8% · 225 ر.س</span>
+              <span>Tea & Natural Fresh Juices</span>
+              <span>8% · SAR 225</span>
             </div>
             <div class="cat-bar-track">
               <div class="cat-bar-fill teal" style="width: 8%;"></div>
@@ -1095,14 +1095,14 @@
         <!-- Payment Breakdown & Rush Hours -->
         <div class="admin-card">
           <div class="card-title-row">
-            <h3><span>💳</span> وسائل الدفع وساعات الذروة</h3>
+            <h3><span>💳</span> Payment Channels & Peak Hours</h3>
           </div>
 
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;margin-bottom:20px;">
             <div style="background:#f4f7f5;padding:12px;border-radius:10px;">
               <div style="font-size:18px;">💳</div>
               <div style="font-weight:800;font-size:16px;color:var(--ws-emerald);">68%</div>
-              <div style="font-size:11px;color:var(--ws-text-muted);">مدى (Mada)</div>
+              <div style="font-size:11px;color:var(--ws-text-muted);">Mada (Debit)</div>
             </div>
             <div style="background:#f4f7f5;padding:12px;border-radius:10px;">
               <div style="font-size:18px;">📱</div>
@@ -1112,17 +1112,17 @@
             <div style="background:#f4f7f5;padding:12px;border-radius:10px;">
               <div style="font-size:18px;">💵</div>
               <div style="font-weight:800;font-size:16px;color:var(--ws-emerald);">8%</div>
-              <div style="font-size:11px;color:var(--ws-text-muted);">نقداً (Cash)</div>
+              <div style="font-size:11px;color:var(--ws-text-muted);">Cash</div>
             </div>
           </div>
 
           <div style="font-size:13px;font-weight:700;color:var(--ws-emerald);margin-bottom:8px;">
-            🔥 أوقات الذروة في مقهى وسيم:
+            🔥 Peak Customer Hours at Waseem Cafe:
           </div>
           <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--ws-text-muted);">
-            <div>☀️ <strong>ذروة الصباح (07:30 - 10:00 ص):</strong> 38% من الطلبات (أمريكانو، فلات وايت، كرك)</div>
-            <div>🌆 <strong>ذروة العصر (04:30 - 07:00 م):</strong> 42% من الطلبات (V60 مختصة، سبانش لاتيه، أفوكادو)</div>
-            <div>🌙 <strong>سهرة المساء (09:00 - 11:30 م):</strong> 20% من الطلبات (آيس V60، كركديه بارد)</div>
+            <div>☀️ <strong>Morning Rush (07:30 - 10:00 AM):</strong> 38% of orders (Americano, Flat White, Karak)</div>
+            <div>🌆 <strong>Afternoon Peak (04:30 - 07:00 PM):</strong> 42% of orders (V60 Specialty, Spanish Latte, Avocado)</div>
+            <div>🌙 <strong>Evening Chill (09:00 - 11:30 PM):</strong> 20% of orders (Iced V60, Iced Karkadeh)</div>
           </div>
         </div>
       </div>
@@ -1130,20 +1130,20 @@
       <!-- Recent Orders Live Feed -->
       <div class="admin-card">
         <div class="card-title-row">
-          <h3><span>🧾</span> سجل آخر الطلبات المباشرة</h3>
-          <span style="font-size:12px;color:var(--ws-text-muted);">تحديث فوري مع كل فاتورة</span>
+          <h3><span>🧾</span> Live Recent Orders Feed</h3>
+          <span style="font-size:12px;color:var(--ws-text-muted);">Real-time stream</span>
         </div>
 
         <div class="table-wrap">
           <table class="styled-table">
             <thead>
               <tr>
-                <th>رقم الطلب</th>
-                <th>الوقت</th>
-                <th>الأصناف المطلوبة</th>
-                <th>طريقة الدفع</th>
-                <th>المبلغ</th>
-                <th>الحالة</th>
+                <th>Order #</th>
+                <th>Time</th>
+                <th>Items Ordered</th>
+                <th>Payment</th>
+                <th>Total</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody id="orders-table-body">
@@ -1158,16 +1158,16 @@
     <main class="pane-body" id="pane-inventory" style="display:none;">
       <div class="card-title-row">
         <div>
-          <h2 style="margin:0 0 4px;font-size:20px;color:var(--ws-emerald);">مستودع المواد الخام ومستلزمات الباريستا</h2>
-          <p style="margin:0;font-size:13px;color:var(--ws-text-muted);">متابعة المخزون بدقة لمنع انقطاع أي صنف، مع أزرار سريعة للخصم والإضافة وطلب المورد.</p>
+          <h2 style="margin:0 0 4px;font-size:20px;color:var(--ws-emerald);">Raw Ingredients & Supplies Warehouse</h2>
+          <p style="margin:0;font-size:13px;color:var(--ws-text-muted);">Monitor stock levels in real time, prevent stockouts, and order replenishment with 1 click.</p>
         </div>
 
         <div style="display:flex;gap:10px;">
           <button class="btn-primary" onclick="openNewIngredientModal()" style="width:auto;">
-            <span>➕</span> إضافة صنف جديد
+            <span>➕</span> Add New Item
           </button>
           <button class="btn-outline" onclick="exportInventoryCsv()">
-            📥 تصدير الجرد (CSV)
+            📥 Export Inventory (CSV)
           </button>
         </div>
       </div>
@@ -1182,8 +1182,8 @@
     <main class="pane-body" id="pane-pos" style="display:none;">
       <div class="card-title-row">
         <div>
-          <h2 style="margin:0 0 4px;font-size:20px;color:var(--ws-emerald);">كاشير وسيم السريع · Quick POS</h2>
-          <p style="margin:0;font-size:13px;color:var(--ws-text-muted);">انقر على المشروب لتسجيل عملية بيع فورية؛ يتم خصم المخزون وإضافة الدخل فوراً.</p>
+          <h2 style="margin:0 0 4px;font-size:20px;color:var(--ws-emerald);">Quick POS Checkout Counter</h2>
+          <p style="margin:0;font-size:13px;color:var(--ws-text-muted);">Tap any item to ring up a sale. Revenue is updated and inventory is automatically deducted.</p>
         </div>
       </div>
 
@@ -1191,11 +1191,11 @@
         <!-- Items Picker -->
         <div>
           <div style="display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;">
-            <button class="pill-opt active" onclick="filterPosCat('All', this)">الكل</button>
-            <button class="pill-opt" onclick="filterPosCat('Specialty Coffee', this)">قهوة مختصة</button>
-            <button class="pill-opt" onclick="filterPosCat('Espresso & Milk', this)">إسبريسو وحليب</button>
-            <button class="pill-opt" onclick="filterPosCat('Iced & Refreshing', this)">مثلجات</button>
-            <button class="pill-opt" onclick="filterPosCat('Tea & Fresh Juices', this)">شاي وعصائر</button>
+            <button class="pill-opt active" onclick="filterPosCat('All', this)">All Drinks</button>
+            <button class="pill-opt" onclick="filterPosCat('Specialty Coffee', this)">Specialty Coffee</button>
+            <button class="pill-opt" onclick="filterPosCat('Espresso & Milk', this)">Espresso & Milk</button>
+            <button class="pill-opt" onclick="filterPosCat('Iced & Refreshing', this)">Iced & Refreshing</button>
+            <button class="pill-opt" onclick="filterPosCat('Tea & Fresh Juices', this)">Tea & Juices</button>
           </div>
 
           <div class="pos-items-grid" id="pos-items-grid">
@@ -1205,24 +1205,24 @@
 
         <!-- POS Ticket -->
         <div class="pos-ticket">
-          <h4><span>🧾</span> فاتورة الطلب الحالي</h4>
+          <h4><span>🧾</span> Current Register Ticket</h4>
           <div class="ticket-lines" id="pos-ticket-lines">
-            <p style="font-size:12px;color:#888;text-align:center;margin:30px 0;">لم يتم اختيار أصناف بعد. انقر على أي مشروب لإضافته.</p>
+            <p style="font-size:12px;color:#888;text-align:center;margin:30px 0;">No items selected yet. Tap any drink to add.</p>
           </div>
 
           <div class="ticket-total">
-            <span>الإجمالي:</span>
-            <span id="pos-total-val">0 ر.س</span>
+            <span>Total:</span>
+            <span id="pos-total-val">SAR 0</span>
           </div>
 
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px;">
-            <button class="pill-opt active" id="pay-mada" onclick="selectPayMethod('مدى', this)">مدى</button>
+            <button class="pill-opt active" id="pay-mada" onclick="selectPayMethod('Mada', this)">Mada</button>
             <button class="pill-opt" id="pay-apple" onclick="selectPayMethod('Apple Pay', this)">Apple Pay</button>
-            <button class="pill-opt" id="pay-cash" onclick="selectPayMethod('نقداً', this)">نقداً</button>
+            <button class="pill-opt" id="pay-cash" onclick="selectPayMethod('Cash', this)">Cash</button>
           </div>
 
           <button class="btn-primary" onclick="completePosOrder()">
-            <span>✅</span> تأكيد البيع وخصم المخزون
+            <span>✅</span> Complete Sale & Deduct Stock
           </button>
         </div>
       </div>
@@ -1232,8 +1232,8 @@
     <main class="pane-body" id="pane-menu86" style="display:none;">
       <div class="card-title-row">
         <div>
-          <h2 style="margin:0 0 4px;font-size:20px;color:var(--ws-emerald);">تحكم توفر أصناف المنيو (Quick 86)</h2>
-          <p style="margin:0;font-size:13px;color:var(--ws-text-muted);">بنقرة واحدة يمكنك إيقاف أي مشروب ينفذ مؤقتاً أو تفعيله لزبائن المقهى فوراً.</p>
+          <h2 style="margin:0 0 4px;font-size:20px;color:var(--ws-emerald);">Menu Item Availability (Quick 86)</h2>
+          <p style="margin:0;font-size:13px;color:var(--ws-text-muted);">Toggle items on or off the public menu with one switch if they run out during the shift.</p>
         </div>
       </div>
 
@@ -1247,47 +1247,47 @@
       <div class="admin-card" style="max-width:680px;margin:0 auto;border:2px dashed var(--ws-emerald);">
         <div style="text-align:center;border-bottom:2px solid var(--ws-emerald);padding-bottom:16px;margin-bottom:20px;">
           <img src="images/waseem-mascot-bust.png" alt="Waseem" style="height:70px;border-radius:50%;border:2px solid var(--ws-gold);margin-bottom:8px;">
-          <h2 style="margin:0;color:var(--ws-emerald);font-size:22px;font-family:'Cinzel', serif;">مقهى وسيم · تقرير إغلاق الوردية (Z-Report)</h2>
+          <h2 style="margin:0;color:var(--ws-emerald);font-size:22px;font-family:'Cinzel', serif;">Waseem Cafe · End of Shift Z-Report</h2>
           <p style="margin:4px 0 0;font-size:12px;color:var(--ws-text-muted);" id="z-report-timestamp"></p>
         </div>
 
         <div style="display:flex;flex-direction:column;gap:12px;font-size:14px;margin-bottom:24px;">
           <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f0ebe2;padding-bottom:6px;">
-            <span>إجمالي المبيعات الشاملة للضريبة:</span>
-            <strong style="color:var(--ws-emerald);font-size:16px;" id="z-gross">2,845 ر.س</strong>
+            <span>Gross Sales (Tax Inclusive):</span>
+            <strong style="color:var(--ws-emerald);font-size:16px;" id="z-gross">SAR 2,845</strong>
           </div>
           <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f0ebe2;padding-bottom:6px;">
-            <span>ضريبة القيمة المضافة (15%):</span>
-            <strong id="z-vat">371.08 ر.س</strong>
+            <span>VAT (15% ZATCA Standard):</span>
+            <strong id="z-vat">SAR 371.08</strong>
           </div>
           <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f0ebe2;padding-bottom:6px;">
-            <span>صافي المبيعات بدون الضريبة:</span>
-            <strong id="z-net">2,473.92 ر.س</strong>
+            <span>Net Sales (Excl. Tax):</span>
+            <strong id="z-net">SAR 2,473.92</strong>
           </div>
           <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f0ebe2;padding-bottom:6px;">
-            <span>عدد العمليات والطلبات:</span>
-            <strong id="z-count">142 طلب</strong>
+            <span>Total Orders Count:</span>
+            <strong id="z-count">142 orders</strong>
           </div>
           <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f0ebe2;padding-bottom:6px;">
-            <span>مدفوعات الشبكة ومدى (Mada):</span>
-            <strong id="z-mada">1,934.60 ر.س</strong>
+            <span>Mada (Debit Card) Payments:</span>
+            <strong id="z-mada">SAR 1,934.60</strong>
           </div>
           <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f0ebe2;padding-bottom:6px;">
-            <span>مدفوعات أبل باي (Apple Pay):</span>
-            <strong id="z-apple">682.80 ر.س</strong>
+            <span>Apple Pay Payments:</span>
+            <strong id="z-apple">SAR 682.80</strong>
           </div>
           <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f0ebe2;padding-bottom:6px;">
-            <span>المقبوضات النقدية في الدرج (Cash):</span>
-            <strong id="z-cash">227.60 ر.س</strong>
+            <span>Cash in Register Drawer:</span>
+            <strong id="z-cash">SAR 227.60</strong>
           </div>
         </div>
 
         <div style="display:flex;gap:12px;" class="no-print">
           <button class="btn-primary" onclick="window.print()">
-            🖨️ طباعة تقرير الوردية Z-Report
+            🖨️ Print Daily Z-Report
           </button>
           <button class="btn-outline" onclick="shareZReportWhatsApp()">
-            💬 إرسال التقرير لواتساب وسيم
+            💬 Send Z-Report to Waseem WhatsApp
           </button>
         </div>
       </div>
@@ -1297,42 +1297,42 @@
   <script>
     // --- PERSISTENT DATA & DEFAULTS ---
     const DEFAULT_INGREDIENTS = [
-      { id: 'beans-colombia', name: 'بن كولومبي هويلا فاخر', nameEn: 'Huila Colombia Beans', qty: 14.5, unit: 'كجم (kg)', min: 4.0, max: 20.0, category: 'Coffee Beans' },
-      { id: 'beans-ethiopia', name: 'بن إثيوبي قوجي مجفف', nameEn: 'Ethiopian Guji Beans', qty: 8.0, unit: 'كجم (kg)', min: 3.5, max: 15.0, category: 'Coffee Beans' },
-      { id: 'milk-whole', name: 'حليب طازج كامل الدسم', nameEn: 'Fresh Whole Milk', qty: 24, unit: 'لتر (L)', min: 10, max: 40, category: 'Dairy' },
-      { id: 'milk-oat', name: 'حليب شوفان باريستا نباتي', nameEn: 'Oat Milk Barista', qty: 3, unit: 'لتر (L)', min: 6, max: 20, category: 'Dairy' }, // Critical
-      { id: 'avocado-fresh', name: 'أفوكادو طازج درجة أولى', nameEn: 'Fresh Hass Avocados', qty: 12, unit: 'كجم (kg)', min: 4, max: 20, category: 'Produce' },
-      { id: 'oranges-valencia', name: 'برتقال فالنسيا للعصير', nameEn: 'Fresh Valencia Oranges', qty: 28, unit: 'كجم (kg)', min: 8, max: 40, category: 'Produce' },
-      { id: 'karak-tea-blend', name: 'شاي أسود وهيل للكرك', nameEn: 'Karak Spices & Tea', qty: 5.5, unit: 'كجم (kg)', min: 2.0, max: 10.0, category: 'Tea & Herbs' },
-      { id: 'hibiscus-flowers', name: 'أزهار كركديه طبيعية', nameEn: 'Hibiscus Flowers', qty: 4.0, unit: 'كجم (kg)', min: 1.5, max: 8.0, category: 'Tea & Herbs' },
-      { id: 'condensed-milk', name: 'حليب مكثف محلى (سبانش)', nameEn: 'Sweetened Condensed Milk', qty: 18, unit: 'علبة (Can)', min: 8, max: 36, category: 'Syrups & Flavors' },
-      { id: 'v60-filters', name: 'فلاتر ورقية V60 مقاس 02', nameEn: 'Hario V60 Paper Filters', qty: 2, unit: 'باكيت (Pack 100)', min: 5, max: 20, category: 'Supplies' }, // Critical
-      { id: 'cups-hot', name: 'أكواب وسيم الورقية الحارة', nameEn: 'Waseem Custom Hot Cups', qty: 350, unit: 'كوب (Cups)', min: 100, max: 1000, category: 'Packaging' },
-      { id: 'cups-iced', name: 'أكواب مثلجات بلاستيك شفافة', nameEn: 'Clear Iced Cups 16oz', qty: 280, unit: 'كوب (Cups)', min: 80, max: 800, category: 'Packaging' },
-      { id: 'bags-takeaway', name: 'أكياس وسيم الفاخرة المطبوعة', nameEn: 'Custom Takeaway Bags', qty: 190, unit: 'كيس (Bags)', min: 50, max: 500, category: 'Packaging' }
+      { id: 'beans-colombia', name: 'Colombian Huila Specialty Beans', nameEn: 'Single Origin 100% Arabica', qty: 14.5, unit: 'kg', min: 4.0, max: 20.0, category: 'Coffee Beans' },
+      { id: 'beans-ethiopia', name: 'Ethiopian Guji Natural Beans', nameEn: 'Single Origin 100% Arabica', qty: 8.0, unit: 'kg', min: 3.5, max: 15.0, category: 'Coffee Beans' },
+      { id: 'milk-whole', name: 'Fresh Whole Dairy Milk', nameEn: 'Almarai / Nadec Fresh', qty: 24, unit: 'Liters', min: 10, max: 40, category: 'Dairy' },
+      { id: 'milk-oat', name: 'Oat Milk Barista Edition', nameEn: 'Plant-Based Barista Blend', qty: 3, unit: 'Liters', min: 6, max: 20, category: 'Dairy' }, // Critical
+      { id: 'avocado-fresh', name: 'Fresh Hass Avocados', nameEn: 'Selected Premium Fruit', qty: 12, unit: 'kg', min: 4, max: 20, category: 'Produce' },
+      { id: 'oranges-valencia', name: 'Fresh Valencia Oranges', nameEn: 'Cold Press Juice Fruit', qty: 28, unit: 'kg', min: 8, max: 40, category: 'Produce' },
+      { id: 'karak-tea-blend', name: 'Traditional Karak Spiced Tea', nameEn: 'Assam Tea & Cardamom', qty: 5.5, unit: 'kg', min: 2.0, max: 10.0, category: 'Tea & Herbs' },
+      { id: 'hibiscus-flowers', name: 'Natural Hibiscus Flowers', nameEn: 'Aswan Sun-Dried Flowers', qty: 4.0, unit: 'kg', min: 1.5, max: 8.0, category: 'Tea & Herbs' },
+      { id: 'condensed-milk', name: 'Sweetened Condensed Milk', nameEn: 'Spanish Latte Blend', qty: 18, unit: 'Cans', min: 8, max: 36, category: 'Syrups & Flavors' },
+      { id: 'v60-filters', name: 'Hario V60 Paper Filters 02', nameEn: 'Bleached Cone Filters', qty: 2, unit: 'Packs (100 pcs)', min: 5, max: 20, category: 'Supplies' }, // Critical
+      { id: 'cups-hot', name: 'Waseem Custom Hot Cups', nameEn: '8oz & 12oz Sleeves', qty: 350, unit: 'Cups', min: 100, max: 1000, category: 'Packaging' },
+      { id: 'cups-iced', name: 'Clear Iced Cups 16oz', nameEn: 'Crystal Cold Drink Cups', qty: 280, unit: 'Cups', min: 80, max: 800, category: 'Packaging' },
+      { id: 'bags-takeaway', name: 'Waseem Custom Takeaway Bags', nameEn: 'Embossed Paper Bags', qty: 190, unit: 'Bags', min: 50, max: 500, category: 'Packaging' }
     ];
 
     const DEFAULT_MENU_ITEMS = [
-      { id: 'v60-colombia', name: 'قهوة مختصة V60', nameEn: 'V60 Specialty Coffee', category: 'Specialty Coffee', price: 10, hot: 10, iced: 12, available: true, image: 'images/v60-colombia.jpg' },
-      { id: 'iced-v60', name: 'آيس V60', nameEn: 'Iced V60', category: 'Specialty Coffee', price: 12, available: true, image: 'images/iced-coffee.jpg' },
-      { id: 'americano', name: 'أمريكانو', nameEn: 'Americano', category: 'Espresso & Milk', price: 5, hot: 5, iced: 10, available: true, image: 'images/americano-hot.jpg' },
-      { id: 'latte', name: 'كافيه لاتيه', nameEn: 'Caffe Latte', category: 'Espresso & Milk', price: 5, hot: 5, iced: 8, available: true, image: 'images/latte-art.jpg' },
-      { id: 'cappuccino', name: 'كابتشينو', nameEn: 'Cappuccino', category: 'Espresso & Milk', price: 5, hot: 5, iced: 8, available: true },
-      { id: 'mocha', name: 'كافيه موكا', nameEn: 'Caffe Mocha', category: 'Espresso & Milk', price: 5, hot: 5, iced: 8, available: true },
-      { id: 'spanish-latte', name: 'سبانش لاتيه', nameEn: 'Spanish Latte', category: 'Iced & Refreshing', price: 10, hot: 7, iced: 10, available: true },
-      { id: 'avocado-juice', name: 'عصير أفوكادو طازج', nameEn: 'Fresh Avocado Juice', category: 'Tea & Fresh Juices', price: 12, available: true, image: 'images/avocado-juice.jpg' },
-      { id: 'karak-tea', name: 'شاي كرك أصيل', nameEn: 'Karak Tea', category: 'Tea & Fresh Juices', price: 3, hot: 3, available: true },
-      { id: 'fresh-orange', name: 'عصير برتقال طازج', nameEn: 'Fresh Orange Juice', category: 'Tea & Fresh Juices', price: 8, available: true },
-      { id: 'hibiscus-iced', name: 'كركديه مثلج', nameEn: 'Iced Karkadeh', category: 'Tea & Fresh Juices', price: 7, available: true }
+      { id: 'v60-colombia', name: 'V60 Specialty Coffee', category: 'Specialty Coffee', price: 10, hot: 10, iced: 12, available: true },
+      { id: 'iced-v60', name: 'Iced V60', category: 'Specialty Coffee', price: 12, available: true },
+      { id: 'americano', name: 'Americano', category: 'Espresso & Milk', price: 5, hot: 5, iced: 10, available: true },
+      { id: 'latte', name: 'Caffe Latte', category: 'Espresso & Milk', price: 5, hot: 5, iced: 8, available: true },
+      { id: 'cappuccino', name: 'Cappuccino', category: 'Espresso & Milk', price: 5, hot: 5, iced: 8, available: true },
+      { id: 'mocha', name: 'Caffe Mocha', category: 'Espresso & Milk', price: 5, hot: 5, iced: 8, available: true },
+      { id: 'spanish-latte', name: 'Spanish Latte', category: 'Iced & Refreshing', price: 10, hot: 7, iced: 10, available: true },
+      { id: 'avocado-juice', name: 'Fresh Avocado Juice', category: 'Tea & Fresh Juices', price: 12, available: true },
+      { id: 'karak-tea', name: 'Karak Tea', category: 'Tea & Fresh Juices', price: 3, hot: 3, available: true },
+      { id: 'fresh-orange', name: 'Fresh Orange Juice', category: 'Tea & Fresh Juices', price: 8, available: true },
+      { id: 'hibiscus-iced', name: 'Iced Karkadeh (Hibiscus)', category: 'Tea & Fresh Juices', price: 7, available: true }
     ];
 
     const DEFAULT_ORDERS = [
-      { id: 'WS-1048', time: '10:42 م', items: '2× V60 كولومبيا، 1× سبانش لاتيه', method: 'Apple Pay', total: 32, status: 'مكتمل' },
-      { id: 'WS-1047', time: '10:28 م', items: '1× كافيه لاتيه (حليب شوفان)', method: 'مدى', total: 8, status: 'مكتمل' },
-      { id: 'WS-1046', time: '10:15 م', items: '1× عصير أفوكادو طازج، 1× كركديه مثلج', method: 'مدى', total: 19, status: 'مكتمل' },
-      { id: 'WS-1045', time: '09:50 م', items: '3× شاي كرك أصيل، 1× أمريكانو حار', method: 'نقداً', total: 14, status: 'مكتمل' },
-      { id: 'WS-1044', time: '09:32 م', items: '1× آيس V60 كولومبيا', method: 'Apple Pay', total: 12, status: 'مكتمل' },
-      { id: 'WS-1043', time: '09:10 م', items: '2× كابتشينو حار، 1× سبانش لاتيه بارد', method: 'مدى', total: 20, status: 'مكتمل' }
+      { id: 'WS-1048', time: '10:42 PM', items: '2× V60 Colombia, 1× Spanish Latte', method: 'Apple Pay', total: 32, status: 'Completed' },
+      { id: 'WS-1047', time: '10:28 PM', items: '1× Caffe Latte (Oat Milk)', method: 'Mada', total: 8, status: 'Completed' },
+      { id: 'WS-1046', time: '10:15 PM', items: '1× Fresh Avocado, 1× Iced Hibiscus', method: 'Mada', total: 19, status: 'Completed' },
+      { id: 'WS-1045', time: '09:50 PM', items: '3× Karak Tea, 1× Americano Hot', method: 'Cash', total: 14, status: 'Completed' },
+      { id: 'WS-1044', time: '09:32 PM', items: '1× Iced V60 Colombia', method: 'Apple Pay', total: 12, status: 'Completed' },
+      { id: 'WS-1043', time: '09:10 PM', items: '2× Hot Cappuccino, 1× Spanish Latte', method: 'Mada', total: 20, status: 'Completed' }
     ];
 
     // --- STATE MANAGEMENT ---
@@ -1340,7 +1340,7 @@
     let menuItems = JSON.parse(localStorage.getItem('waseem_menu_items')) || DEFAULT_MENU_ITEMS;
     let orders = JSON.parse(localStorage.getItem('waseem_orders')) || DEFAULT_ORDERS;
     let currentPosCart = [];
-    let selectedPay = 'مدى';
+    let selectedPay = 'Mada';
     let isStoreOpen = localStorage.getItem('waseem_store_open') !== 'false';
 
     function saveState() {
@@ -1382,11 +1382,11 @@
     // --- CLOCK & STORE STATUS ---
     function updateClock() {
       const now = new Date();
-      document.getElementById('live-clock').textContent = now.toLocaleTimeString('en-US', { hour12: false });
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      document.getElementById('live-date').textContent = now.toLocaleDateString('ar-SA', options);
+      document.getElementById('live-clock').textContent = now.toLocaleTimeString('en-US', { hour12: true });
+      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+      document.getElementById('live-date').textContent = 'Riyadh, Saudi Arabia · ' + now.toLocaleDateString('en-US', options);
       const zTime = document.getElementById('z-report-timestamp');
-      if (zTime) zTime.textContent = 'تاريخ الوردية: ' + now.toLocaleString('ar-SA');
+      if (zTime) zTime.textContent = 'Shift Date: ' + now.toLocaleString('en-US');
     }
     setInterval(updateClock, 1000);
     updateClock();
@@ -1396,10 +1396,10 @@
       const pill = document.getElementById('store-status-pill');
       if (isStoreOpen) {
         pill.className = 'status-pill';
-        pill.innerHTML = '<span>🟢</span> المحل مفتوح للزبائن';
+        pill.innerHTML = '<span>🟢</span> Store Open to Public';
       } else {
         pill.className = 'status-pill closed';
-        pill.innerHTML = '<span>🔴</span> المحل مغلق مؤقتاً';
+        pill.innerHTML = '<span>🔴</span> Store Temporarily Closed';
       }
       saveState();
     }
@@ -1434,16 +1434,16 @@
         const pct = Math.min(100, Math.max(0, Math.round((ing.qty / ing.max) * 100)));
         let colorClass = 'ok';
         let fillBg = '#16a34a';
-        let badgeText = 'متوفر ومستقر';
+        let badgeText = 'In Stock';
 
         if (ing.qty <= 0) {
           colorClass = 'empty';
           fillBg = '#dc2626';
-          badgeText = 'نفد بالكامل!';
+          badgeText = 'Out of Stock!';
         } else if (isCritical) {
           colorClass = 'low';
           fillBg = '#d97706';
-          badgeText = 'قارَب على الانتهاء';
+          badgeText = 'Reorder Soon';
         }
 
         return `
@@ -1458,8 +1458,8 @@
 
             <div class="stock-gauge-wrap">
               <div class="stock-gauge-labels">
-                <span>المخزون الحالي: <strong>${ing.qty} ${ing.unit}</strong></span>
-                <span style="font-size:11px;color:#888;">حد الطلب: ${ing.min}</span>
+                <span>Current Level: <strong>${ing.qty} ${ing.unit}</strong></span>
+                <span style="font-size:11px;color:#888;">Reorder point: ${ing.min}</span>
               </div>
               <div class="stock-gauge-bar">
                 <div class="stock-gauge-fill" style="width:${pct}%;background:${fillBg};"></div>
@@ -1468,16 +1468,16 @@
 
             <div class="stock-actions">
               <div class="qty-stepper">
-                <button class="qty-btn" onclick="adjustQty('${ing.id}', -1)" title="خصم 1">−</button>
+                <button class="qty-btn" onclick="adjustQty('${ing.id}', -1)" title="Deduct 1">−</button>
                 <span class="qty-display">${ing.qty}</span>
-                <button class="qty-btn" onclick="adjustQty('${ing.id}', 1)" title="إضافة 1">+</button>
+                <button class="qty-btn" onclick="adjustQty('${ing.id}', 1)" title="Add 1">+</button>
               </div>
 
               <div style="display:flex;gap:4px;">
                 <button class="btn-outline" style="padding:5px 8px;font-size:11px;" onclick="adjustQty('${ing.id}', 5)">+5</button>
                 ${isCritical ? `
-                  <a class="btn-primary" style="padding:5px 10px;font-size:11px;width:auto;background:#be123c;" href="https://wa.me/966511313965?text=${encodeURIComponent('طلب توريد عاجل لمقهى وسيم: نحتاج كمية جديدة من ' + ing.name)}" target="_blank">
-                    طلب توريد 📲
+                  <a class="btn-primary" style="padding:5px 10px;font-size:11px;width:auto;background:#be123c;" href="https://wa.me/966511313965?text=${encodeURIComponent('Urgent purchase order for Waseem Cafe: We need replenishment of ' + ing.name)}" target="_blank">
+                    Reorder 📲
                   </a>
                 ` : ''}
               </div>
@@ -1488,7 +1488,7 @@
 
       // Update alert counter badge
       const badge = document.getElementById('stock-alert-count');
-      badge.textContent = criticalCount + ' ناقص';
+      badge.textContent = criticalCount + ' Low Alert';
       badge.style.display = criticalCount > 0 ? 'inline-block' : 'none';
 
       const alertBanner = document.getElementById('urgent-alert');
@@ -1512,16 +1512,16 @@
       container.innerHTML = menuItems.map(item => `
         <div class="menu-toggle-card">
           <div class="menu-toggle-info">
-            <img src="${item.image || 'images/latte-art.jpg'}" alt="${item.name}" class="menu-toggle-thumb">
+            <div class="menu-toggle-icon">☕</div>
             <div class="menu-toggle-meta">
-              <h4>${item.name} <span style="font-size:12px;font-weight:400;color:#888;">(${item.nameEn})</span></h4>
-              <span>${item.category} · ${item.price ? item.price + ' ر.س' : 'حار: ' + item.hot + ' / بارد: ' + item.iced}</span>
+              <h4>${item.name}</h4>
+              <span>${item.category} · ${item.price ? 'SAR ' + item.price : 'Hot: SAR ' + item.hot + ' / Iced: SAR ' + item.iced}</span>
             </div>
           </div>
 
           <div style="display:flex;align-items:center;gap:12px;">
             <span style="font-size:13px;font-weight:700;color:${item.available ? 'var(--ws-success)' : 'var(--ws-danger)'};">
-              ${item.available ? '🟢 متاح في المنيو' : '🔴 نفد (86\'d)'}
+              ${item.available ? '🟢 Active on Menu' : '🔴 86\'d (Sold Out)'}
             </span>
             <label class="toggle-switch">
               <input type="checkbox" ${item.available ? 'checked' : ''} onchange="toggleItemAvailability('${item.id}', this.checked)">
@@ -1559,7 +1559,7 @@
         <button class="pos-btn" onclick="addToPos('${item.id}')">
           <span style="font-size:24px;">☕</span>
           <span class="pos-name">${item.name}</span>
-          <span class="pos-price">⃁ ${item.price || item.iced || item.hot}</span>
+          <span class="pos-price">SAR ${item.price || item.iced || item.hot}</span>
         </button>
       `).join('');
 
@@ -1584,8 +1584,8 @@
       const totalDisplay = document.getElementById('pos-total-val');
 
       if (currentPosCart.length === 0) {
-        lines.innerHTML = `<p style="font-size:12px;color:#888;text-align:center;margin:30px 0;">لم يتم اختيار أصناف بعد. انقر على أي مشروب لإضافته.</p>`;
-        totalDisplay.textContent = '0 ر.س';
+        lines.innerHTML = `<p style="font-size:12px;color:#888;text-align:center;margin:30px 0;">No items selected yet. Tap any drink to add.</p>`;
+        totalDisplay.textContent = 'SAR 0';
         return;
       }
 
@@ -1599,14 +1599,14 @@
               <strong>${c.name}</strong> × ${c.qty}
             </div>
             <div>
-              ${lineTotal} ر.س
-              <button onclick="removePosItem(${idx})" style="background:none;border:none;color:#dc2626;cursor:pointer;margin-right:6px;">✕</button>
+              SAR ${lineTotal}
+              <button onclick="removePosItem(${idx})" style="background:none;border:none;color:#dc2626;cursor:pointer;margin-left:6px;">✕</button>
             </div>
           </div>
         `;
       }).join('');
 
-      totalDisplay.textContent = sum + ' ر.س';
+      totalDisplay.textContent = 'SAR ' + sum;
     }
 
     function removePosItem(index) {
@@ -1624,15 +1624,15 @@
 
     function completePosOrder() {
       if (currentPosCart.length === 0) {
-        alert('الرجاء إضافة مشروب واحد على الأقل للطلب');
+        alert('Please add at least one item to complete the order');
         return;
       }
 
       const total = currentPosCart.reduce((acc, c) => acc + (c.qty * c.price), 0);
-      const itemsSummary = currentPosCart.map(c => `${c.qty}× ${c.name}`).join('، ');
+      const itemsSummary = currentPosCart.map(c => `${c.qty}× ${c.name}`).join(', ');
       const newId = 'WS-' + (1049 + orders.length);
       const now = new Date();
-      const timeStr = now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+      const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 
       // Add to orders
       orders.unshift({
@@ -1641,10 +1641,10 @@
         items: itemsSummary,
         method: selectedPay,
         total: total,
-        status: 'مكتمل'
+        status: 'Completed'
       });
 
-      // Auto deduct some ingredient proxy (e.g. beans, milk)
+      // Auto deduct stock proxy
       const beans = ingredients.find(i => i.id === 'beans-colombia');
       if (beans) beans.qty = Math.max(0, Math.round((beans.qty - 0.02 * currentPosCart.length) * 100) / 100);
       const cups = ingredients.find(i => i.id === 'cups-hot');
@@ -1656,7 +1656,7 @@
       renderOrdersTable();
       renderInventory();
 
-      alert(`✅ تم إتمام الطلب بنجاح!\nرقم الفاتورة: ${newId}\nالمبلغ: ${total} ر.س (${selectedPay})`);
+      alert(`✅ Sale completed successfully!\nOrder #${newId}\nAmount: SAR ${total} (${selectedPay})`);
     }
 
     // --- RENDER ORDERS TABLE & ANALYTICS ---
@@ -1667,18 +1667,18 @@
           <td><strong style="color:var(--ws-emerald);">${ord.id}</strong></td>
           <td>${ord.time}</td>
           <td>${ord.items}</td>
-          <td><span style="background:#f0ebe2;padding:3px 8px;border-radius:6px;font-size:11px;">${ord.method}</span></td>
-          <td><strong>${ord.total} ر.س</strong></td>
+          <td><span style="background:#f0ebe2;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;">${ord.method}</span></td>
+          <td><strong>SAR ${ord.total}</strong></td>
           <td><span style="color:var(--ws-success);font-weight:700;">● ${ord.status}</span></td>
         </tr>
       `).join('');
 
       // Update KPI
-      const gross = orders.reduce((acc, o) => acc + o.total, 0) + 2600; // Sample baseline
+      const gross = orders.reduce((acc, o) => acc + o.total, 0) + 2600;
       const totalCount = orders.length + 130;
-      document.getElementById('kpi-revenue').textContent = '⃁ ' + gross.toLocaleString();
+      document.getElementById('kpi-revenue').textContent = 'SAR ' + gross.toLocaleString();
       document.getElementById('kpi-orders').textContent = totalCount;
-      document.getElementById('kpi-avg').textContent = '⃁ ' + (gross / totalCount).toFixed(2);
+      document.getElementById('kpi-avg').textContent = 'SAR ' + (gross / totalCount).toFixed(2);
     }
 
     // --- Z-REPORT DATA ---
@@ -1688,13 +1688,13 @@
       const net = Math.round((gross - vat) * 100) / 100;
       const count = orders.length + 130;
 
-      document.getElementById('z-gross').textContent = gross.toLocaleString() + ' ر.س';
-      document.getElementById('z-vat').textContent = vat.toLocaleString() + ' ر.س';
-      document.getElementById('z-net').textContent = net.toLocaleString() + ' ر.س';
-      document.getElementById('z-count').textContent = count + ' طلب';
-      document.getElementById('z-mada').textContent = Math.round(gross * 0.68).toLocaleString() + ' ر.س';
-      document.getElementById('z-apple').textContent = Math.round(gross * 0.24).toLocaleString() + ' ر.س';
-      document.getElementById('z-cash').textContent = Math.round(gross * 0.08).toLocaleString() + ' ر.س';
+      document.getElementById('z-gross').textContent = 'SAR ' + gross.toLocaleString();
+      document.getElementById('z-vat').textContent = 'SAR ' + vat.toLocaleString();
+      document.getElementById('z-net').textContent = 'SAR ' + net.toLocaleString();
+      document.getElementById('z-count').textContent = count + ' orders';
+      document.getElementById('z-mada').textContent = 'SAR ' + Math.round(gross * 0.68).toLocaleString();
+      document.getElementById('z-apple').textContent = 'SAR ' + Math.round(gross * 0.24).toLocaleString();
+      document.getElementById('z-cash').textContent = 'SAR ' + Math.round(gross * 0.08).toLocaleString();
     }
 
     function shareZReportWhatsApp() {
@@ -1704,13 +1704,13 @@
       const count = document.getElementById('z-count').textContent;
 
       const msg = encodeURIComponent(
-        `📋 *تقرير إغلاق الوردية (Z-Report) — مقهى وسيم*\n\n` +
-        `📅 التاريخ: ${new Date().toLocaleDateString('ar-SA')}\n` +
-        `💰 إجمالي المبيعات: ${gross}\n` +
-        `🧾 عدد الطلبات: ${count}\n` +
-        `🏛️ ضريبة القيمة المضافة: ${vat}\n` +
-        `💵 صافي الدخل: ${net}\n\n` +
-        `_تم الإنشاء عبر لوحة تحكم وسيم الذكية_`
+        `📋 *Daily Shift Z-Report — Waseem Cafe*\n\n` +
+        `📅 Date: ${new Date().toLocaleDateString('en-US')}\n` +
+        `💰 Gross Sales: ${gross}\n` +
+        `🧾 Total Orders: ${count}\n` +
+        `🏛️ VAT (15%): ${vat}\n` +
+        `💵 Net Revenue: ${net}\n\n` +
+        `_Generated via Waseem Operations Command_`
       );
       window.open(`https://wa.me/966511313965?text=${msg}`, '_blank');
     }
@@ -1725,7 +1725,7 @@
     }
 
     function exportInventoryCsv() {
-      let csv = 'ID,Name Arabic,Name English,Category,Current Qty,Unit,Reorder Min,Max Capacity\n';
+      let csv = 'ID,Name,Subtext,Category,Current Qty,Unit,Reorder Min,Max Capacity\n';
       ingredients.forEach(i => {
         csv += `"${i.id}","${i.name}","${i.nameEn}","${i.category}",${i.qty},"${i.unit}",${i.min},${i.max}\n`;
       });
@@ -1741,11 +1741,11 @@
     }
 
     function openNewIngredientModal() {
-      const name = prompt('أدخل اسم المادة الجديدة (مثلاً: سيروب بندق فاخر):');
+      const name = prompt('Enter new item name (e.g. Hazelnut Artisanal Syrup):');
       if (!name) return;
-      const unit = prompt('أدخل وحدة القياس (مثلاً: زجاجة 1 لتر أو كجم):', 'زجاجة');
-      const qty = parseFloat(prompt('الكمية الحالية المتوفرة:', '5')) || 1;
-      const min = parseFloat(prompt('حد التنبيه عند النقص:', '2')) || 1;
+      const unit = prompt('Enter unit of measurement (e.g. Bottle, kg, Box):', 'Bottle');
+      const qty = parseFloat(prompt('Initial quantity in stock:', '5')) || 1;
+      const min = parseFloat(prompt('Reorder alert threshold:', '2')) || 1;
 
       ingredients.push({
         id: 'item-' + Date.now(),
