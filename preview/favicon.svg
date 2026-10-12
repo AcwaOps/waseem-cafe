@@ -1,1 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#f5ecdc"/><path d="M12 25h33v20a12 12 0 0 1-12 12H24a12 12 0 0 1-12-12V25Z" fill="#b78553" stroke="#39271e" stroke-width="2.5"/><path d="M45 30h6a7 7 0 0 1 0 14h-6" fill="none" stroke="#39271e" stroke-width="3"/><path d="M19 23c-3-4 3-5 0-9m10 9c-3-4 3-5 0-9m10 9c-3-4 3-5 0-9" fill="none" stroke="#68452f" stroke-width="2.5" stroke-linecap="round"/><circle cx="24" cy="35" r="2" fill="#39271e"/><circle cx="35" cy="35" r="2" fill="#39271e"/><path d="M24 41q5 5 11 0" fill="none" stroke="#39271e" stroke-width="2" stroke-linecap="round"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#0E382C"/>
+  <rect x="2" y="2" width="60" height="60" rx="12" fill="none" stroke="#C5A880" stroke-width="1.2" opacity="0.6"/>
+  <!-- 3-leaf coffee sprout -->
+  <g fill="#DFC18B">
+    <!-- Center leaf -->
+    <path d="M32 9 C30 14 30.5 18 32 20 C33.5 18 34 14 32 9 Z"/>
+    <!-- Left leaf -->
+    <path d="M31 16 C27 13 22 14.5 22 17.5 C24.5 18.5 28.5 18.5 31 17 Z"/>
+    <!-- Right leaf -->
+    <path d="M33 16 C37 13 42 14.5 42 17.5 C39.5 18.5 35.5 18.5 33 17 Z"/>
+    <!-- Base stem -->
+    <circle cx="32" cy="20.5" r="1.2"/>
+  </g>
+  <!-- WS Monogram -->
+  <text x="32" y="44" font-family="'Playfair Display', Georgia, 'Times New Roman', serif" font-size="22" font-weight="700" fill="#FBF9F5" text-anchor="middle" letter-spacing="1">WS</text>
+  <!-- Gold underline -->
+  <line x1="20" y1="48" x2="44" y2="48" stroke="#C5A880" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

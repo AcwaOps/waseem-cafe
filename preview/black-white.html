@@ -1,8 +1,301 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Waseem Cafe | Black & White Menu</title><style>
-*{box-sizing:border-box}body{margin:0;background:#eee;color:#000;font-family:Arial,Helvetica,sans-serif}.sheet{width:min(100%,720px);min-height:100vh;margin:auto;padding:30px 48px;background:#fff;box-shadow:0 8px 36px #0002}.brand{text-align:center;padding:14px 0 22px;position:relative}.brand h1{font:700 clamp(46px,8vw,70px)/.92 Georgia,serif;letter-spacing:-3px;margin:0}.brand h1 span{display:block}.mascot{position:absolute;right:9%;top:0;font-size:38px}.eyebrow{font-size:11px;letter-spacing:.23em;margin:12px}.rule{height:1px;background:#000;width:70%;margin:12px auto}.section{margin-top:19px}.section h2{font:bold 20px Arial;letter-spacing:.12em;border-bottom:1px solid #000;margin:0;padding:0 0 7px}.item{display:flex;gap:15px;align-items:center;padding:9px 0;border-bottom:1px solid #bbb;min-height:66px}.cup{width:43px;height:47px;flex:none;border:1.5px solid #000;border-radius:5px 5px 11px 11px;position:relative;background:#fff}.cup:before{content:'';position:absolute;left:-3px;right:-3px;top:-4px;height:7px;border:1.5px solid #000;border-radius:50%;background:#fff}.cup:after{content:'W';position:absolute;top:21px;left:0;right:0;text-align:center;font:11px Georgia;color:#000}.detail{flex:1}.detail h3{font-size:16px;margin:0 0 3px}.price{font-size:13px}.footer{display:flex;justify-content:center;align-items:center;gap:28px;padding:21px 0 0}.qr{text-align:center}.qr svg{width:112px;height:112px}.qr p{font-size:11px}.contacts{text-align:center;font-size:12px}.contacts a{display:block;color:#000;margin:8px}.note{text-align:center;font-size:10px;color:#444}.printfoot{display:none}
-@media(max-width:560px){.sheet{padding:20px 16px}.brand h1{font-size:48px}.detail{min-width:0}.footer{gap:14px}.qr svg{width:100px;height:100px}}
-@media print{@page{size:210mm auto;margin:8mm}body,.sheet{background:#fff!important;color:#000!important}.sheet{width:100%;min-height:0;padding:0;margin:0;box-shadow:none}.item{break-inside:avoid;border-color:#000}.footer{padding-top:4mm}.note,.contacts{display:none!important}.printfoot{display:block;text-align:center;font-size:9px}}
-</style></head><body><main class="sheet"><header class="brand"><div class="mascot">☕</div><h1>Waseem <span>Cafe</span></h1><div class="rule"></div><p class="eyebrow">COFFEE · TEA · JUICE</p></header><div id="menu"></div><footer class="footer"><div class="qr"><div id="qr"></div><p>Scan to view our menu</p></div><div class="contacts"><a href="tel:+966511313965">Call Waseem: 051 131 3965</a><a href="https://wa.me/966511313965">WhatsApp: 051 131 3965</a></div></footer><p class="note">Black-and-white static visual preview · Menu editing is not enabled.</p><p class="printfoot">Waseem Cafe · Thank you for visiting</p></main><script>
-const target='https://acwaops.github.io/waseem-cafe/';const data=[{name:'Latte',cat:'Coffee',hot:5,iced:8},{name:'Cappuccino',cat:'Coffee',hot:5,iced:8},{name:'Mocha',cat:'Coffee',hot:5,iced:8},{name:'Americano',cat:'Coffee',hot:5,iced:10},{name:'V60',cat:'Coffee',single:10},{name:'Karak Tea',cat:'Tea & Juice',hot:3},{name:'Fresh Juice',cat:'Tea & Juice',single:5}],sar=n=>'⃁ '+n;function qr(s){let seed=0;for(let c of s)seed=(seed*31+c.charCodeAt(0))>>>0;let out='';function f(x,y){for(let j=0;j<7;j++)for(let i=0;i<7;i++)if(i===0||j===0||i===6||j===6||(i>=2&&i<=4&&j>=2&&j<=4))out+=`<rect x="${x+i}" y="${y+j}" width="1" height="1"/>`}f(0,0);f(22,0);f(0,22);for(let y=0;y<29;y++)for(let x=0;x<29;x++){if((x<8&&y<8)||(x>20&&y<8)||(x<8&&y>20))continue;seed=(seed*1664525+1013904223)>>>0;if(seed>>>31)out+=`<rect x="${x}" y="${y}" width="1" height="1"/>`}return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 37 37"><rect x="-4" y="-4" width="37" height="37" fill="white"/><g fill="black">${out}</g></svg>`}document.getElementById('qr').innerHTML=qr(target);for(const cat of ['Coffee','Tea & Juice']){let s=document.createElement('section');s.className='section';s.innerHTML='<h2>'+cat+'</h2>';data.filter(x=>x.cat===cat).forEach(p=>{let r=document.createElement('article');r.className='item';let price=(p.hot!==undefined?`Hot ${sar(p.hot)}`:'')+(p.iced!==undefined?`　|　Iced ${sar(p.iced)}`:'')+(p.single!==undefined?sar(p.single):'');r.innerHTML=`<div class="cup"></div><div class="detail"><h3>${p.name}</h3><div class="price">${price}</div></div>`;s.append(r)});document.getElementById('menu').append(s)}
-</script></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Waseem Cafe | Print Menu (Black & White)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #e8e8e8;
+      color: #000;
+      font-family: 'DM Sans', 'Noto Sans Arabic', sans-serif;
+    }
+    .sheet {
+      width: min(100%, 780px);
+      min-height: 100vh;
+      margin: 20px auto;
+      padding: 36px 48px;
+      background: #ffffff;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    .brand-header {
+      text-align: center;
+      padding-bottom: 18px;
+      border-bottom: 2px solid #000;
+      margin-bottom: 22px;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid #000;
+      padding: 2px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .logo-svg {
+      width: 74px;
+      height: 74px;
+      margin: 0 auto 6px;
+      display: block;
+    }
+    h1 {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 38px;
+      margin: 2px 0 0;
+      letter-spacing: 0.05em;
+    }
+    .ar-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 2px 0 6px;
+    }
+    .tagline {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .group {
+      margin-bottom: 22px;
+      break-inside: avoid;
+    }
+    .group-title {
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-bottom: 1px solid #000;
+      padding-bottom: 4px;
+      margin: 0 0 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 6px 0;
+      border-bottom: 1px dotted #ccc;
+      break-inside: avoid;
+    }
+    .item-left {
+      flex: 1;
+      padding-right: 14px;
+    }
+    .item-name {
+      font-size: 15px;
+      font-weight: 700;
+      margin: 0;
+    }
+    .item-name span {
+      font-size: 13px;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+    .item-notes {
+      font-size: 11px;
+      font-style: italic;
+      color: #333;
+      margin: 2px 0 0;
+    }
+    .item-prices {
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 18px;
+      border-top: 1px solid #000;
+      margin-top: 24px;
+      break-inside: avoid;
+    }
+    .footer-qr {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .footer-qr svg {
+      width: 78px;
+      height: 78px;
+    }
+    .footer-qr p {
+      font-size: 11px;
+      margin: 0;
+      font-weight: 600;
+    }
+    .footer-contacts {
+      text-align: right;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .print-bar {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .print-btn {
+      padding: 8px 18px;
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    @media print {
+      body { background: #fff; }
+      .sheet {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+      .print-bar { display: none; }
+      @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="print-bar">
+    <button class="print-btn" onclick="window.print()">🖨️ Print This Black & White Menu</button>
+  </div>
+
+  <main class="sheet">
+    <header class="brand-header">
+      <div class="badge">Specialty Coffee · 100% Arabica</div>
+      
+      <svg class="logo-svg" viewBox="0 0 100 100" fill="none">
+        <g fill="#000">
+          <path d="M50 12 C46 22 47.5 30 50 34 C52.5 30 54 22 50 12 Z"/>
+          <path d="M48 27 C40 21 31 24 30 30 C35 32 43 32 48 29 Z"/>
+          <path d="M52 27 C60 21 69 24 70 30 C65 32 57 32 52 29 Z"/>
+          <circle cx="50" cy="35" r="2.2"/>
+        </g>
+        <text x="50" y="65" font-family="'Cinzel', Georgia, serif" font-size="31" font-weight="700" fill="#000" text-anchor="middle" letter-spacing="2">WS</text>
+        <line x1="32" y1="71" x2="68" y2="71" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+        <text x="50" y="83" font-family="'DM Sans', sans-serif" font-size="7" font-weight="600" fill="#000" text-anchor="middle" letter-spacing="2">GOOD COFFEE</text>
+        <text x="50" y="92" font-family="'DM Sans', sans-serif" font-size="7" font-weight="600" fill="#000" text-anchor="middle" letter-spacing="2">BETTER DAYS</text>
+      </svg>
+
+      <h1>Waseem Cafe</h1>
+      <div class="ar-title">مقهى وسيم</div>
+      <p class="tagline">Good Coffee · Better Days</p>
+    </header>
+
+    <div id="menu-sections"></div>
+
+    <footer class="footer">
+      <div class="footer-qr">
+        <div id="qr-code"></div>
+        <div>
+          <p>Scan for online menu & order</p>
+          <small style="color:#555;">acwaops.github.io/waseem-cafe</small>
+        </div>
+      </div>
+      <div class="footer-contacts">
+        <div>Call: 051 131 3965</div>
+        <div>WhatsApp: 051 131 3965</div>
+        <div style="font-size:10px;color:#666;margin-top:4px;">Waseem Cafe · Thank you for visiting</div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    const MENU = [
+      {
+        category: 'Specialty Coffee',
+        items: [
+          { name: 'V60 Specialty Coffee', ar: 'قهوة مختصة V60', notes: 'Colombia 100% Arabica · Caramel · Chocolate · Nutty', prices: 'Hot ⃁ 10  |  Iced ⃁ 12' },
+          { name: 'Iced V60', ar: 'آيس V60', notes: 'Smooth · Clean · Flavorful pour-over over ice', prices: '⃁ 12' }
+        ]
+      },
+      {
+        category: 'Espresso & Classic Coffee',
+        items: [
+          { name: 'Americano', ar: 'أمريكانو', notes: 'Espresso + Water · Simple · Rich · Classic', prices: 'Hot ⃁ 5  |  Iced ⃁ 10' },
+          { name: 'Caffe Latte', ar: 'كافيه لاتيه', notes: 'Rich espresso with velvety microfoam & latte art', prices: 'Hot ⃁ 5  |  Iced ⃁ 8' },
+          { name: 'Cappuccino', ar: 'كابتشينو', notes: 'Equal parts espresso, steamed milk, and dense froth', prices: 'Hot ⃁ 5  |  Iced ⃁ 8' },
+          { name: 'Caffe Mocha', ar: 'كافيه موكا', notes: 'Deep espresso paired with rich Dutch cocoa and milk', prices: 'Hot ⃁ 5  |  Iced ⃁ 8' }
+        ]
+      },
+      {
+        category: 'Iced & Refreshing',
+        items: [
+          { name: 'Spanish Latte', ar: 'سبانش لاتيه', notes: 'Sweetened condensed milk with specialty espresso', prices: 'Hot ⃁ 7  |  Iced ⃁ 10' },
+          { name: 'Iced Americano', ar: 'آيس أمريكانو', notes: 'Bold · Refreshing · Pure espresso over ice', prices: '⃁ 10' }
+        ]
+      },
+      {
+        category: 'Tea & Fresh Juices',
+        items: [
+          { name: 'Fresh Avocado Juice', ar: 'عصير أفوكادو طازج', notes: 'Fresh avocado blended with milk and pure honey', prices: '⃁ 12' },
+          { name: 'Karak Tea', ar: 'شاي كرك أصيل', notes: 'Slow-simmered spiced black tea with evaporated milk & cardamom', prices: 'Hot ⃁ 3' },
+          { name: 'Fresh Orange Juice', ar: 'عصير برتقال طازج', notes: '100% freshly pressed natural oranges', prices: '⃁ 8' },
+          { name: 'Iced Karkadeh (Hibiscus)', ar: 'كركديه مثلج', notes: 'Slow-brewed natural hibiscus flower iced infusion', prices: '⃁ 7' }
+        ]
+      }
+    ];
+
+    const container = document.getElementById('menu-sections');
+    container.innerHTML = MENU.map(g => `
+      <section class="group">
+        <h2 class="group-title"><span>${g.category}</span></h2>
+        ${g.items.map(it => `
+          <div class="item-row">
+            <div class="item-left">
+              <div class="item-name">${it.name} <span>${it.ar}</span></div>
+              <div class="item-notes">${it.notes}</div>
+            </div>
+            <div class="item-prices">${it.prices}</div>
+          </div>
+        `).join('')}
+      </section>
+    `).join('');
+
+    function generateQr(text) {
+      let seed = 0;
+      for (const c of text) seed = (seed * 31 + c.charCodeAt(0)) >>> 0;
+      let cells = 29, rects = '';
+      const f = (x, y) => {
+        for (let dy = 0; dy < 7; dy++) for (let dx = 0; dx < 7; dx++) {
+          if (dx === 0 || dx === 6 || dy === 0 || dy === 6 || (dx >= 2 && dx <= 4 && dy >= 2 && dy <= 4)) {
+            rects += `<rect x="${x + dx}" y="${y + dy}" width="1" height="1"/>`;
+          }
+        }
+      };
+      f(0, 0); f(22, 0); f(0, 22);
+      for (let y = 0; y < cells; y++) {
+        for (let x = 0; x < cells; x++) {
+          if ((x < 8 && y < 8) || (x > 20 && y < 8) || (x < 8 && y > 20)) continue;
+          seed = (seed * 1664525 + 1013904223) >>> 0;
+          if (seed >>> 31) rects += `<rect x="${x}" y="${y}" width="1" height="1"/>`;
+        }
+      }
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 33 33"><rect x="-2" y="-2" width="33" height="33" fill="white"/><g fill="#000">${rects}</g></svg>`;
+    }
+
+    document.getElementById('qr-code').innerHTML = generateQr('https://acwaops.github.io/waseem-cafe/');
+  </script>
+</body>
+</html>
