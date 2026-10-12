@@ -46,14 +46,7 @@ const DEFAULT_INGREDIENTS: Ingredient[] = [
   { id: 'bags-takeaway', name: 'Waseem Custom Takeaway Bags', nameEn: 'Embossed Paper Bags', qty: 190, unit: 'Bags', min: 50, max: 500, category: 'Packaging' },
 ];
 
-const DEFAULT_ORDERS: OrderRecord[] = [
-  { id: 'WS-1048', time: '10:42 PM', items: '2× V60 Colombia, 1× Spanish Latte', method: 'Apple Pay', total: 32, status: 'Completed' },
-  { id: 'WS-1047', time: '10:28 PM', items: '1× Caffe Latte (Oat Milk)', method: 'Mada', total: 8, status: 'Completed' },
-  { id: 'WS-1046', time: '10:15 PM', items: '1× Fresh Avocado, 1× Iced Hibiscus', method: 'Mada', total: 19, status: 'Completed' },
-  { id: 'WS-1045', time: '09:50 PM', items: '3× Karak Tea, 1× Americano Hot', method: 'Cash', total: 14, status: 'Completed' },
-  { id: 'WS-1044', time: '09:32 PM', items: '1× Iced V60 Colombia', method: 'Apple Pay', total: 12, status: 'Completed' },
-  { id: 'WS-1043', time: '09:10 PM', items: '2× Hot Cappuccino, 1× Spanish Latte', method: 'Mada', total: 20, status: 'Completed' },
-];
+const DEFAULT_ORDERS: OrderRecord[] = [];
 
 const BLANK_ITEM = {
   id: '',
@@ -266,8 +259,12 @@ export default function AdminPage() {
   }
 
   const criticalIngCount = ingredients.filter((i) => i.qty <= i.min).length;
-  const grossSales = orders.reduce((sum, o) => sum + o.total, 0) + 2600;
-  const totalOrdersCount = orders.length + 130;
+  const grossSales = orders.reduce((sum, o) => sum + o.total, 0);
+  const totalOrdersCount = orders.length;
+  const avgTicket = totalOrdersCount > 0 ? (grossSales / totalOrdersCount).toFixed(2) : '0.00';
+  const madaTotal = orders.filter((o) => o.method === 'Mada').reduce((s, o) => s + o.total, 0);
+  const appleTotal = orders.filter((o) => o.method === 'Apple Pay').reduce((s, o) => s + o.total, 0);
+  const cashTotal = orders.filter((o) => o.method === 'Cash').reduce((s, o) => s + o.total, 0);
 
   return (
     <main className="admin-shell" style={{ maxWidth: 1140, margin: '0 auto', padding: '24px 20px', direction: 'ltr' }}>
@@ -505,28 +502,32 @@ export default function AdminPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 24 }}>
             <div style={{ background: '#fff', padding: 18, borderRadius: 12, border: '1px solid var(--ws-line)', borderTop: '4px solid var(--ws-emerald)' }}>
               <div style={{ fontSize: 13, color: 'var(--ws-text-muted)', fontWeight: 600 }}>Gross Sales (Today)</div>
-              <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--ws-emerald)', margin: '6px 0' }}>SAR {grossSales.toLocaleString()}</div>
-              <div style={{ fontSize: 12, color: '#16a34a', fontWeight: 700 }}>▲ +14.2% vs yesterday</div>
+              <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--ws-emerald)', margin: '6px 0' }}>SAR {grossSales.toFixed(2)}</div>
+              <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>VAT inclusive live total</div>
             </div>
 
             <div style={{ background: '#fff', padding: 18, borderRadius: 12, border: '1px solid var(--ws-line)', borderTop: '4px solid var(--ws-gold)' }}>
               <div style={{ fontSize: 13, color: 'var(--ws-text-muted)', fontWeight: 600 }}>Completed Orders</div>
               <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--ws-text-main)', margin: '6px 0' }}>{totalOrdersCount} orders</div>
-              <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>Avg 12 orders/hr</div>
+              <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>Today's transaction count</div>
             </div>
 
             <div style={{ background: '#fff', padding: 18, borderRadius: 12, border: '1px solid var(--ws-line)', borderTop: '4px solid #14b8a6' }}>
               <div style={{ fontSize: 13, color: 'var(--ws-text-muted)', fontWeight: 600 }}>Average Ticket</div>
               <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--ws-text-main)', margin: '6px 0' }}>
-                SAR {(grossSales / totalOrdersCount).toFixed(2)}
+                SAR {avgTicket}
               </div>
-              <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>~2 cups per transaction</div>
+              <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>Average spend per ticket</div>
             </div>
 
             <div style={{ background: '#fff', padding: 18, borderRadius: 12, border: '1px solid var(--ws-line)', borderTop: '4px solid #f59e0b' }}>
               <div style={{ fontSize: 13, color: 'var(--ws-text-muted)', fontWeight: 600 }}>Top Selling Drink</div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--ws-emerald)', margin: '6px 0' }}>V60 Colombia</div>
-              <div style={{ fontSize: 12, color: '#16a34a', fontWeight: 700 }}>46 cups sold today</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--ws-emerald)', margin: '6px 0' }}>
+                {totalOrdersCount > 0 ? 'Recorded Drinks' : 'Awaiting Orders'}
+              </div>
+              <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>
+                {totalOrdersCount > 0 ? `${totalOrdersCount} drinks served` : 'No sales recorded yet'}
+              </div>
             </div>
           </div>
 
@@ -535,35 +536,41 @@ export default function AdminPage() {
             <h3 style={{ margin: '0 0 14px', fontSize: 16, color: 'var(--ws-emerald)', fontWeight: 800 }}>
               Live Recent Orders Feed
             </h3>
-            <div style={{ display: 'grid', gap: 10 }}>
-              {orders.map((ord) => (
-                <div
-                  key={ord.id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '12px 14px',
-                    borderRadius: 8,
-                    background: '#fbf9f5',
-                    border: '1px solid var(--ws-line)',
-                  }}
-                >
-                  <div>
-                    <div style={{ fontWeight: 800, color: 'var(--ws-emerald)', fontSize: 14 }}>
-                      {ord.id} · <span style={{ fontSize: 12, color: '#888', fontWeight: 400 }}>{ord.time}</span>
+            {orders.length === 0 ? (
+              <p style={{ textAlign: 'center', padding: '30px 10px', color: '#888', margin: 0 }}>
+                No orders recorded today yet. Use Quick POS to ring up a transaction.
+              </p>
+            ) : (
+              <div style={{ display: 'grid', gap: 10 }}>
+                {orders.map((ord) => (
+                  <div
+                    key={ord.id}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '12px 14px',
+                      borderRadius: 8,
+                      background: '#fbf9f5',
+                      border: '1px solid var(--ws-line)',
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontWeight: 800, color: 'var(--ws-emerald)', fontSize: 14 }}>
+                        {ord.id} · <span style={{ fontSize: 12, color: '#888', fontWeight: 400 }}>{ord.time}</span>
+                      </div>
+                      <div style={{ fontSize: 13, color: 'var(--ws-text-main)', marginTop: 2 }}>{ord.items}</div>
                     </div>
-                    <div style={{ fontSize: 13, color: 'var(--ws-text-main)', marginTop: 2 }}>{ord.items}</div>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontWeight: 800, color: 'var(--ws-emerald)', fontSize: 15 }}>SAR {ord.total.toFixed(2)}</div>
+                      <span style={{ fontSize: 11, background: '#e2ece7', padding: '2px 8px', borderRadius: 6, fontWeight: 600 }}>
+                        {ord.method}
+                      </span>
+                    </div>
                   </div>
-                  <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontWeight: 800, color: 'var(--ws-emerald)', fontSize: 15 }}>SAR {ord.total}</div>
-                    <span style={{ fontSize: 11, background: '#e2ece7', padding: '2px 8px', borderRadius: 6, fontWeight: 600 }}>
-                      {ord.method}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -956,15 +963,15 @@ export default function AdminPage() {
           <div style={{ display: 'grid', gap: 10, fontSize: 14, marginBottom: 20 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
               <span>Gross Sales (Tax Inclusive):</span>
-              <strong>SAR {grossSales.toLocaleString()}</strong>
+              <strong>SAR {grossSales.toFixed(2)}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
               <span>VAT (15% ZATCA Standard):</span>
-              <strong>SAR {(grossSales * 0.15 / 1.15).toFixed(2)}</strong>
+              <strong>SAR {(grossSales - (grossSales / 1.15)).toFixed(2)}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
               <span>Net Revenue (Excl. Tax):</span>
-              <strong>SAR {(grossSales - (grossSales * 0.15 / 1.15)).toFixed(2)}</strong>
+              <strong>SAR {(grossSales / 1.15).toFixed(2)}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
               <span>Total Transactions:</span>
@@ -972,15 +979,15 @@ export default function AdminPage() {
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
               <span>Mada Payments:</span>
-              <strong>SAR {(grossSales * 0.68).toFixed(0)}</strong>
+              <strong>SAR {madaTotal.toFixed(2)}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
               <span>Apple Pay:</span>
-              <strong>SAR {(grossSales * 0.24).toFixed(0)}</strong>
+              <strong>SAR {appleTotal.toFixed(2)}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: 6 }}>
               <span>Cash in Register:</span>
-              <strong>SAR {(grossSales * 0.08).toFixed(0)}</strong>
+              <strong>SAR {cashTotal.toFixed(2)}</strong>
             </div>
           </div>
 

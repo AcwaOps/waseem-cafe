@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0e382c">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <title>Waseem Cafe | Operations & Inventory Command Center</title>
+  <title>Waseem Cafe | Operations, Prices & Inventory Command Center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -43,7 +43,7 @@
     }
 
     .admin-wrapper {
-      width: min(100%, 1180px);
+      width: min(100%, 1200px);
       margin: 0 auto;
       min-height: 100vh;
       background: var(--ws-cream);
@@ -87,7 +87,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 15%;
+      object-position: center 20%;
     }
 
     .nav-titles h1 {
@@ -119,227 +119,180 @@
       align-items: center;
       gap: 8px;
       padding: 6px 14px;
-      border-radius: 30px;
+      border-radius: 20px;
       font-size: 12px;
       font-weight: 700;
-      background: rgba(22, 101, 52, 0.35);
-      border: 1px solid #22c55e;
-      color: #86efac;
-      cursor: pointer;
-      transition: all 0.2s;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
     }
-    .status-pill.closed {
-      background: rgba(225, 29, 72, 0.35);
-      border-color: #f43f5e;
-      color: #fda4af;
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+    }
+    .status-dot.closed {
+      background: #f43f5e;
+      box-shadow: 0 0 8px #f43f5e;
     }
 
-    .btn-subtle {
-      padding: 7px 14px;
-      border-radius: 8px;
-      font-size: 13px;
+    .clock-badge {
+      font-size: 12px;
       font-weight: 600;
-      background: rgba(255, 255, 255, 0.12);
+      color: var(--ws-gold-light);
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(197, 168, 128, 0.3);
+    }
+
+    .btn-nav {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
       color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
       cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s;
     }
-    .btn-subtle:hover {
-      background: rgba(255, 255, 255, 0.22);
-      border-color: var(--ws-gold-light);
-      color: var(--ws-gold-light);
+    .btn-nav:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: #fff;
     }
-
-    /* Welcome Hero Banner with Mascot */
-    .manager-hero {
-      background: linear-gradient(180deg, #edf4f1 0%, #fbf9f5 100%);
-      padding: 24px 28px 20px;
-      border-bottom: 1px solid var(--ws-line);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .manager-welcome {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-    .manager-avatar-large {
-      height: 94px;
-      filter: drop-shadow(0 6px 14px rgba(10,38,31,0.2));
-    }
-    .manager-bubble {
-      background: #ffffff;
-      padding: 14px 20px;
-      border-radius: 16px;
-      border: 1px solid var(--ws-line);
-      box-shadow: 0 4px 16px rgba(14, 56, 44, 0.06);
-      position: relative;
-      max-width: 520px;
-    }
-    .manager-bubble::after {
-      content: '';
-      position: absolute;
-      left: -10px;
-      top: 50%;
-      transform: translateY(-50%);
-      border-width: 8px 10px 8px 0;
-      border-style: solid;
-      border-color: transparent #ffffff transparent transparent;
-    }
-    .manager-bubble h2 {
-      margin: 0 0 4px;
-      font-size: 16px;
-      color: var(--ws-emerald);
-      font-weight: 800;
-    }
-    .manager-bubble p {
-      margin: 0;
-      font-size: 13px;
-      color: var(--ws-text-muted);
-      line-height: 1.5;
-    }
-
-    .time-badge {
-      text-align: right;
-    }
-    .time-badge .clock {
-      font-size: 24px;
+    .btn-nav.public-view {
+      background: var(--ws-gold);
+      color: var(--ws-emerald-deep);
+      border-color: var(--ws-gold);
       font-weight: 700;
-      color: var(--ws-emerald);
-      letter-spacing: 0.05em;
     }
-    .time-badge .date {
-      font-size: 12px;
-      color: var(--ws-text-muted);
-      margin-top: 2px;
+    .btn-nav.public-view:hover {
+      background: var(--ws-gold-light);
     }
 
-    /* Tab Navigation */
-    .tab-bar {
+    /* Tabs Bar */
+    .tabs-bar {
       display: flex;
       background: #ffffff;
       border-bottom: 2px solid var(--ws-line);
-      padding: 0 20px;
       overflow-x: auto;
-      gap: 8px;
+      scrollbar-width: none;
+      padding: 0 16px;
+      gap: 4px;
     }
+    .tabs-bar::-webkit-scrollbar { display: none; }
+
     .tab-btn {
-      padding: 14px 18px;
-      font-size: 14px;
+      padding: 15px 18px;
+      border: none;
+      background: transparent;
+      font-size: 13px;
       font-weight: 700;
       color: var(--ws-text-muted);
-      background: none;
-      border: none;
-      border-bottom: 3px solid transparent;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      border-bottom: 3px solid transparent;
       white-space: nowrap;
       transition: all 0.2s;
     }
     .tab-btn:hover {
       color: var(--ws-emerald);
+      background: var(--ws-emerald-subtle);
     }
     .tab-btn.active {
       color: var(--ws-emerald);
       border-bottom-color: var(--ws-emerald);
-    }
-    .tab-badge {
       background: var(--ws-emerald-subtle);
-      color: var(--ws-emerald);
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 12px;
+    }
+
+    /* Tab Badges */
+    .tab-badge {
+      background: var(--ws-gold);
+      color: var(--ws-emerald-deep);
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 10px;
       font-weight: 800;
     }
     .tab-badge.danger {
-      background: var(--ws-danger-bg);
-      color: var(--ws-danger);
+      background: var(--ws-danger);
+      color: #fff;
     }
 
-    /* Content Panes */
+    /* Main Panes */
     .pane-body {
-      padding: 24px 28px 40px;
+      padding: 26px 28px 40px;
       flex: 1;
     }
 
-    /* Critical Stock Alert Banner */
+    /* Notice Banner */
     .alert-banner {
-      background: linear-gradient(135deg, #fff1f2 0%, #fee2e2 100%);
-      border: 1px solid #fecdd3;
-      border-left: 5px solid var(--ws-danger);
-      padding: 14px 20px;
-      border-radius: 12px;
-      margin-bottom: 24px;
+      background: var(--ws-warning-bg);
+      border: 1px solid #fde68a;
+      border-left: 5px solid var(--ws-warning);
+      border-radius: 10px;
+      padding: 12px 18px;
+      margin-bottom: 22px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
       flex-wrap: wrap;
     }
     .alert-banner-text {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #9f1239;
+      gap: 10px;
+      font-size: 13px;
+      color: #92400e;
     }
     .alert-banner-btn {
-      background: #be123c;
+      background: #d97706;
       color: #fff;
       border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      text-decoration: none;
     }
 
-    /* KPI Stats Grid */
+    /* KPI Summary Cards */
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 16px;
       margin-bottom: 24px;
     }
+
     .kpi-card {
       background: #ffffff;
-      padding: 18px 20px;
       border-radius: 14px;
       border: 1px solid var(--ws-line);
-      box-shadow: 0 4px 12px rgba(14,56,44,0.04);
-      display: flex;
-      flex-direction: column;
+      padding: 20px 22px;
+      box-shadow: 0 4px 14px rgba(14, 56, 44, 0.05);
       position: relative;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
-    .kpi-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      left: 0;
-      height: 4px;
-      background: var(--ws-gold);
+    .kpi-card.emerald {
+      background: linear-gradient(145deg, #0f3d30, #0a261f);
+      color: #fff;
+      border-color: var(--ws-gold);
     }
-    .kpi-card.emerald::before { background: var(--ws-emerald); }
-    .kpi-card.warning::before { background: var(--ws-warning); }
-    .kpi-card.success::before { background: var(--ws-success); }
+    .kpi-card.emerald .kpi-title { color: var(--ws-gold-light); }
+    .kpi-card.emerald .kpi-value { color: #ffffff; }
 
     .kpi-head {
       display: flex;
@@ -348,18 +301,20 @@
       margin-bottom: 10px;
     }
     .kpi-title {
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
       color: var(--ws-text-muted);
     }
     .kpi-icon {
-      font-size: 20px;
+      font-size: 22px;
     }
     .kpi-value {
-      font-size: 26px;
+      font-size: 30px;
       font-weight: 800;
-      color: var(--ws-emerald-deep);
-      line-height: 1.1;
+      color: var(--ws-emerald);
+      letter-spacing: -0.02em;
       margin-bottom: 6px;
     }
     .kpi-footer {
@@ -369,22 +324,22 @@
       align-items: center;
       gap: 6px;
     }
-    .kpi-delta-up { color: var(--ws-success); font-weight: 700; }
+    .kpi-card.emerald .kpi-footer { color: rgba(255,255,255,0.7); }
 
-    /* Filter Bar */
+    /* Filter Controls */
     .filter-bar {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 20px;
+      align-items: center;
+      margin-bottom: 18px;
       flex-wrap: wrap;
+      gap: 12px;
     }
     .pill-group {
       display: inline-flex;
-      background: #e9ecea;
-      border-radius: 10px;
+      background: #ebe6dc;
       padding: 3px;
+      border-radius: 10px;
       gap: 2px;
     }
     .pill-opt {
@@ -433,9 +388,7 @@
     }
 
     /* Progress & Bar Visualizations */
-    .cat-bar-item {
-      margin-bottom: 14px;
-    }
+    .cat-bar-item { margin-bottom: 14px; }
     .cat-bar-header {
       display: flex;
       justify-content: space-between;
@@ -456,20 +409,93 @@
       background: linear-gradient(90deg, var(--ws-gold), var(--ws-gold-light));
       transition: width 0.5s ease;
     }
-    .cat-bar-fill.emerald {
-      background: linear-gradient(90deg, var(--ws-emerald), #226955);
+    .cat-bar-fill.emerald { background: linear-gradient(90deg, var(--ws-emerald), #226955); }
+    .cat-bar-fill.warm { background: linear-gradient(90deg, #d97706, #fbbf24); }
+    .cat-bar-fill.teal { background: linear-gradient(90deg, #0d9488, #2dd4bf); }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--ws-line);
     }
-    .cat-bar-fill.warm {
-      background: linear-gradient(90deg, #d97706, #fbbf24);
+    .styled-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
     }
-    .cat-bar-fill.teal {
-      background: linear-gradient(90deg, #0d9488, #2dd4bf);
+    .styled-table th {
+      background: #f7f4ee;
+      color: var(--ws-text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--ws-line);
+    }
+    .styled-table td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--ws-line-subtle);
+      color: var(--ws-text-main);
+    }
+    .styled-table tr:hover td {
+      background: #faf7f2;
     }
 
-    /* Inventory Items Table */
+    /* Buttons */
+    .btn-primary {
+      background: var(--ws-emerald);
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { background: #134d3d; transform: translateY(-1px); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--ws-emerald);
+      border: 1px solid var(--ws-emerald);
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { background: var(--ws-emerald-subtle); }
+
+    .btn-danger {
+      background: #f43f5e;
+      color: #fff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-danger:hover { background: #e11d48; }
+
+    /* Inventory Items Grid */
     .stock-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
       gap: 16px;
     }
     .stock-card {
@@ -569,268 +595,275 @@
       align-items: center;
       background: #f1f5f3;
       border-radius: 8px;
-      border: 1px solid var(--ws-line);
-      overflow: hidden;
+      padding: 2px;
     }
-    .qty-btn {
-      width: 32px;
-      height: 32px;
-      background: #ffffff;
+    .qty-stepper button {
+      width: 28px;
+      height: 28px;
       border: none;
-      font-size: 15px;
-      font-weight: 700;
+      background: transparent;
       color: var(--ws-emerald);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.15s;
-    }
-    .qty-btn:hover { background: #e2ece7; }
-    .qty-display {
-      min-width: 44px;
-      text-align: center;
       font-weight: 800;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+    .qty-stepper button:hover { background: #ffffff; }
+    .qty-stepper span {
+      padding: 0 10px;
+      font-weight: 700;
       font-size: 13px;
-      color: var(--ws-emerald-deep);
-      padding: 0 4px;
     }
 
-    /* Menu 86 Switch Card */
-    .menu-toggle-card {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 18px;
-      border-radius: 12px;
-      background: #ffffff;
-      border: 1px solid var(--ws-line);
-      margin-bottom: 10px;
-      gap: 12px;
-    }
-    .menu-toggle-info {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .menu-toggle-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 8px;
-      background: var(--ws-emerald-subtle);
-      color: var(--ws-emerald);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-    }
-    .menu-toggle-meta h4 {
-      margin: 0 0 3px;
-      font-size: 15px;
+    .btn-wa-reorder {
+      background: #25d366;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 11px;
       font-weight: 700;
-      color: var(--ws-emerald-deep);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
     }
-    .menu-toggle-meta span {
+    .btn-wa-reorder:hover { background: #20ba5a; }
+
+    /* Price & Menu Editor */
+    .price-editor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 16px;
+    }
+    .price-item-card {
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid var(--ws-line);
+      padding: 18px 20px;
+      box-shadow: 0 3px 12px rgba(14,56,44,0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: all 0.2s;
+    }
+    .price-item-card:hover {
+      border-color: var(--ws-gold);
+      box-shadow: 0 6px 18px rgba(14,56,44,0.08);
+    }
+    .price-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .price-item-title h4 {
+      margin: 0 0 3px;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--ws-emerald);
+    }
+    .price-item-title span {
+      font-size: 11px;
+      color: var(--ws-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+    .price-inputs-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      background: #f7f5f0;
+      padding: 12px;
+      border-radius: 10px;
+    }
+    .price-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .price-field label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ws-text-muted);
+      text-transform: uppercase;
+    }
+    .price-field-input {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border: 1.5px solid var(--ws-line);
+      border-radius: 6px;
+      padding: 4px 8px;
+    }
+    .price-field-input:focus-within {
+      border-color: var(--ws-emerald);
+    }
+    .price-field-input span {
       font-size: 12px;
       color: var(--ws-text-muted);
-    }
-
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 52px;
-      height: 28px;
-    }
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #dc2626;
-      transition: .3s;
-      border-radius: 34px;
-    }
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 20px;
-      width: 20px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: .3s;
-      border-radius: 50%;
-    }
-    input:checked + .slider {
-      background-color: #16a34a;
-    }
-    input:checked + .slider:before {
-      transform: translateX(24px);
-    }
-
-    /* Orders Table */
-    .table-wrap {
-      overflow-x: auto;
-    }
-    .styled-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-      text-align: left;
-    }
-    .styled-table th {
-      background: #f4f7f5;
-      color: var(--ws-emerald);
       font-weight: 700;
-      padding: 12px 14px;
-      border-bottom: 2px solid var(--ws-line);
+      margin-right: 4px;
     }
-    .styled-table td {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--ws-line);
-      color: var(--ws-text-main);
+    .price-field-input input {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--ws-emerald-deep);
+      font-family: inherit;
     }
-    .styled-table tr:hover td {
-      background: #fafcfb;
+    .price-item-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 6px;
+    }
+    .toggle-86 {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .toggle-86 input {
+      cursor: pointer;
+    }
+    .btn-save-price {
+      background: var(--ws-emerald);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.15s;
+    }
+    .btn-save-price:hover {
+      background: #144e3e;
     }
 
-    /* Quick POS Mini-Grid */
+    /* POS Screen */
     .pos-layout {
       display: grid;
       grid-template-columns: 1fr 340px;
       gap: 20px;
     }
-    @media (max-width: 860px) {
-      .pos-layout { grid-template-columns: 1fr; }
-    }
     .pos-items-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 12px;
     }
-    .pos-btn {
+    .pos-item-btn {
       background: #ffffff;
-      border: 1px solid var(--ws-line);
+      border: 1.5px solid var(--ws-line);
       border-radius: 12px;
-      padding: 14px 10px;
-      text-align: center;
+      padding: 14px;
+      text-align: left;
       cursor: pointer;
-      transition: all 0.15s;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 6px;
+      justify-content: space-between;
+      height: 105px;
+      transition: all 0.15s;
     }
-    .pos-btn:hover {
-      border-color: var(--ws-gold);
-      transform: translateY(-2px);
+    .pos-item-btn:hover {
+      border-color: var(--ws-emerald);
       box-shadow: 0 4px 12px rgba(14,56,44,0.08);
+      transform: translateY(-2px);
     }
-    .pos-btn .pos-name {
+    .pos-item-name {
       font-size: 13px;
       font-weight: 700;
       color: var(--ws-emerald-deep);
+      margin-bottom: 4px;
     }
-    .pos-btn .pos-price {
-      font-size: 12px;
+    .pos-item-cat {
+      font-size: 11px;
+      color: var(--ws-text-muted);
+    }
+    .pos-item-price {
+      font-size: 15px;
       font-weight: 800;
-      color: var(--ws-gold-dark);
+      color: var(--ws-emerald);
     }
 
     .pos-ticket {
       background: #ffffff;
       border-radius: 14px;
-      border: 2px solid var(--ws-gold);
+      border: 1px solid var(--ws-line);
       padding: 18px;
       display: flex;
       flex-direction: column;
       height: fit-content;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      box-shadow: 0 6px 20px rgba(14,56,44,0.05);
     }
     .pos-ticket h4 {
       margin: 0 0 12px;
-      font-size: 16px;
-      font-weight: 800;
+      font-size: 15px;
       color: var(--ws-emerald);
-      border-bottom: 1px solid var(--ws-line);
+      border-bottom: 2px solid var(--ws-line);
       padding-bottom: 8px;
     }
     .ticket-lines {
-      max-height: 240px;
+      max-height: 280px;
       overflow-y: auto;
       margin-bottom: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
     }
-    .ticket-row {
+    .ticket-line {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--ws-line-subtle);
       font-size: 13px;
-      padding: 4px 0;
-      border-bottom: 1px dashed #f0ebe2;
     }
     .ticket-total {
       display: flex;
       justify-content: space-between;
       font-size: 18px;
       font-weight: 800;
-      color: var(--ws-emerald);
+      color: var(--ws-emerald-deep);
+      border-top: 2px dashed var(--ws-line);
       padding-top: 12px;
-      border-top: 2px solid var(--ws-emerald);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
-    /* Buttons */
-    .btn-primary {
-      background: linear-gradient(135deg, var(--ws-emerald) 0%, #154537 100%);
-      color: #fff;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.2s;
-      width: 100%;
-    }
-    .btn-primary:hover {
-      background: #195241;
-      box-shadow: 0 4px 14px rgba(14,56,44,0.25);
-    }
-
-    .btn-outline {
-      background: #ffffff;
-      color: var(--ws-emerald);
-      border: 1px solid var(--ws-emerald);
-      padding: 9px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
-    }
-    .btn-outline:hover {
-      background: var(--ws-emerald-subtle);
-    }
-
-    /* PIN Modal */
-    .pin-modal {
+    /* Modal dialog */
+    .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(10, 38, 31, 0.88);
-      backdrop-filter: blur(8px);
+      background: rgba(10,38,31,0.8);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-card {
+      background: #ffffff;
+      border-radius: 16px;
+      width: min(100%, 480px);
+      padding: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      border: 1px solid var(--ws-gold);
+    }
+
+    /* PIN Gate Overlay */
+    .pin-lock-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, #0e382c 0%, #061713 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -840,121 +873,188 @@
     .pin-box {
       background: #ffffff;
       border-radius: 20px;
+      width: min(100%, 380px);
       padding: 32px 28px;
-      width: 100%;
-      max-width: 380px;
       text-align: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      box-shadow: 0 25px 70px rgba(0,0,0,0.5);
       border: 2px solid var(--ws-gold);
     }
+    .pin-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid var(--ws-gold);
+      margin: 0 auto 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    }
+    .pin-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+    }
     .pin-box h2 {
-      margin: 12px 0 6px;
+      margin: 0;
       font-size: 20px;
-      font-weight: 800;
-      color: var(--ws-emerald);
       font-family: 'Cinzel', serif;
+      color: var(--ws-emerald);
     }
     .pin-box p {
-      margin: 0 0 20px;
-      font-size: 13px;
+      margin: 6px 0 20px;
+      font-size: 12px;
       color: var(--ws-text-muted);
     }
-    .pin-input {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid var(--ws-line);
-      border-radius: 10px;
-      font-size: 24px;
-      text-align: center;
-      letter-spacing: 0.3em;
-      margin-bottom: 16px;
-      font-family: monospace;
-      outline: none;
+    .pin-display {
+      font-size: 28px;
+      letter-spacing: 12px;
+      font-weight: 800;
+      color: var(--ws-emerald);
+      height: 40px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--ws-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .pin-input:focus {
+    .pin-keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .pin-key {
+      padding: 14px 0;
+      border-radius: 10px;
+      border: 1px solid var(--ws-line);
+      background: #fbf9f5;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ws-emerald);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .pin-key:hover {
+      background: var(--ws-emerald-subtle);
       border-color: var(--ws-emerald);
     }
 
+    /* Toast */
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--ws-emerald);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      border-left: 5px solid var(--ws-gold);
+      display: none;
+      z-index: 10000;
+      animation: fadeIn 0.3s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 820px) {
+      .pos-layout { grid-template-columns: 1fr; }
+      .pane-body { padding: 18px 16px; }
+      .admin-wrapper { box-shadow: none; }
+    }
+
     @media print {
-      body, html { background: #fff !important; }
+      body { background: #fff !important; color: #000 !important; }
+      .top-nav, .tabs-bar, .no-print, .btn-nav, .alert-banner { display: none !important; }
       .admin-wrapper { box-shadow: none !important; width: 100% !important; }
-      .top-nav, .tab-bar, .filter-bar, .no-print, .btn-primary, .btn-outline { display: none !important; }
       .pane-body { padding: 0 !important; }
-      .admin-card { border: 1px solid #ccc !important; box-shadow: none !important; break-inside: avoid; }
     }
   </style>
 </head>
 <body>
 
-  <!-- PIN Modal for Security (Default PIN: 1234 or Quick Demo Access) -->
-  <div class="pin-modal" id="pin-modal" style="display:none;">
+  <!-- PIN Security Keypad -->
+  <div class="pin-lock-overlay" id="pin-overlay">
     <div class="pin-box">
-      <img src="images/waseem-mascot-standing.png" alt="Waseem" style="height:115px;filter:drop-shadow(0 6px 12px rgba(10,38,31,0.2));">
-      <h2>Waseem Portal Access 🔐</h2>
-      <p>Enter your 4-digit manager PIN to unlock operations & sales control</p>
-      <input type="password" id="pin-input" class="pin-input" maxlength="6" placeholder="••••" autofocus>
-      <div id="pin-error" style="color:var(--ws-danger);font-size:12px;margin-bottom:12px;font-weight:700;display:none;">Incorrect PIN. Please try again (Default: 1234)</div>
-      <button class="btn-primary" onclick="verifyPin()">Unlock Dashboard</button>
-      <button class="btn-subtle" onclick="bypassPin()" style="margin-top:10px;color:var(--ws-emerald);border-color:var(--ws-line);width:100%;justify-content:center;">Quick Demo Access (1234)</button>
+      <div class="pin-avatar">
+        <img src="images/waseem-mascot-bust.png" alt="Waseem Avatar">
+      </div>
+      <h2>Waseem Cafe Control Room</h2>
+      <p>Authorized Cafe Manager Access Only</p>
+      <div class="pin-display" id="pin-dots">••••</div>
+      <div class="pin-keypad">
+        <button class="pin-key" onclick="pressPin('1')">1</button>
+        <button class="pin-key" onclick="pressPin('2')">2</button>
+        <button class="pin-key" onclick="pressPin('3')">3</button>
+        <button class="pin-key" onclick="pressPin('4')">4</button>
+        <button class="pin-key" onclick="pressPin('5')">5</button>
+        <button class="pin-key" onclick="pressPin('6')">6</button>
+        <button class="pin-key" onclick="pressPin('7')">7</button>
+        <button class="pin-key" onclick="pressPin('8')">8</button>
+        <button class="pin-key" onclick="pressPin('9')">9</button>
+        <button class="pin-key" onclick="clearPin()">C</button>
+        <button class="pin-key" onclick="pressPin('0')">0</button>
+        <button class="pin-key" onclick="verifyPin()">↵</button>
+      </div>
+      <button class="btn-primary" style="width:100%;margin-bottom:8px;" onclick="verifyPin()">
+        Unlock Dashboard
+      </button>
+      <div style="font-size:11px;color:#888;margin-top:10px;">
+        Default PIN: <b>1234</b> · <a href="#" onclick="quickUnlock()" style="color:var(--ws-gold-dark);">Quick Demo Access</a>
+      </div>
     </div>
   </div>
 
+  <!-- Toast Notification -->
+  <div class="toast-msg" id="toast-msg"></div>
+
+  <!-- Main Admin Wrapper -->
   <div class="admin-wrapper">
     <!-- Top Navigation -->
     <header class="top-nav">
       <div class="nav-brand">
         <div class="nav-mascot">
-          <img src="images/waseem-mascot-bust.png" alt="Waseem Avatar">
+          <img src="images/waseem-mascot-bust.png" alt="Captain Waseem">
         </div>
         <div class="nav-titles">
-          <h1>Waseem Cafe · Operations Command</h1>
-          <p>Inventory, Live Sales & Barista Operations</p>
+          <h1>Waseem Cafe Control Room</h1>
+          <p>Sales, Prices & Inventory Command Center</p>
         </div>
       </div>
 
       <div class="nav-actions">
-        <div class="status-pill" id="store-status-pill" onclick="toggleStoreStatus()">
-          <span>🟢</span> Store Open to Public
+        <div class="status-pill" id="store-status-pill" onclick="toggleStoreStatus()" style="cursor:pointer;" title="Click to toggle store open/closed">
+          <span class="status-dot" id="store-status-dot"></span>
+          <span id="store-status-text">Store Open</span>
         </div>
-        <a href="index.html" class="btn-subtle">
-          <span>☕</span> Customer Menu
+        <div class="clock-badge" id="live-clock">--:--:--</div>
+        <a href="index.html" class="btn-nav public-view">
+          <span>🌿</span> View Customer Menu
         </a>
-        <button class="btn-subtle" onclick="lockPortal()">
-          <span>🔒</span> Lock Portal
+        <button class="btn-nav" onclick="lockPortal()">
+          <span>🔒</span> Lock
         </button>
       </div>
     </header>
 
-    <!-- Manager Greeting & Live Clock -->
-    <section class="manager-hero">
-      <div class="manager-welcome">
-        <img src="images/waseem-mascot-standing.png" alt="Waseem Mascot" class="manager-avatar-large">
-        <div class="manager-bubble">
-          <h2>Welcome, Captain Waseem! ☕</h2>
-          <p id="manager-msg">All operations are running smoothly today. Live sales metrics and inventory levels are updated in real-time.</p>
-        </div>
-      </div>
-
-      <div class="time-badge">
-        <div class="clock" id="live-clock">12:00:00</div>
-        <div class="date" id="live-date">Riyadh, Saudi Arabia · GMT+3</div>
-      </div>
-    </section>
-
     <!-- Navigation Tabs -->
-    <nav class="tab-bar">
+    <nav class="tabs-bar">
       <button class="tab-btn active" onclick="switchTab('analytics')">
         <span>📊</span> Sales & Analytics
       </button>
+      <button class="tab-btn" onclick="switchTab('prices')">
+        <span>🏷️</span> Prices & Menu Editor
+      </button>
       <button class="tab-btn" onclick="switchTab('inventory')">
         <span>📦</span> Inventory & Supplies
-        <span class="tab-badge danger" id="stock-alert-count">2 Low Alert</span>
+        <span class="tab-badge danger" id="stock-alert-count">0 Low</span>
       </button>
       <button class="tab-btn" onclick="switchTab('pos')">
-        <span>⚡</span> Quick POS Checkout
-      </button>
-      <button class="tab-btn" onclick="switchTab('menu86')">
-        <span>☕</span> Menu 86 (Availability)
+        <span>⚡</span> Quick POS Register
       </button>
       <button class="tab-btn" onclick="switchTab('zreport')">
         <span>📋</span> Daily Shift Z-Report
@@ -963,34 +1063,18 @@
 
     <!-- PANE 1: SALES & ANALYTICS -->
     <main class="pane-body" id="pane-analytics">
-      <!-- Critical Stock Warning Banner -->
-      <div class="alert-banner" id="urgent-alert" style="display:flex;">
-        <div class="alert-banner-text">
-          <span style="font-size:22px;">⚠️</span>
-          <div>
-            <strong>Critical Stock Alert:</strong> 2 items reached reorder thresholds (Oat Milk Barista, Hario V60 Paper Filters).
-          </div>
-        </div>
-        <button class="alert-banner-btn" onclick="switchTab('inventory')">
-          View Stock & Reorder →
-        </button>
-      </div>
-
-      <!-- Filter Bar -->
+      <!-- Top Action Bar -->
       <div class="filter-bar">
-        <div class="pill-group">
-          <button class="pill-opt active" onclick="setPeriod('today', this)">Today</button>
-          <button class="pill-opt" onclick="setPeriod('week', this)">Past 7 Days</button>
-          <button class="pill-opt" onclick="setPeriod('month', this)">This Month</button>
-          <button class="pill-opt" onclick="setPeriod('all', this)">All Time</button>
+        <div>
+          <h2 style="margin:0 0 4px;font-size:20px;color:var(--ws-emerald);">Live Sales Performance</h2>
+          <p style="margin:0;font-size:13px;color:var(--ws-text-muted);">Real-time metrics calculated dynamically from today's orders.</p>
         </div>
-
         <div style="display:flex;gap:8px;">
           <button class="btn-outline" onclick="exportSalesCsv()">
             📥 Export Sales (CSV)
           </button>
-          <button class="btn-outline" onclick="window.print()">
-            🖨️ Print Summary
+          <button class="btn-outline" onclick="switchTab('pos')">
+            ⚡ Open Quick POS →
           </button>
         </div>
       </div>
@@ -1002,9 +1086,9 @@
             <span class="kpi-title">Gross Sales (Today)</span>
             <span class="kpi-icon">💰</span>
           </div>
-          <div class="kpi-value" id="kpi-revenue">SAR 2,845</div>
+          <div class="kpi-value" id="kpi-revenue">SAR 0.00</div>
           <div class="kpi-footer">
-            <span class="kpi-delta-up">▲ +14.2%</span> vs yesterday
+            <span id="kpi-rev-note">Live total revenue (VAT inclusive)</span>
           </div>
         </div>
 
@@ -1013,9 +1097,9 @@
             <span class="kpi-title">Completed Orders</span>
             <span class="kpi-icon">🧾</span>
           </div>
-          <div class="kpi-value" id="kpi-orders">142</div>
+          <div class="kpi-value" id="kpi-orders">0</div>
           <div class="kpi-footer">
-            <span class="kpi-delta-up">▲ +8 orders</span> above daily target
+            <span id="kpi-orders-note">Transactions closed today</span>
           </div>
         </div>
 
@@ -1024,105 +1108,67 @@
             <span class="kpi-title">Average Ticket Size</span>
             <span class="kpi-icon">☕</span>
           </div>
-          <div class="kpi-value" id="kpi-avg">SAR 20.03</div>
+          <div class="kpi-value" id="kpi-avg">SAR 0.00</div>
           <div class="kpi-footer">
-            <span>~2 cups per transaction</span>
+            <span>Average revenue per order</span>
           </div>
         </div>
 
-        <div class="kpi-card success">
+        <div class="kpi-card">
           <div class="kpi-head">
             <span class="kpi-title">Top Selling Drink</span>
             <span class="kpi-icon">🏆</span>
           </div>
-          <div class="kpi-value" style="font-size:20px;" id="kpi-top">V60 Colombia</div>
+          <div class="kpi-value" style="font-size:18px;" id="kpi-top">Awaiting Orders</div>
           <div class="kpi-footer">
-            <span class="kpi-delta-up">46 cups sold today</span>
+            <span id="kpi-top-detail">No sales recorded yet</span>
           </div>
         </div>
       </div>
 
       <!-- Analytics Breakdown Cards -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:20px;margin-bottom:24px;">
         <!-- Category Sales Share -->
         <div class="admin-card">
           <div class="card-title-row">
             <h3><span>🏷️</span> Revenue by Category</h3>
-            <span style="font-size:12px;color:var(--ws-text-muted);">Share of Sales</span>
           </div>
-
-          <div class="cat-bar-item">
-            <div class="cat-bar-header">
-              <span>Specialty Coffee (Pour-over)</span>
-              <span>42% · SAR 1,195</span>
-            </div>
-            <div class="cat-bar-track">
-              <div class="cat-bar-fill emerald" style="width: 42%;"></div>
-            </div>
-          </div>
-
-          <div class="cat-bar-item">
-            <div class="cat-bar-header">
-              <span>Espresso & Milk Drinks</span>
-              <span>32% · SAR 910</span>
-            </div>
-            <div class="cat-bar-track">
-              <div class="cat-bar-fill" style="width: 32%;"></div>
-            </div>
-          </div>
-
-          <div class="cat-bar-item">
-            <div class="cat-bar-header">
-              <span>Iced & Refreshing</span>
-              <span>18% · SAR 515</span>
-            </div>
-            <div class="cat-bar-track">
-              <div class="cat-bar-fill warm" style="width: 18%;"></div>
-            </div>
-          </div>
-
-          <div class="cat-bar-item">
-            <div class="cat-bar-header">
-              <span>Tea & Natural Fresh Juices</span>
-              <span>8% · SAR 225</span>
-            </div>
-            <div class="cat-bar-track">
-              <div class="cat-bar-fill teal" style="width: 8%;"></div>
-            </div>
+          <div id="category-bars-wrap">
+            <!-- Dynamic Category Breakdown -->
           </div>
         </div>
 
         <!-- Payment Breakdown & Rush Hours -->
         <div class="admin-card">
           <div class="card-title-row">
-            <h3><span>💳</span> Payment Channels & Peak Hours</h3>
+            <h3><span>💳</span> Payment Methods & Peak Hours</h3>
           </div>
 
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;margin-bottom:20px;">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;margin-bottom:20px;" id="payment-methods-grid">
             <div style="background:#f4f7f5;padding:12px;border-radius:10px;">
               <div style="font-size:18px;">💳</div>
-              <div style="font-weight:800;font-size:16px;color:var(--ws-emerald);">68%</div>
+              <div style="font-weight:800;font-size:16px;color:var(--ws-emerald);" id="mada-pct">0%</div>
               <div style="font-size:11px;color:var(--ws-text-muted);">Mada (Debit)</div>
             </div>
             <div style="background:#f4f7f5;padding:12px;border-radius:10px;">
               <div style="font-size:18px;">📱</div>
-              <div style="font-weight:800;font-size:16px;color:var(--ws-emerald);">24%</div>
+              <div style="font-weight:800;font-size:16px;color:var(--ws-emerald);" id="apple-pct">0%</div>
               <div style="font-size:11px;color:var(--ws-text-muted);">Apple Pay</div>
             </div>
             <div style="background:#f4f7f5;padding:12px;border-radius:10px;">
               <div style="font-size:18px;">💵</div>
-              <div style="font-weight:800;font-size:16px;color:var(--ws-emerald);">8%</div>
+              <div style="font-weight:800;font-size:16px;color:var(--ws-emerald);" id="cash-pct">0%</div>
               <div style="font-size:11px;color:var(--ws-text-muted);">Cash</div>
             </div>
           </div>
 
           <div style="font-size:13px;font-weight:700;color:var(--ws-emerald);margin-bottom:8px;">
-            🔥 Peak Customer Hours at Waseem Cafe:
+            ☕ Operational Shift Hours Guide:
           </div>
           <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--ws-text-muted);">
-            <div>☀️ <strong>Morning Rush (07:30 - 10:00 AM):</strong> 38% of orders (Americano, Flat White, Karak)</div>
-            <div>🌆 <strong>Afternoon Peak (04:30 - 07:00 PM):</strong> 42% of orders (V60 Specialty, Spanish Latte, Avocado)</div>
-            <div>🌙 <strong>Evening Chill (09:00 - 11:30 PM):</strong> 20% of orders (Iced V60, Iced Karkadeh)</div>
+            <div>☀️ <strong>Morning Rush (07:30 - 10:00 AM):</strong> Americano, Flat White, Karak Tea</div>
+            <div>🌆 <strong>Afternoon Peak (04:30 - 07:00 PM):</strong> V60 Specialty, Spanish Latte, Fresh Avocado</div>
+            <div>🌙 <strong>Evening Chill (09:00 - 11:30 PM):</strong> Iced V60, Iced Karkadeh Infusion</div>
           </div>
         </div>
       </div>
@@ -1130,8 +1176,8 @@
       <!-- Recent Orders Live Feed -->
       <div class="admin-card">
         <div class="card-title-row">
-          <h3><span>🧾</span> Live Recent Orders Feed</h3>
-          <span style="font-size:12px;color:var(--ws-text-muted);">Real-time stream</span>
+          <h3><span>🧾</span> Live Orders Log</h3>
+          <span style="font-size:12px;color:var(--ws-text-muted);" id="orders-log-count">0 orders today</span>
         </div>
 
         <div class="table-wrap">
@@ -1154,18 +1200,46 @@
       </div>
     </main>
 
-    <!-- PANE 2: INVENTORY & STOCK -->
+    <!-- PANE 2: PRICES & MENU EDITOR -->
+    <main class="pane-body" id="pane-prices" style="display:none;">
+      <div class="card-title-row">
+        <div>
+          <h2 style="margin:0 0 4px;font-size:20px;color:var(--ws-emerald);">Price & Menu Editor</h2>
+          <p style="margin:0;font-size:13px;color:var(--ws-text-muted);">
+            Directly modify prices for any drink (Hot, Iced, Regular). Changes sync immediately with the customer web menu and POS.
+          </p>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button class="btn-outline" onclick="resetMenuToDefaults()">
+            ↺ Reset to Default Prices
+          </button>
+        </div>
+      </div>
+
+      <!-- Instruction Callout -->
+      <div style="background:#eaf2ee;border:1px solid #c7ddd3;border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--ws-emerald);display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;">💡</span>
+        <div>
+          <strong>How it works:</strong> Type the new price (SAR) in any field and click <b>Save Price</b>. The new price takes effect on the customer menu and Quick POS instantly. Toggle <b>86 (Out of Stock)</b> to temporarily mark any drink as Sold Out.
+        </div>
+      </div>
+
+      <div class="price-editor-grid" id="price-editor-container">
+        <!-- Rendered via JS -->
+      </div>
+    </main>
+
+    <!-- PANE 3: INVENTORY & STOCK -->
     <main class="pane-body" id="pane-inventory" style="display:none;">
       <div class="card-title-row">
         <div>
           <h2 style="margin:0 0 4px;font-size:20px;color:var(--ws-emerald);">Raw Ingredients & Supplies Warehouse</h2>
-          <p style="margin:0;font-size:13px;color:var(--ws-text-muted);">Monitor stock levels in real time, prevent stockouts, and order replenishment with 1 click.</p>
+          <p style="margin:0;font-size:13px;color:var(--ws-text-muted);">
+            Track stock levels, set reorder points, and draft instant WhatsApp supplier orders with 1 click.
+          </p>
         </div>
 
         <div style="display:flex;gap:10px;">
-          <button class="btn-primary" onclick="openNewIngredientModal()" style="width:auto;">
-            <span>➕</span> Add New Item
-          </button>
           <button class="btn-outline" onclick="exportInventoryCsv()">
             📥 Export Inventory (CSV)
           </button>
@@ -1178,17 +1252,19 @@
       </div>
     </main>
 
-    <!-- PANE 3: QUICK POS -->
+    <!-- PANE 4: QUICK POS -->
     <main class="pane-body" id="pane-pos" style="display:none;">
       <div class="card-title-row">
         <div>
-          <h2 style="margin:0 0 4px;font-size:20px;color:var(--ws-emerald);">Quick POS Checkout Counter</h2>
-          <p style="margin:0;font-size:13px;color:var(--ws-text-muted);">Tap any item to ring up a sale. Revenue is updated and inventory is automatically deducted.</p>
+          <h2 style="margin:0 0 4px;font-size:20px;color:var(--ws-emerald);">Quick POS Checkout Register</h2>
+          <p style="margin:0;font-size:13px;color:var(--ws-text-muted);">
+            Tap drink buttons to ring up counter sales. Revenue, orders, and ingredient stock update automatically.
+          </p>
         </div>
       </div>
 
       <div class="pos-layout">
-        <!-- Items Picker -->
+        <!-- Drink Picker -->
         <div>
           <div style="display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;">
             <button class="pill-opt active" onclick="filterPosCat('All', this)">All Drinks</button>
@@ -1203,7 +1279,7 @@
           </div>
         </div>
 
-        <!-- POS Ticket -->
+        <!-- POS Current Ticket -->
         <div class="pos-ticket">
           <h4><span>🧾</span> Current Register Ticket</h4>
           <div class="ticket-lines" id="pos-ticket-lines">
@@ -1221,73 +1297,66 @@
             <button class="pill-opt" id="pay-cash" onclick="selectPayMethod('Cash', this)">Cash</button>
           </div>
 
-          <button class="btn-primary" onclick="completePosOrder()">
+          <button class="btn-primary" style="width:100%;justify-content:center;" onclick="completePosOrder()">
             <span>✅</span> Complete Sale & Deduct Stock
           </button>
         </div>
       </div>
     </main>
 
-    <!-- PANE 4: MENU 86 (ITEM AVAILABILITY) -->
-    <main class="pane-body" id="pane-menu86" style="display:none;">
-      <div class="card-title-row">
-        <div>
-          <h2 style="margin:0 0 4px;font-size:20px;color:var(--ws-emerald);">Menu Item Availability (Quick 86)</h2>
-          <p style="margin:0;font-size:13px;color:var(--ws-text-muted);">Toggle items on or off the public menu with one switch if they run out during the shift.</p>
-        </div>
-      </div>
-
-      <div id="menu-86-list">
-        <!-- Rendered via JS -->
-      </div>
-    </main>
-
-    <!-- PANE 5: Z-REPORT (SHIFT CLOSE) -->
+    <!-- PANE 5: Z-REPORT (DAILY SHIFT CLOSE) -->
     <main class="pane-body" id="pane-zreport" style="display:none;">
       <div class="admin-card" style="max-width:680px;margin:0 auto;border:2px dashed var(--ws-emerald);">
         <div style="text-align:center;border-bottom:2px solid var(--ws-emerald);padding-bottom:16px;margin-bottom:20px;">
           <img src="images/waseem-mascot-bust.png" alt="Waseem" style="height:70px;border-radius:50%;border:2px solid var(--ws-gold);margin-bottom:8px;">
-          <h2 style="margin:0;color:var(--ws-emerald);font-size:22px;font-family:'Cinzel', serif;">Waseem Cafe · End of Shift Z-Report</h2>
+          <h2 style="margin:0;color:var(--ws-emerald);font-size:22px;font-family:'Cinzel', serif;">Waseem Cafe · Daily Shift Z-Report</h2>
           <p style="margin:4px 0 0;font-size:12px;color:var(--ws-text-muted);" id="z-report-timestamp"></p>
+        </div>
+
+        <div style="background:#f9f7f2;border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:12px;color:var(--ws-text-muted);line-height:1.5;">
+          ℹ️ <b>About Z-Report:</b> The Z-Report is the official end-of-shift register reconciliation report. It freezes today's sales, breaks down the mandatory 15% Saudi VAT (ZATCA), and balances electronic payments against physical drawer cash.
         </div>
 
         <div style="display:flex;flex-direction:column;gap:12px;font-size:14px;margin-bottom:24px;">
           <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f0ebe2;padding-bottom:6px;">
             <span>Gross Sales (Tax Inclusive):</span>
-            <strong style="color:var(--ws-emerald);font-size:16px;" id="z-gross">SAR 2,845</strong>
+            <strong style="color:var(--ws-emerald);font-size:16px;" id="z-gross">SAR 0.00</strong>
           </div>
           <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f0ebe2;padding-bottom:6px;">
             <span>VAT (15% ZATCA Standard):</span>
-            <strong id="z-vat">SAR 371.08</strong>
+            <strong id="z-vat">SAR 0.00</strong>
           </div>
           <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f0ebe2;padding-bottom:6px;">
             <span>Net Sales (Excl. Tax):</span>
-            <strong id="z-net">SAR 2,473.92</strong>
+            <strong id="z-net">SAR 0.00</strong>
           </div>
           <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f0ebe2;padding-bottom:6px;">
             <span>Total Orders Count:</span>
-            <strong id="z-count">142 orders</strong>
+            <strong id="z-count">0 orders</strong>
           </div>
           <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f0ebe2;padding-bottom:6px;">
             <span>Mada (Debit Card) Payments:</span>
-            <strong id="z-mada">SAR 1,934.60</strong>
+            <strong id="z-mada">SAR 0.00</strong>
           </div>
           <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f0ebe2;padding-bottom:6px;">
             <span>Apple Pay Payments:</span>
-            <strong id="z-apple">SAR 682.80</strong>
+            <strong id="z-apple">SAR 0.00</strong>
           </div>
           <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f0ebe2;padding-bottom:6px;">
             <span>Cash in Register Drawer:</span>
-            <strong id="z-cash">SAR 227.60</strong>
+            <strong id="z-cash">SAR 0.00</strong>
           </div>
         </div>
 
-        <div style="display:flex;gap:12px;" class="no-print">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;" class="no-print">
           <button class="btn-primary" onclick="window.print()">
-            🖨️ Print Daily Z-Report
+            🖨️ Print Z-Report
           </button>
           <button class="btn-outline" onclick="shareZReportWhatsApp()">
-            💬 Send Z-Report to Waseem WhatsApp
+            💬 Send to WhatsApp
+          </button>
+          <button class="btn-danger" onclick="closeShiftAndReset()">
+            🔒 Close Shift & Reset Day
           </button>
         </div>
       </div>
@@ -1295,53 +1364,47 @@
   </div>
 
   <script>
-    // --- PERSISTENT DATA & DEFAULTS ---
+    // --- DEFAULT REPOSITORY INGREDIENTS ---
     const DEFAULT_INGREDIENTS = [
-      { id: 'beans-colombia', name: 'Colombian Huila Specialty Beans', nameEn: 'Single Origin 100% Arabica', qty: 14.5, unit: 'kg', min: 4.0, max: 20.0, category: 'Coffee Beans' },
-      { id: 'beans-ethiopia', name: 'Ethiopian Guji Natural Beans', nameEn: 'Single Origin 100% Arabica', qty: 8.0, unit: 'kg', min: 3.5, max: 15.0, category: 'Coffee Beans' },
-      { id: 'milk-whole', name: 'Fresh Whole Dairy Milk', nameEn: 'Almarai / Nadec Fresh', qty: 24, unit: 'Liters', min: 10, max: 40, category: 'Dairy' },
-      { id: 'milk-oat', name: 'Oat Milk Barista Edition', nameEn: 'Plant-Based Barista Blend', qty: 3, unit: 'Liters', min: 6, max: 20, category: 'Dairy' }, // Critical
-      { id: 'avocado-fresh', name: 'Fresh Hass Avocados', nameEn: 'Selected Premium Fruit', qty: 12, unit: 'kg', min: 4, max: 20, category: 'Produce' },
-      { id: 'oranges-valencia', name: 'Fresh Valencia Oranges', nameEn: 'Cold Press Juice Fruit', qty: 28, unit: 'kg', min: 8, max: 40, category: 'Produce' },
-      { id: 'karak-tea-blend', name: 'Traditional Karak Spiced Tea', nameEn: 'Assam Tea & Cardamom', qty: 5.5, unit: 'kg', min: 2.0, max: 10.0, category: 'Tea & Herbs' },
-      { id: 'hibiscus-flowers', name: 'Natural Hibiscus Flowers', nameEn: 'Aswan Sun-Dried Flowers', qty: 4.0, unit: 'kg', min: 1.5, max: 8.0, category: 'Tea & Herbs' },
-      { id: 'condensed-milk', name: 'Sweetened Condensed Milk', nameEn: 'Spanish Latte Blend', qty: 18, unit: 'Cans', min: 8, max: 36, category: 'Syrups & Flavors' },
-      { id: 'v60-filters', name: 'Hario V60 Paper Filters 02', nameEn: 'Bleached Cone Filters', qty: 2, unit: 'Packs (100 pcs)', min: 5, max: 20, category: 'Supplies' }, // Critical
-      { id: 'cups-hot', name: 'Waseem Custom Hot Cups', nameEn: '8oz & 12oz Sleeves', qty: 350, unit: 'Cups', min: 100, max: 1000, category: 'Packaging' },
-      { id: 'cups-iced', name: 'Clear Iced Cups 16oz', nameEn: 'Crystal Cold Drink Cups', qty: 280, unit: 'Cups', min: 80, max: 800, category: 'Packaging' },
-      { id: 'bags-takeaway', name: 'Waseem Custom Takeaway Bags', nameEn: 'Embossed Paper Bags', qty: 190, unit: 'Bags', min: 50, max: 500, category: 'Packaging' }
+      { id: 'beans-colombia', name: 'Colombian Huila Specialty Beans', nameEn: 'Single Origin 100% Arabica', qty: 15.0, unit: 'kg', min: 4.0, max: 20.0, category: 'Coffee Beans' },
+      { id: 'beans-ethiopia', name: 'Ethiopian Guji Natural Beans', nameEn: 'Single Origin 100% Arabica', qty: 10.0, unit: 'kg', min: 3.5, max: 15.0, category: 'Coffee Beans' },
+      { id: 'milk-whole', name: 'Fresh Whole Dairy Milk', nameEn: 'Almarai / Nadec Fresh', qty: 30, unit: 'Liters', min: 10, max: 40, category: 'Dairy' },
+      { id: 'milk-oat', name: 'Oat Milk Barista Edition', nameEn: 'Plant-Based Barista Blend', qty: 8, unit: 'Liters', min: 5, max: 20, category: 'Dairy' },
+      { id: 'avocado-fresh', name: 'Fresh Hass Avocados', nameEn: 'Selected Premium Fruit', qty: 14, unit: 'kg', min: 4, max: 20, category: 'Produce' },
+      { id: 'oranges-valencia', name: 'Fresh Valencia Oranges', nameEn: 'Cold Press Juice Fruit', qty: 30, unit: 'kg', min: 8, max: 40, category: 'Produce' },
+      { id: 'karak-tea-blend', name: 'Traditional Karak Spiced Tea', nameEn: 'Assam Tea & Cardamom', qty: 6.0, unit: 'kg', min: 2.0, max: 10.0, category: 'Tea & Herbs' },
+      { id: 'hibiscus-flowers', name: 'Natural Hibiscus Flowers', nameEn: 'Aswan Sun-Dried Flowers', qty: 5.0, unit: 'kg', min: 1.5, max: 8.0, category: 'Tea & Herbs' },
+      { id: 'condensed-milk', name: 'Sweetened Condensed Milk', nameEn: 'Spanish Latte Blend', qty: 24, unit: 'Cans', min: 8, max: 36, category: 'Syrups & Flavors' },
+      { id: 'v60-filters', name: 'Hario V60 Paper Filters 02', nameEn: 'Bleached Cone Filters', qty: 8, unit: 'Packs (100 pcs)', min: 4, max: 20, category: 'Supplies' },
+      { id: 'cups-hot', name: 'Waseem Custom Hot Cups', nameEn: '8oz & 12oz Sleeves', qty: 450, unit: 'Cups', min: 100, max: 1000, category: 'Packaging' },
+      { id: 'cups-iced', name: 'Clear Iced Cups 16oz', nameEn: 'Crystal Cold Drink Cups', qty: 380, unit: 'Cups', min: 80, max: 800, category: 'Packaging' },
+      { id: 'bags-takeaway', name: 'Waseem Custom Takeaway Bags', nameEn: 'Embossed Paper Bags', qty: 220, unit: 'Bags', min: 50, max: 500, category: 'Packaging' }
     ];
 
+    // --- DEFAULT DRINK MENU ---
     const DEFAULT_MENU_ITEMS = [
-      { id: 'v60-colombia', name: 'V60 Specialty Coffee', category: 'Specialty Coffee', price: 10, hot: 10, iced: 12, available: true },
+      { id: 'v60-colombia', name: 'V60 Specialty Coffee', category: 'Specialty Coffee', hot: 10, iced: 12, available: true },
       { id: 'iced-v60', name: 'Iced V60', category: 'Specialty Coffee', price: 12, available: true },
-      { id: 'americano', name: 'Americano', category: 'Espresso & Milk', price: 5, hot: 5, iced: 10, available: true },
-      { id: 'latte', name: 'Caffe Latte', category: 'Espresso & Milk', price: 5, hot: 5, iced: 8, available: true },
-      { id: 'cappuccino', name: 'Cappuccino', category: 'Espresso & Milk', price: 5, hot: 5, iced: 8, available: true },
-      { id: 'mocha', name: 'Caffe Mocha', category: 'Espresso & Milk', price: 5, hot: 5, iced: 8, available: true },
-      { id: 'spanish-latte', name: 'Spanish Latte', category: 'Iced & Refreshing', price: 10, hot: 7, iced: 10, available: true },
+      { id: 'americano', name: 'Americano', category: 'Espresso & Milk', hot: 5, iced: 10, available: true },
+      { id: 'latte', name: 'Caffe Latte', category: 'Espresso & Milk', hot: 5, iced: 8, available: true },
+      { id: 'cappuccino', name: 'Cappuccino', category: 'Espresso & Milk', hot: 5, iced: 8, available: true },
+      { id: 'mocha', name: 'Caffe Mocha', category: 'Espresso & Milk', hot: 5, iced: 8, available: true },
+      { id: 'spanish-latte', name: 'Spanish Latte', category: 'Iced & Refreshing', hot: 7, iced: 10, available: true },
       { id: 'avocado-juice', name: 'Fresh Avocado Juice', category: 'Tea & Fresh Juices', price: 12, available: true },
-      { id: 'karak-tea', name: 'Karak Tea', category: 'Tea & Fresh Juices', price: 3, hot: 3, available: true },
+      { id: 'karak-tea', name: 'Karak Tea', category: 'Tea & Fresh Juices', hot: 3, available: true },
       { id: 'fresh-orange', name: 'Fresh Orange Juice', category: 'Tea & Fresh Juices', price: 8, available: true },
       { id: 'hibiscus-iced', name: 'Iced Karkadeh (Hibiscus)', category: 'Tea & Fresh Juices', price: 7, available: true }
     ];
 
-    const DEFAULT_ORDERS = [
-      { id: 'WS-1048', time: '10:42 PM', items: '2× V60 Colombia, 1× Spanish Latte', method: 'Apple Pay', total: 32, status: 'Completed' },
-      { id: 'WS-1047', time: '10:28 PM', items: '1× Caffe Latte (Oat Milk)', method: 'Mada', total: 8, status: 'Completed' },
-      { id: 'WS-1046', time: '10:15 PM', items: '1× Fresh Avocado, 1× Iced Hibiscus', method: 'Mada', total: 19, status: 'Completed' },
-      { id: 'WS-1045', time: '09:50 PM', items: '3× Karak Tea, 1× Americano Hot', method: 'Cash', total: 14, status: 'Completed' },
-      { id: 'WS-1044', time: '09:32 PM', items: '1× Iced V60 Colombia', method: 'Apple Pay', total: 12, status: 'Completed' },
-      { id: 'WS-1043', time: '09:10 PM', items: '2× Hot Cappuccino, 1× Spanish Latte', method: 'Mada', total: 20, status: 'Completed' }
-    ];
-
-    // --- STATE MANAGEMENT ---
-    let ingredients = JSON.parse(localStorage.getItem('waseem_ingredients')) || DEFAULT_INGREDIENTS;
-    let menuItems = JSON.parse(localStorage.getItem('waseem_menu_items')) || DEFAULT_MENU_ITEMS;
-    let orders = JSON.parse(localStorage.getItem('waseem_orders')) || DEFAULT_ORDERS;
+    // --- STATE INITIALIZATION (100% REAL DATA, ZERO MOCK ORDERS) ---
+    let ingredients = JSON.parse(localStorage.getItem('waseem_ingredients') || 'null') || DEFAULT_INGREDIENTS;
+    let menuItems = JSON.parse(localStorage.getItem('waseem_menu_items') || 'null') || DEFAULT_MENU_ITEMS;
+    let orders = JSON.parse(localStorage.getItem('waseem_orders') || '[]'); // Starts empty!
     let currentPosCart = [];
     let selectedPay = 'Mada';
     let isStoreOpen = localStorage.getItem('waseem_store_open') !== 'false';
+    let enteredPin = '';
+    const CORRECT_PIN = '1234';
 
     function saveState() {
       localStorage.setItem('waseem_ingredients', JSON.stringify(ingredients));
@@ -1350,427 +1413,645 @@
       localStorage.setItem('waseem_store_open', isStoreOpen);
     }
 
-    // --- SECURITY & PIN ---
-    function checkAuth() {
-      const auth = sessionStorage.getItem('waseem_admin_auth');
-      if (auth !== 'true') {
-        document.getElementById('pin-modal').style.display = 'flex';
-      }
+    function showToast(text) {
+      const t = document.getElementById('toast-msg');
+      t.textContent = text;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 3000);
     }
 
+    // --- PIN GATE FUNCTIONS ---
+    function pressPin(n) {
+      if (enteredPin.length < 4) {
+        enteredPin += n;
+        updatePinDisplay();
+        if (enteredPin.length === 4) verifyPin();
+      }
+    }
+    function clearPin() {
+      enteredPin = '';
+      updatePinDisplay();
+    }
+    function updatePinDisplay() {
+      const d = document.getElementById('pin-dots');
+      d.textContent = '•'.repeat(enteredPin.length).padEnd(4, '·');
+    }
     function verifyPin() {
-      const pin = document.getElementById('pin-input').value;
-      if (pin === '1234') {
+      if (enteredPin === CORRECT_PIN) {
+        document.getElementById('pin-overlay').style.display = 'none';
         sessionStorage.setItem('waseem_admin_auth', 'true');
-        document.getElementById('pin-modal').style.display = 'none';
+        showToast('Welcome, Captain Waseem!');
       } else {
-        document.getElementById('pin-error').style.display = 'block';
+        alert('Invalid PIN code. Please enter the manager PIN.');
+        clearPin();
       }
     }
-
-    function bypassPin() {
+    function quickUnlock() {
+      document.getElementById('pin-overlay').style.display = 'none';
       sessionStorage.setItem('waseem_admin_auth', 'true');
-      document.getElementById('pin-modal').style.display = 'none';
+      showToast('Quick demo access granted');
     }
-
     function lockPortal() {
       sessionStorage.removeItem('waseem_admin_auth');
-      document.getElementById('pin-input').value = '';
-      document.getElementById('pin-modal').style.display = 'flex';
+      enteredPin = '';
+      updatePinDisplay();
+      document.getElementById('pin-overlay').style.display = 'flex';
+    }
+    if (sessionStorage.getItem('waseem_admin_auth') === 'true') {
+      document.getElementById('pin-overlay').style.display = 'none';
     }
 
     // --- CLOCK & STORE STATUS ---
     function updateClock() {
-      const now = new Date();
-      document.getElementById('live-clock').textContent = now.toLocaleTimeString('en-US', { hour12: true });
-      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-      document.getElementById('live-date').textContent = 'Riyadh, Saudi Arabia · ' + now.toLocaleDateString('en-US', options);
-      const zTime = document.getElementById('z-report-timestamp');
-      if (zTime) zTime.textContent = 'Shift Date: ' + now.toLocaleString('en-US');
+      const d = new Date();
+      document.getElementById('live-clock').textContent = d.toLocaleTimeString('en-US', { hour12: true });
+      const zEl = document.getElementById('z-report-timestamp');
+      if (zEl) zEl.textContent = 'Report Generated: ' + d.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', year:'numeric' }) + ' at ' + d.toLocaleTimeString('en-US', { hour12: true });
     }
     setInterval(updateClock, 1000);
     updateClock();
 
+    function updateStoreStatusUI() {
+      const dot = document.getElementById('store-status-dot');
+      const txt = document.getElementById('store-status-text');
+      if (isStoreOpen) {
+        dot.className = 'status-dot';
+        txt.textContent = 'Store Open';
+      } else {
+        dot.className = 'status-dot closed';
+        txt.textContent = 'Store Closed';
+      }
+    }
     function toggleStoreStatus() {
       isStoreOpen = !isStoreOpen;
-      const pill = document.getElementById('store-status-pill');
-      if (isStoreOpen) {
-        pill.className = 'status-pill';
-        pill.innerHTML = '<span>🟢</span> Store Open to Public';
-      } else {
-        pill.className = 'status-pill closed';
-        pill.innerHTML = '<span>🔴</span> Store Temporarily Closed';
-      }
       saveState();
+      updateStoreStatusUI();
+      showToast(isStoreOpen ? 'Store status: OPEN' : 'Store status: CLOSED');
     }
+    updateStoreStatusUI();
 
-    // --- TABS SWITCHER ---
+    // --- TAB SWITCHING ---
     function switchTab(tabId) {
-      const tabs = ['analytics', 'inventory', 'pos', 'menu86', 'zreport'];
-      tabs.forEach(t => {
-        document.getElementById('pane-' + t).style.display = (t === tabId) ? 'block' : 'none';
+      const panes = ['analytics', 'prices', 'inventory', 'pos', 'zreport'];
+      panes.forEach(p => {
+        const el = document.getElementById('pane-' + p);
+        if (el) el.style.display = (p === tabId) ? 'block' : 'none';
       });
 
-      document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
-        btn.classList.toggle('active', tabs[idx] === tabId);
-      });
+      const btns = document.querySelectorAll('.tab-btn');
+      btns.forEach(b => b.classList.remove('active'));
+      const activeBtn = Array.from(btns).find(b => b.getAttribute('onclick')?.includes(tabId));
+      if (activeBtn) activeBtn.classList.add('active');
 
+      if (tabId === 'analytics') renderAnalytics();
+      if (tabId === 'prices') renderPriceEditor();
       if (tabId === 'inventory') renderInventory();
-      if (tabId === 'menu86') renderMenu86();
-      if (tabId === 'pos') renderPos();
-      if (tabId === 'analytics') renderOrdersTable();
+      if (tabId === 'pos') renderPosItems();
       if (tabId === 'zreport') renderZReport();
     }
 
-    // --- RENDER INVENTORY ---
-    function renderInventory() {
-      const container = document.getElementById('ingredients-container');
-      let criticalCount = 0;
+    // --- TAB 1: SALES & ANALYTICS (REAL CALCULATIONS ONLY) ---
+    function renderAnalytics() {
+      const count = orders.length;
+      const totalGross = orders.reduce((sum, o) => sum + (o.total || 0), 0);
+      const avgTicket = count ? (totalGross / count) : 0;
 
-      container.innerHTML = ingredients.map(ing => {
-        const isCritical = ing.qty <= ing.min;
-        if (isCritical) criticalCount++;
-
-        const pct = Math.min(100, Math.max(0, Math.round((ing.qty / ing.max) * 100)));
-        let colorClass = 'ok';
-        let fillBg = '#16a34a';
-        let badgeText = 'In Stock';
-
-        if (ing.qty <= 0) {
-          colorClass = 'empty';
-          fillBg = '#dc2626';
-          badgeText = 'Out of Stock!';
-        } else if (isCritical) {
-          colorClass = 'low';
-          fillBg = '#d97706';
-          badgeText = 'Reorder Soon';
+      // Item counts for top seller
+      const itemCounts = {};
+      orders.forEach(o => {
+        if (o.lines) {
+          o.lines.forEach(l => {
+            itemCounts[l.name] = (itemCounts[l.name] || 0) + l.qty;
+          });
         }
+      });
+      let topItem = 'Awaiting Orders';
+      let topQty = 0;
+      for (const [name, qty] of Object.entries(itemCounts)) {
+        if (qty > topQty) {
+          topItem = name;
+          topQty = qty;
+        }
+      }
+
+      document.getElementById('kpi-revenue').textContent = 'SAR ' + totalGross.toFixed(2);
+      document.getElementById('kpi-orders').textContent = count;
+      document.getElementById('kpi-avg').textContent = 'SAR ' + avgTicket.toFixed(2);
+      document.getElementById('kpi-top').textContent = topItem;
+      document.getElementById('kpi-top-detail').textContent = topQty ? (topQty + ' cups sold today') : 'No sales recorded yet';
+
+      // Category breakdown
+      const catTotals = {
+        'Specialty Coffee': 0,
+        'Espresso & Milk': 0,
+        'Iced & Refreshing': 0,
+        'Tea & Fresh Juices': 0
+      };
+      orders.forEach(o => {
+        if (o.lines) {
+          o.lines.forEach(l => {
+            const m = menuItems.find(x => x.name === l.name);
+            const cat = m ? m.category : 'Espresso & Milk';
+            catTotals[cat] = (catTotals[cat] || 0) + (l.price * l.qty);
+          });
+        }
+      });
+
+      const catWrap = document.getElementById('category-bars-wrap');
+      if (totalGross === 0) {
+        catWrap.innerHTML = `
+          <div style="text-align:center;padding:26px 12px;color:var(--ws-text-muted);font-size:13px;">
+            <div style="font-size:26px;margin-bottom:6px;">☕</div>
+            No sales recorded yet today.<br>Use <b>Quick POS</b> to ring up your first beverage.
+          </div>
+        `;
+      } else {
+        const catColors = { 'Specialty Coffee': 'emerald', 'Espresso & Milk': '', 'Iced & Refreshing': 'warm', 'Tea & Fresh Juices': 'teal' };
+        catWrap.innerHTML = Object.entries(catTotals).map(([cName, cRev]) => {
+          const pct = Math.round((cRev / totalGross) * 100);
+          return `
+            <div class="cat-bar-item">
+              <div class="cat-bar-header">
+                <span>${cName}</span>
+                <span>${pct}% · SAR ${cRev.toFixed(2)}</span>
+              </div>
+              <div class="cat-bar-track">
+                <div class="cat-bar-fill ${catColors[cName] || ''}" style="width: ${pct}%;"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // Payment breakdown
+      let madaTotal = 0, appleTotal = 0, cashTotal = 0;
+      orders.forEach(o => {
+        if (o.method === 'Mada') madaTotal += o.total;
+        else if (o.method === 'Apple Pay') appleTotal += o.total;
+        else if (o.method === 'Cash') cashTotal += o.total;
+      });
+      const madaPct = totalGross ? Math.round((madaTotal / totalGross) * 100) : 0;
+      const applePct = totalGross ? Math.round((appleTotal / totalGross) * 100) : 0;
+      const cashPct = totalGross ? Math.round((cashTotal / totalGross) * 100) : 0;
+
+      document.getElementById('mada-pct').textContent = madaPct + '%';
+      document.getElementById('apple-pct').textContent = applePct + '%';
+      document.getElementById('cash-pct').textContent = cashPct + '%';
+
+      // Table body
+      const tbody = document.getElementById('orders-table-body');
+      document.getElementById('orders-log-count').textContent = count + ' orders today';
+      if (!orders.length) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align:center;padding:32px 14px;color:var(--ws-text-muted);">
+              No transactions recorded today.<br>Orders placed through <b>Quick POS Register</b> will appear here live.
+            </td>
+          </tr>
+        `;
+      } else {
+        tbody.innerHTML = orders.slice().reverse().map(o => `
+          <tr>
+            <td><strong>${o.id}</strong></td>
+            <td>${o.time}</td>
+            <td>${o.items}</td>
+            <td><span class="stock-badge ok">${o.method}</span></td>
+            <td><strong>SAR ${o.total.toFixed(2)}</strong></td>
+            <td><span style="color:var(--ws-success);font-weight:700;">● Completed</span></td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    // --- TAB 2: PRICES & MENU EDITOR ---
+    function renderPriceEditor() {
+      const cont = document.getElementById('price-editor-container');
+      cont.innerHTML = menuItems.map(item => {
+        const isDual = (item.hot !== undefined && item.iced !== undefined);
+        const hasHotOnly = (item.hot !== undefined && item.iced === undefined);
+        const hasSingle = (item.price !== undefined);
 
         return `
-          <div class="stock-card ${isCritical ? 'critical' : ''}">
+          <div class="price-item-card">
+            <div class="price-item-header">
+              <div class="price-item-title">
+                <h4>${item.name}</h4>
+                <span>${item.category}</span>
+              </div>
+              <span class="stock-badge ${item.available ? 'ok' : 'empty'}" id="status-badge-${item.id}">
+                ${item.available ? 'Available' : '86\'d (Sold Out)'}
+              </span>
+            </div>
+
+            <div class="price-inputs-row">
+              ${isDual ? `
+                <div class="price-field">
+                  <label>Hot Price</label>
+                  <div class="price-field-input">
+                    <span>SAR</span>
+                    <input type="number" step="0.5" id="price-hot-${item.id}" value="${item.hot}">
+                  </div>
+                </div>
+                <div class="price-field">
+                  <label>Iced Price</label>
+                  <div class="price-field-input">
+                    <span>SAR</span>
+                    <input type="number" step="0.5" id="price-iced-${item.id}" value="${item.iced}">
+                  </div>
+                </div>
+              ` : ''}
+
+              ${hasHotOnly ? `
+                <div class="price-field">
+                  <label>Hot Price</label>
+                  <div class="price-field-input">
+                    <span>SAR</span>
+                    <input type="number" step="0.5" id="price-hot-${item.id}" value="${item.hot}">
+                  </div>
+                </div>
+              ` : ''}
+
+              ${hasSingle ? `
+                <div class="price-field">
+                  <label>Regular Price</label>
+                  <div class="price-field-input">
+                    <span>SAR</span>
+                    <input type="number" step="0.5" id="price-reg-${item.id}" value="${item.price}">
+                  </div>
+                </div>
+              ` : ''}
+            </div>
+
+            <div class="price-item-footer">
+              <label class="toggle-86">
+                <input type="checkbox" id="avail-${item.id}" ${item.available ? 'checked' : ''} onchange="toggleItem86('${item.id}', this.checked)">
+                <span>Active on Menu</span>
+              </label>
+
+              <button class="btn-save-price" onclick="saveItemPrice('${item.id}')">
+                💾 Save Price
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function saveItemPrice(itemId) {
+      const item = menuItems.find(x => x.id === itemId);
+      if (!item) return;
+
+      const hotInput = document.getElementById('price-hot-' + itemId);
+      const icedInput = document.getElementById('price-iced-' + itemId);
+      const regInput = document.getElementById('price-reg-' + itemId);
+
+      if (hotInput) item.hot = parseFloat(hotInput.value) || item.hot;
+      if (icedInput) item.iced = parseFloat(icedInput.value) || item.iced;
+      if (regInput) item.price = parseFloat(regInput.value) || item.price;
+
+      saveState();
+      showToast(`Updated price for ${item.name}! Saved to public menu.`);
+      renderPriceEditor();
+    }
+
+    function toggleItem86(itemId, isAvailable) {
+      const item = menuItems.find(x => x.id === itemId);
+      if (!item) return;
+      item.available = isAvailable;
+      saveState();
+      showToast(`${item.name} is now ${isAvailable ? 'Available' : '86\'d (Sold Out)'}`);
+      const badge = document.getElementById('status-badge-' + itemId);
+      if (badge) {
+        badge.className = `stock-badge ${isAvailable ? 'ok' : 'empty'}`;
+        badge.textContent = isAvailable ? 'Available' : '86\'d (Sold Out)';
+      }
+    }
+
+    function resetMenuToDefaults() {
+      if (confirm('Reset all drink prices and availability back to standard defaults?')) {
+        menuItems = JSON.parse(JSON.stringify(DEFAULT_MENU_ITEMS));
+        saveState();
+        renderPriceEditor();
+        showToast('Menu prices reset to defaults');
+      }
+    }
+
+    // --- TAB 3: INVENTORY ---
+    function renderInventory() {
+      const cont = document.getElementById('ingredients-container');
+      let lowCount = 0;
+
+      cont.innerHTML = ingredients.map(ing => {
+        const pct = Math.min(100, Math.round((ing.qty / ing.max) * 100));
+        let status = 'ok';
+        let badgeText = 'Normal';
+        let barColor = 'var(--ws-emerald)';
+
+        if (ing.qty <= 0) {
+          status = 'empty';
+          badgeText = 'Depleted';
+          barColor = 'var(--ws-danger)';
+          lowCount++;
+        } else if (ing.qty <= ing.min) {
+          status = 'low';
+          badgeText = 'Reorder Alert';
+          barColor = 'var(--ws-warning)';
+          lowCount++;
+        }
+
+        const reorderMsg = encodeURIComponent(
+          `Hello! This is Waseem Cafe.\nWe need an urgent replenishment order for:\n` +
+          `• Item: ${ing.name} (${ing.nameEn})\n` +
+          `• Current Stock: ${ing.qty} ${ing.unit}\n` +
+          `• Target Order: ${(ing.max - ing.qty).toFixed(1)} ${ing.unit}\n\nPlease confirm availability and delivery.`
+        );
+
+        return `
+          <div class="stock-card ${status === 'low' || status === 'empty' ? 'critical' : ''}">
             <div class="stock-head">
               <div class="stock-name-wrap">
                 <h4>${ing.name}</h4>
                 <span>${ing.nameEn} · ${ing.category}</span>
               </div>
-              <span class="stock-badge ${colorClass}">${badgeText}</span>
+              <span class="stock-badge ${status}">${badgeText}</span>
             </div>
 
             <div class="stock-gauge-wrap">
               <div class="stock-gauge-labels">
-                <span>Current Level: <strong>${ing.qty} ${ing.unit}</strong></span>
-                <span style="font-size:11px;color:#888;">Reorder point: ${ing.min}</span>
+                <span>Stock: <b>${ing.qty} ${ing.unit}</b></span>
+                <span style="color:var(--ws-text-muted);font-size:11px;">Min ${ing.min} / Max ${ing.max}</span>
               </div>
               <div class="stock-gauge-bar">
-                <div class="stock-gauge-fill" style="width:${pct}%;background:${fillBg};"></div>
+                <div class="stock-gauge-fill" style="width:${pct}%;background:${barColor};"></div>
               </div>
             </div>
 
             <div class="stock-actions">
               <div class="qty-stepper">
-                <button class="qty-btn" onclick="adjustQty('${ing.id}', -1)" title="Deduct 1">−</button>
-                <span class="qty-display">${ing.qty}</span>
-                <button class="qty-btn" onclick="adjustQty('${ing.id}', 1)" title="Add 1">+</button>
+                <button onclick="changeStock('${ing.id}', -1)">−</button>
+                <span>${ing.qty}</span>
+                <button onclick="changeStock('${ing.id}', 1)">+</button>
               </div>
 
-              <div style="display:flex;gap:4px;">
-                <button class="btn-outline" style="padding:5px 8px;font-size:11px;" onclick="adjustQty('${ing.id}', 5)">+5</button>
-                ${isCritical ? `
-                  <a class="btn-primary" style="padding:5px 10px;font-size:11px;width:auto;background:#be123c;" href="https://wa.me/966511313965?text=${encodeURIComponent('Urgent purchase order for Waseem Cafe: We need replenishment of ' + ing.name)}" target="_blank">
-                    Reorder 📲
-                  </a>
-                ` : ''}
-              </div>
+              <a class="btn-wa-reorder" href="https://wa.me/966511313965?text=${reorderMsg}" target="_blank">
+                <span>💬</span> Reorder via WA
+              </a>
             </div>
           </div>
         `;
       }).join('');
 
-      // Update alert counter badge
-      const badge = document.getElementById('stock-alert-count');
-      badge.textContent = criticalCount + ' Low Alert';
-      badge.style.display = criticalCount > 0 ? 'inline-block' : 'none';
-
-      const alertBanner = document.getElementById('urgent-alert');
-      if (alertBanner) {
-        alertBanner.style.display = criticalCount > 0 ? 'flex' : 'none';
-      }
+      document.getElementById('stock-alert-count').textContent = lowCount + ' Low';
     }
 
-    function adjustQty(id, delta) {
-      const item = ingredients.find(i => i.id === id);
-      if (item) {
-        item.qty = Math.max(0, Math.round((item.qty + delta) * 10) / 10);
-        saveState();
-        renderInventory();
-      }
+    function changeStock(ingId, delta) {
+      const ing = ingredients.find(x => x.id === ingId);
+      if (!ing) return;
+      ing.qty = Math.max(0, parseFloat((ing.qty + delta).toFixed(1)));
+      saveState();
+      renderInventory();
     }
 
-    // --- RENDER MENU 86 (AVAILABILITY TOGGLE) ---
-    function renderMenu86() {
-      const container = document.getElementById('menu-86-list');
-      container.innerHTML = menuItems.map(item => `
-        <div class="menu-toggle-card">
-          <div class="menu-toggle-info">
-            <div class="menu-toggle-icon">☕</div>
-            <div class="menu-toggle-meta">
-              <h4>${item.name}</h4>
-              <span>${item.category} · ${item.price ? 'SAR ' + item.price : 'Hot: SAR ' + item.hot + ' / Iced: SAR ' + item.iced}</span>
-            </div>
-          </div>
-
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span style="font-size:13px;font-weight:700;color:${item.available ? 'var(--ws-success)' : 'var(--ws-danger)'};">
-              ${item.available ? '🟢 Active on Menu' : '🔴 86\'d (Sold Out)'}
-            </span>
-            <label class="toggle-switch">
-              <input type="checkbox" ${item.available ? 'checked' : ''} onchange="toggleItemAvailability('${item.id}', this.checked)">
-              <span class="slider"></span>
-            </label>
-          </div>
-        </div>
-      `).join('');
+    function exportInventoryCsv() {
+      const headers = ['ID', 'Name', 'Description', 'Category', 'Current Qty', 'Unit', 'Min Threshold', 'Max Target'];
+      const rows = ingredients.map(i => [i.id, `"${i.name}"`, `"${i.nameEn}"`, `"${i.category}"`, i.qty, `"${i.unit}"`, i.min, i.max]);
+      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      downloadFile(csv, 'waseem-cafe-inventory.csv', 'text/csv');
     }
 
-    function toggleItemAvailability(id, isAvailable) {
-      const item = menuItems.find(m => m.id === id);
-      if (item) {
-        item.available = isAvailable;
-        saveState();
-        renderMenu86();
-      }
-    }
-
-    // --- QUICK POS ---
+    // --- TAB 4: QUICK POS CHECKOUT ---
     let posCatFilter = 'All';
-
     function filterPosCat(cat, btn) {
       posCatFilter = cat;
       document.querySelectorAll('#pane-pos .pill-opt').forEach(b => b.classList.remove('active'));
-      if (btn) btn.classList.add('active');
-      renderPos();
+      btn.classList.add('active');
+      renderPosItems();
     }
 
-    function renderPos() {
+    function renderPosItems() {
       const grid = document.getElementById('pos-items-grid');
-      const filtered = menuItems.filter(m => (posCatFilter === 'All' || m.category === posCatFilter) && m.available);
+      const filtered = menuItems.filter(i => posCatFilter === 'All' || i.category === posCatFilter);
 
-      grid.innerHTML = filtered.map(item => `
-        <button class="pos-btn" onclick="addToPos('${item.id}')">
-          <span style="font-size:24px;">☕</span>
-          <span class="pos-name">${item.name}</span>
-          <span class="pos-price">SAR ${item.price || item.iced || item.hot}</span>
-        </button>
-      `).join('');
+      grid.innerHTML = filtered.map(item => {
+        if (!item.available) {
+          return `
+            <div class="pos-item-btn" style="opacity:0.5;cursor:not-allowed;">
+              <div>
+                <div class="pos-item-name">${item.name}</div>
+                <div class="pos-item-cat">${item.category}</div>
+              </div>
+              <div style="font-size:11px;color:var(--ws-danger);font-weight:700;">86'd (Sold Out)</div>
+            </div>
+          `;
+        }
 
+        // Generate buttons for hot/iced or regular
+        let buttons = '';
+        if (item.hot !== undefined && item.iced !== undefined) {
+          buttons = `
+            <div style="display:flex;gap:4px;margin-top:6px;">
+              <button class="btn-primary" style="padding:4px 8px;font-size:11px;" onclick="addPosTicket('${item.name} (Hot)', ${item.hot})">Hot SAR ${item.hot}</button>
+              <button class="btn-outline" style="padding:4px 8px;font-size:11px;" onclick="addPosTicket('${item.name} (Iced)', ${item.iced})">Iced SAR ${item.iced}</button>
+            </div>
+          `;
+        } else if (item.hot !== undefined) {
+          buttons = `
+            <button class="btn-primary" style="padding:4px 8px;font-size:11px;margin-top:6px;" onclick="addPosTicket('${item.name} (Hot)', ${item.hot})">Hot SAR ${item.hot}</button>
+          `;
+        } else {
+          buttons = `
+            <button class="btn-primary" style="padding:4px 8px;font-size:11px;margin-top:6px;" onclick="addPosTicket('${item.name}', ${item.price})">Regular SAR ${item.price}</button>
+          `;
+        }
+
+        return `
+          <div class="pos-item-btn">
+            <div>
+              <div class="pos-item-name">${item.name}</div>
+              <div class="pos-item-cat">${item.category}</div>
+            </div>
+            ${buttons}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function addPosTicket(name, price) {
+      const existing = currentPosCart.find(x => x.name === name);
+      if (existing) existing.qty++;
+      else currentPosCart.push({ name, price, qty: 1 });
       renderPosTicket();
     }
 
-    function addToPos(id) {
-      const item = menuItems.find(m => m.id === id);
-      if (!item) return;
-      const price = item.price || item.iced || item.hot;
-      const existing = currentPosCart.find(c => c.id === id);
-      if (existing) {
-        existing.qty++;
-      } else {
-        currentPosCart.push({ id: item.id, name: item.name, price: price, qty: 1 });
-      }
+    function changePosTicket(idx, delta) {
+      currentPosCart[idx].qty += delta;
+      if (currentPosCart[idx].qty <= 0) currentPosCart.splice(idx, 1);
       renderPosTicket();
     }
 
     function renderPosTicket() {
       const lines = document.getElementById('pos-ticket-lines');
-      const totalDisplay = document.getElementById('pos-total-val');
+      const totalEl = document.getElementById('pos-total-val');
 
-      if (currentPosCart.length === 0) {
-        lines.innerHTML = `<p style="font-size:12px;color:#888;text-align:center;margin:30px 0;">No items selected yet. Tap any drink to add.</p>`;
-        totalDisplay.textContent = 'SAR 0';
+      if (!currentPosCart.length) {
+        lines.innerHTML = '<p style="font-size:12px;color:#888;text-align:center;margin:30px 0;">No items selected yet. Tap any drink to add.</p>';
+        totalEl.textContent = 'SAR 0.00';
         return;
       }
 
-      let sum = 0;
-      lines.innerHTML = currentPosCart.map((c, idx) => {
-        const lineTotal = c.qty * c.price;
-        sum += lineTotal;
+      let total = 0;
+      lines.innerHTML = currentPosCart.map((x, i) => {
+        total += (x.price * x.qty);
         return `
-          <div class="ticket-row">
+          <div class="ticket-line">
             <div>
-              <strong>${c.name}</strong> × ${c.qty}
+              <b>${x.name}</b>
+              <div style="font-size:11px;color:#666;">SAR ${x.price} each</div>
             </div>
-            <div>
-              SAR ${lineTotal}
-              <button onclick="removePosItem(${idx})" style="background:none;border:none;color:#dc2626;cursor:pointer;margin-left:6px;">✕</button>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div class="qty-stepper">
+                <button onclick="changePosTicket(${i}, -1)">−</button>
+                <span>${x.qty}</span>
+                <button onclick="changePosTicket(${i}, 1)">+</button>
+              </div>
+              <span style="font-weight:700;">SAR ${(x.price * x.qty).toFixed(2)}</span>
             </div>
           </div>
         `;
       }).join('');
 
-      totalDisplay.textContent = 'SAR ' + sum;
-    }
-
-    function removePosItem(index) {
-      currentPosCart.splice(index, 1);
-      renderPosTicket();
+      totalEl.textContent = 'SAR ' + total.toFixed(2);
     }
 
     function selectPayMethod(method, btn) {
       selectedPay = method;
-      document.querySelectorAll('#pane-pos .pill-opt').forEach(b => {
-        if (b.id && b.id.startsWith('pay-')) b.classList.remove('active');
+      ['pay-mada', 'pay-apple', 'pay-cash'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('active');
       });
-      if (btn) btn.classList.add('active');
+      btn.classList.add('active');
     }
 
     function completePosOrder() {
-      if (currentPosCart.length === 0) {
-        alert('Please add at least one item to complete the order');
+      if (!currentPosCart.length) {
+        alert('Cart is empty. Please select drinks first.');
         return;
       }
 
-      const total = currentPosCart.reduce((acc, c) => acc + (c.qty * c.price), 0);
-      const itemsSummary = currentPosCart.map(c => `${c.qty}× ${c.name}`).join(', ');
-      const newId = 'WS-' + (1049 + orders.length);
+      const total = currentPosCart.reduce((s, x) => s + (x.price * x.qty), 0);
+      const orderNum = 'WS-' + (1001 + orders.length);
       const now = new Date();
       const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+      const itemsSummary = currentPosCart.map(x => `${x.qty}× ${x.name}`).join(', ');
 
-      // Add to orders
-      orders.unshift({
-        id: newId,
+      const orderRecord = {
+        id: orderNum,
         time: timeStr,
         items: itemsSummary,
         method: selectedPay,
         total: total,
-        status: 'Completed'
-      });
+        status: 'Completed',
+        lines: JSON.parse(JSON.stringify(currentPosCart))
+      };
 
-      // Auto deduct stock proxy
-      const beans = ingredients.find(i => i.id === 'beans-colombia');
-      if (beans) beans.qty = Math.max(0, Math.round((beans.qty - 0.02 * currentPosCart.length) * 100) / 100);
-      const cups = ingredients.find(i => i.id === 'cups-hot');
-      if (cups) cups.qty = Math.max(0, cups.qty - currentPosCart.length);
+      orders.push(orderRecord);
+
+      // Auto-deduct supplies
+      const milk = ingredients.find(x => x.id === 'milk-whole');
+      const hotCups = ingredients.find(x => x.id === 'cups-hot');
+      const icedCups = ingredients.find(x => x.id === 'cups-iced');
+
+      currentPosCart.forEach(item => {
+        if (item.name.includes('(Hot)') && hotCups) hotCups.qty = Math.max(0, hotCups.qty - item.qty);
+        if (item.name.includes('(Iced)') && icedCups) icedCups.qty = Math.max(0, icedCups.qty - item.qty);
+        if (item.name.includes('Latte') || item.name.includes('Cappuccino')) {
+          if (milk) milk.qty = Math.max(0, parseFloat((milk.qty - (0.2 * item.qty)).toFixed(1)));
+        }
+      });
 
       saveState();
       currentPosCart = [];
       renderPosTicket();
-      renderOrdersTable();
-      renderInventory();
-
-      alert(`✅ Sale completed successfully!\nOrder #${newId}\nAmount: SAR ${total} (${selectedPay})`);
+      showToast(`Order ${orderNum} completed! (SAR ${total.toFixed(2)})`);
     }
 
-    // --- RENDER ORDERS TABLE & ANALYTICS ---
-    function renderOrdersTable() {
-      const tbody = document.getElementById('orders-table-body');
-      tbody.innerHTML = orders.slice(0, 10).map(ord => `
-        <tr>
-          <td><strong style="color:var(--ws-emerald);">${ord.id}</strong></td>
-          <td>${ord.time}</td>
-          <td>${ord.items}</td>
-          <td><span style="background:#f0ebe2;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;">${ord.method}</span></td>
-          <td><strong>SAR ${ord.total}</strong></td>
-          <td><span style="color:var(--ws-success);font-weight:700;">● ${ord.status}</span></td>
-        </tr>
-      `).join('');
-
-      // Update KPI
-      const gross = orders.reduce((acc, o) => acc + o.total, 0) + 2600;
-      const totalCount = orders.length + 130;
-      document.getElementById('kpi-revenue').textContent = 'SAR ' + gross.toLocaleString();
-      document.getElementById('kpi-orders').textContent = totalCount;
-      document.getElementById('kpi-avg').textContent = 'SAR ' + (gross / totalCount).toFixed(2);
-    }
-
-    // --- Z-REPORT DATA ---
+    // --- TAB 5: Z-REPORT ---
     function renderZReport() {
-      const gross = orders.reduce((acc, o) => acc + o.total, 0) + 2600;
-      const vat = Math.round((gross * 0.15 / 1.15) * 100) / 100;
-      const net = Math.round((gross - vat) * 100) / 100;
-      const count = orders.length + 130;
+      const count = orders.length;
+      const gross = orders.reduce((s, o) => s + (o.total || 0), 0);
+      const vat = gross - (gross / 1.15);
+      const net = gross / 1.15;
 
-      document.getElementById('z-gross').textContent = 'SAR ' + gross.toLocaleString();
-      document.getElementById('z-vat').textContent = 'SAR ' + vat.toLocaleString();
-      document.getElementById('z-net').textContent = 'SAR ' + net.toLocaleString();
+      let mada = 0, apple = 0, cash = 0;
+      orders.forEach(o => {
+        if (o.method === 'Mada') mada += o.total;
+        else if (o.method === 'Apple Pay') apple += o.total;
+        else if (o.method === 'Cash') cash += o.total;
+      });
+
+      document.getElementById('z-gross').textContent = 'SAR ' + gross.toFixed(2);
+      document.getElementById('z-vat').textContent = 'SAR ' + vat.toFixed(2);
+      document.getElementById('z-net').textContent = 'SAR ' + net.toFixed(2);
       document.getElementById('z-count').textContent = count + ' orders';
-      document.getElementById('z-mada').textContent = 'SAR ' + Math.round(gross * 0.68).toLocaleString();
-      document.getElementById('z-apple').textContent = 'SAR ' + Math.round(gross * 0.24).toLocaleString();
-      document.getElementById('z-cash').textContent = 'SAR ' + Math.round(gross * 0.08).toLocaleString();
+      document.getElementById('z-mada').textContent = 'SAR ' + mada.toFixed(2);
+      document.getElementById('z-apple').textContent = 'SAR ' + apple.toFixed(2);
+      document.getElementById('z-cash').textContent = 'SAR ' + cash.toFixed(2);
     }
 
     function shareZReportWhatsApp() {
-      const gross = document.getElementById('z-gross').textContent;
-      const vat = document.getElementById('z-vat').textContent;
-      const net = document.getElementById('z-net').textContent;
-      const count = document.getElementById('z-count').textContent;
+      const gross = orders.reduce((s, o) => s + (o.total || 0), 0);
+      const vat = gross - (gross / 1.15);
+      const net = gross / 1.15;
+      const count = orders.length;
 
-      const msg = encodeURIComponent(
-        `📋 *Daily Shift Z-Report — Waseem Cafe*\n\n` +
-        `📅 Date: ${new Date().toLocaleDateString('en-US')}\n` +
-        `💰 Gross Sales: ${gross}\n` +
-        `🧾 Total Orders: ${count}\n` +
-        `🏛️ VAT (15%): ${vat}\n` +
-        `💵 Net Revenue: ${net}\n\n` +
-        `_Generated via Waseem Operations Command_`
+      const txt = encodeURIComponent(
+        `📋 *Waseem Cafe · Daily Shift Z-Report*\n` +
+        `Date: ${new Date().toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' })}\n\n` +
+        `💰 *Gross Sales:* SAR ${gross.toFixed(2)}\n` +
+        `📊 *15% VAT:* SAR ${vat.toFixed(2)}\n` +
+        `💵 *Net Revenue:* SAR ${net.toFixed(2)}\n` +
+        `🧾 *Total Orders:* ${count}\n\n` +
+        `💳 *Mada:* SAR ${document.getElementById('z-mada').textContent}\n` +
+        `📱 *Apple Pay:* SAR ${document.getElementById('z-apple').textContent}\n` +
+        `💵 *Cash in Drawer:* ${document.getElementById('z-cash').textContent}\n\n` +
+        `_Shift balanced and closed by Captain Waseem._`
       );
-      window.open(`https://wa.me/966511313965?text=${msg}`, '_blank');
+      window.open(`https://wa.me/966511313965?text=${txt}`, '_blank');
     }
 
-    // --- CSV EXPORT HELPERS ---
+    function closeShiftAndReset() {
+      if (confirm('Are you sure you want to CLOSE the current shift and reset sales counters to zero for tomorrow?')) {
+        orders = [];
+        saveState();
+        renderZReport();
+        renderAnalytics();
+        showToast('Shift closed successfully. Sales reset for tomorrow.');
+      }
+    }
+
     function exportSalesCsv() {
-      let csv = 'Order ID,Time,Items,Payment Method,Total SAR,Status\n';
-      orders.forEach(o => {
-        csv += `"${o.id}","${o.time}","${o.items}","${o.method}",${o.total},"${o.status}"\n`;
-      });
-      downloadFile(csv, 'waseem_cafe_sales_' + new Date().toISOString().slice(0,10) + '.csv', 'text/csv');
-    }
-
-    function exportInventoryCsv() {
-      let csv = 'ID,Name,Subtext,Category,Current Qty,Unit,Reorder Min,Max Capacity\n';
-      ingredients.forEach(i => {
-        csv += `"${i.id}","${i.name}","${i.nameEn}","${i.category}",${i.qty},"${i.unit}",${i.min},${i.max}\n`;
-      });
-      downloadFile(csv, 'waseem_cafe_inventory_' + new Date().toISOString().slice(0,10) + '.csv', 'text/csv');
+      const headers = ['Order ID', 'Time', 'Items', 'Payment Method', 'Total (SAR)', 'Status'];
+      const rows = orders.map(o => [o.id, `"${o.time}"`, `"${o.items}"`, `"${o.method}"`, o.total, o.status]);
+      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      downloadFile(csv, 'waseem-cafe-sales.csv', 'text/csv');
     }
 
     function downloadFile(content, fileName, mimeType) {
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      const blob = new Blob(["\uFEFF" + content], { type: mimeType + ';charset=utf-8;' });
-      a.href = URL.createObjectURL(blob);
+      a.href = url;
       a.download = fileName;
       a.click();
+      URL.revokeObjectURL(url);
     }
 
-    function openNewIngredientModal() {
-      const name = prompt('Enter new item name (e.g. Hazelnut Artisanal Syrup):');
-      if (!name) return;
-      const unit = prompt('Enter unit of measurement (e.g. Bottle, kg, Box):', 'Bottle');
-      const qty = parseFloat(prompt('Initial quantity in stock:', '5')) || 1;
-      const min = parseFloat(prompt('Reorder alert threshold:', '2')) || 1;
-
-      ingredients.push({
-        id: 'item-' + Date.now(),
-        name: name,
-        nameEn: name,
-        qty: qty,
-        unit: unit,
-        min: min,
-        max: qty * 3,
-        category: 'Supplies'
-      });
-      saveState();
-      renderInventory();
-    }
-
-    function setPeriod(p, btn) {
-      document.querySelectorAll('#pane-analytics .pill-opt').forEach(b => b.classList.remove('active'));
-      if (btn) btn.classList.add('active');
-    }
-
-    // --- INIT ---
-    checkAuth();
+    // Initial render
+    renderAnalytics();
+    renderPriceEditor();
     renderInventory();
-    renderOrdersTable();
-    renderMenu86();
+    renderPosItems();
+    renderZReport();
   </script>
 </body>
 </html>

@@ -138,13 +138,13 @@ export default function Home() {
             onDoubleClick={handleMascotDblClick}
             onTouchEnd={handleMascotTouch}
             style={{
-              width: 78,
-              height: 78,
+              width: 84,
+              height: 84,
               borderRadius: '50%',
-              border: '2px solid var(--ws-gold)',
-              background: 'rgba(255,255,255,0.08)',
+              border: '2.5px solid var(--ws-gold)',
+              background: 'rgba(255,255,255,0.06)',
               overflow: 'hidden',
-              boxShadow: '0 6px 18px rgba(0,0,0,0.35)',
+              boxShadow: '0 6px 20px rgba(0,0,0,0.35)',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -154,8 +154,8 @@ export default function Home() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/waseem-mascot-bust.png"
-              alt="Waseem Mascot"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }}
+              alt="Captain Waseem Mascot"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%' }}
             />
           </div>
           <WsLogo size={96} />

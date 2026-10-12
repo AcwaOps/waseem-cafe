@@ -433,9 +433,9 @@
     <header class="brand-hero">
       <div class="brand-badge"><span>🌿</span> Specialty Coffee · 100% Arabica</div>
       
-      <div class="logo-wrap" style="display:flex;align-items:center;justify-content:center;gap:14px;">
-        <div class="mascot-badge" id="mascot-header-btn" title="Captain Waseem" style="width:78px;height:78px;border-radius:50%;border:2px solid var(--ws-gold);background:rgba(255,255,255,0.08);overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,0.35);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-          <img src="images/waseem-mascot-bust.png" alt="Waseem Mascot" style="width:100%;height:100%;object-fit:cover;object-position:center 15%;">
+      <div class="logo-wrap" style="display:flex;align-items:center;justify-content:center;gap:16px;">
+        <div class="mascot-badge" id="mascot-header-btn" title="Captain Waseem" style="width:84px;height:84px;border-radius:50%;border:2.5px solid var(--ws-gold);background:rgba(255,255,255,0.06);overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.35);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <img src="images/waseem-mascot-bust.png" alt="Captain Waseem Mascot" style="width:100%;height:100%;object-fit:cover;object-position:center 20%;">
         </div>
         <svg class="logo-svg" viewBox="0 0 100 100" fill="none">
           <g fill="#DFC18B">
@@ -503,7 +503,7 @@
           <div id="qr-target"></div>
           <p>Scan to view & share menu</p>
         </div>
-        <img src="images/waseem-mascot-standing.png" id="mascot-footer-btn" alt="Waseem with coffee" style="height:150px;filter:drop-shadow(0 6px 14px rgba(10,38,31,0.18));cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        <img src="images/waseem-mascot-standing.png" id="mascot-footer-btn" alt="Waseem with coffee" style="height:165px;filter:drop-shadow(0 6px 14px rgba(10,38,31,0.18));cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
       </div>
       <div class="footer-links">
         <a href="tel:+966511313965">📞 051 131 3965</a>
@@ -549,7 +549,30 @@
 
     const sar = n => '⃁ ' + n;
 
-
+    function getActiveMenu() {
+      try {
+        const saved = localStorage.getItem('waseem_menu_items');
+        if (saved) {
+          const list = JSON.parse(saved);
+          if (Array.isArray(list) && list.length) {
+            return MENU_ITEMS.map(def => {
+              const f = list.find(x => x.id === def.id);
+              if (f) {
+                return {
+                  ...def,
+                  hot: f.hot !== undefined ? f.hot : def.hot,
+                  iced: f.iced !== undefined ? f.iced : def.iced,
+                  price: f.price !== undefined ? f.price : def.price,
+                  available: f.available !== false,
+                };
+              }
+              return def;
+            });
+          }
+        }
+      } catch (e) {}
+      return MENU_ITEMS;
+    }
 
     function renderCategories() {
       const cats = ['All', 'Specialty Coffee', 'Espresso & Milk', 'Iced & Refreshing', 'Tea & Fresh Juices'];
@@ -569,7 +592,8 @@
 
     function renderMenu() {
       const container = document.getElementById('menu-container');
-      const filtered = MENU_ITEMS.filter(it => {
+      const allItems = getActiveMenu();
+      const filtered = allItems.filter(it => {
         const mCat = currentCat === 'All' || it.category === currentCat;
         const q = searchQuery.toLowerCase().trim();
         const mSearch = !q || it.name.toLowerCase().includes(q) || (it.nameAr && it.nameAr.includes(q)) || (it.notes && it.notes.toLowerCase().includes(q));
@@ -595,7 +619,7 @@
           </div>
           <div class="items-grid">
             ${items.map(it => `
-              <article class="item-card">
+              <article class="item-card" style="${!it.available ? 'opacity:0.65;background:#fcfbf9;' : ''}">
                 <div class="item-thumb" onclick="${it.image ? `openModal('${it.image}', '${it.name}', '${it.notes || it.description || ''}')` : ''}">
                   ${it.image ? `<img src="${it.image}" alt="${it.name}">` : `<div class="item-thumb-blank">WS</div>`}
                 </div>
@@ -608,11 +632,20 @@
                   </div>
                   ${it.notes ? `<div class="item-notes">✨ ${it.notes}</div>` : ''}
                   ${it.description ? `<div class="item-desc">${it.description}</div>` : ''}
-                  <div class="item-actions">
-                    ${it.hot !== undefined ? `<button class="action-btn" onclick="addToCart('${it.name}', 'Hot', ${it.hot})"><span>♨️ Hot</span> <b>${sar(it.hot)}</b> <span>＋</span></button>` : ''}
-                    ${it.iced !== undefined ? `<button class="action-btn" onclick="addToCart('${it.name}', 'Iced', ${it.iced})"><span>🧊 Iced</span> <b>${sar(it.iced)}</b> <span>＋</span></button>` : ''}
-                    ${it.price !== undefined ? `<button class="action-btn" onclick="addToCart('${it.name}', 'Regular', ${it.price})"><span>Regular</span> <b>${sar(it.price)}</b> <span>＋</span></button>` : ''}
-                  </div>
+
+                  ${!it.available ? `
+                    <div style="margin-top:8px;">
+                      <span style="background:var(--ws-danger-bg);color:var(--ws-danger);border:1px solid #fecdd3;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;">
+                        ⛔ Sold Out (نفدت الكمية)
+                      </span>
+                    </div>
+                  ` : `
+                    <div class="item-actions">
+                      ${it.hot !== undefined ? `<button class="action-btn" onclick="addToCart('${it.name}', 'Hot', ${it.hot})"><span>♨️ Hot</span> <b>${sar(it.hot)}</b> <span>＋</span></button>` : ''}
+                      ${it.iced !== undefined ? `<button class="action-btn" onclick="addToCart('${it.name}', 'Iced', ${it.iced})"><span>🧊 Iced</span> <b>${sar(it.iced)}</b> <span>＋</span></button>` : ''}
+                      ${it.price !== undefined ? `<button class="action-btn" onclick="addToCart('${it.name}', 'Regular', ${it.price})"><span>Regular</span> <b>${sar(it.price)}</b> <span>＋</span></button>` : ''}
+                    </div>
+                  `}
                 </div>
               </article>
             `).join('')}
