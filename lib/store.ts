@@ -3,25 +3,9 @@ import fs from 'fs/promises';
 import path from 'path';
 import { initialMenu } from './menu';
 
-export type MenuItem = {
-  id: string;
-  name: string;
-  nameAr?: string;
-  category: string;
-  hot?: number;
-  iced?: number;
-  price?: number;
-  description?: string;
-  notes?: string;
-  tag?: string;
-  image?: string;
-  active: boolean;
-};
-
-export type CafeSettings = {
-  storeOpen: boolean;
-  adminPasscode: string;
-};
+export * from './types';
+import type { MenuItem, CafeSettings } from './types';
+import { defaultPaymentSettings } from './types';
 
 const KEY = 'waseem-cafe:menu:v2';
 const SETTINGS_KEY = 'waseem-cafe:settings:v1';
@@ -94,6 +78,7 @@ export async function readSettings(): Promise<CafeSettings> {
   const defaultSettings: CafeSettings = {
     storeOpen: true,
     adminPasscode: process.env.ADMIN_PASSWORD || '1234',
+    paymentSettings: defaultPaymentSettings,
   };
 
   if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
@@ -103,6 +88,7 @@ export async function readSettings(): Promise<CafeSettings> {
         return {
           storeOpen: stored.storeOpen,
           adminPasscode: stored.adminPasscode || defaultSettings.adminPasscode,
+          paymentSettings: stored.paymentSettings || defaultPaymentSettings,
         };
       }
     } catch {}
@@ -119,6 +105,7 @@ export async function readSettings(): Promise<CafeSettings> {
       memorySettings = {
         storeOpen: parsed.storeOpen,
         adminPasscode: parsed.adminPasscode || defaultSettings.adminPasscode,
+        paymentSettings: parsed.paymentSettings || defaultPaymentSettings,
       };
       return memorySettings;
     }

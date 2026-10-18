@@ -1,7 +1,7 @@
 'use client';
 
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import type { MenuItem } from '@/lib/store';
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react';
+import { MenuItem, PaymentSettings, defaultPaymentSettings } from '@/lib/types';
 
 const CATEGORIES = [
   'Specialty Coffee',
@@ -65,9 +65,10 @@ const BLANK_ITEM = {
 };
 
 export default function AdminPage() {
-  const [activeTab, setActiveTab] = useState<'analytics' | 'inventory' | 'pos' | 'menu' | 'zreport'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'inventory' | 'pos' | 'menu' | 'zreport' | 'payments'>('analytics');
   const [items, setItems] = useState<MenuItem[]>([]);
   const [storeOpen, setStoreOpen] = useState<boolean>(true);
+  const [paymentSettings, setPaymentSettings] = useState<PaymentSettings>(defaultPaymentSettings);
   const [ingredients, setIngredients] = useState<Ingredient[]>(DEFAULT_INGREDIENTS);
   const [orders, setOrders] = useState<OrderRecord[]>(DEFAULT_ORDERS);
   const [form, setForm] = useState<any>(BLANK_ITEM);
@@ -76,6 +77,14 @@ export default function AdminPage() {
   const [posCart, setPosCart] = useState<{ id: string; name: string; price: number; qty: number }[]>([]);
   const [posMethod, setPosMethod] = useState('Mada');
   const [timeStr, setTimeStr] = useState('');
+
+  const allCategories = useMemo(() => {
+    const set = new Set<string>(CATEGORIES);
+    items.forEach((it) => {
+      if (it.category) set.add(it.category);
+    });
+    return Array.from(set);
+  }, [items]);
 
   // Passcode modal state
   const [pinModalOpen, setPinModalOpen] = useState(false);
@@ -126,6 +135,7 @@ export default function AdminPage() {
       const data = await res.json();
       if (data?.menu) setItems(data.menu);
       if (typeof data?.storeOpen === 'boolean') setStoreOpen(data.storeOpen);
+      if (data?.paymentSettings) setPaymentSettings(data.paymentSettings);
     } catch {
       setMsg({ text: 'Error connecting to menu service', error: true });
     } finally {
@@ -136,6 +146,24 @@ export default function AdminPage() {
   useEffect(() => {
     loadMenu();
   }, []);
+
+  async function handleSavePaymentSettings(e: FormEvent) {
+    e.preventDefault();
+    try {
+      const res = await fetch('/api/admin/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paymentSettings }),
+      });
+      if (res.ok) {
+        setMsg({ text: '💳 STC Bank & Barq Pay settings saved and updated live on the public menu!' });
+      } else {
+        setMsg({ text: 'Failed to update payment settings', error: true });
+      }
+    } catch {
+      setMsg({ text: 'Network error saving payment settings', error: true });
+    }
+  }
 
   async function handleToggleStoreOpen() {
     const nextOpen = !storeOpen;
@@ -570,10 +598,9 @@ export default function AdminPage() {
                 <input
                   type="password"
                   required
-                  minLength={4}
                   value={newPin}
                   onChange={(e) => setNewPin(e.target.value)}
-                  placeholder="Enter new passcode (min 4 digits)"
+                  placeholder="Enter new passcode"
                 />
               </label>
               <label className="admin-field">
@@ -581,7 +608,6 @@ export default function AdminPage() {
                 <input
                   type="password"
                   required
-                  minLength={4}
                   value={confirmPin}
                   onChange={(e) => setConfirmPin(e.target.value)}
                   placeholder="Confirm new passcode"
@@ -706,6 +732,22 @@ export default function AdminPage() {
           }}
         >
           📋 Daily Shift Z-Report
+        </button>
+
+        <button
+          onClick={() => setActiveTab('payments')}
+          style={{
+            padding: '12px 18px',
+            border: 'none',
+            background: 'none',
+            borderBottom: activeTab === 'payments' ? '3px solid var(--ws-emerald)' : 'none',
+            color: activeTab === 'payments' ? 'var(--ws-emerald)' : 'var(--ws-text-muted)',
+            fontWeight: 700,
+            cursor: 'pointer',
+            fontSize: 14,
+          }}
+        >
+          💳 STC Bank & Barq Pay Settings
         </button>
       </nav>
 
@@ -1095,17 +1137,19 @@ export default function AdminPage() {
                 </label>
 
                 <label className="admin-field">
-                  Category *
-                  <select
+                  Category * (Pick or Type Any Category)
+                  <input
+                    required
+                    list="admin-categories"
                     value={form.category}
                     onChange={(e) => setForm({ ...form, category: e.target.value })}
-                  >
-                    {CATEGORIES.map((cat) => (
-                      <option key={cat} value={cat}>
-                        {cat}
-                      </option>
+                    placeholder="e.g. Specialty Coffee, Pastries, Breakfast..."
+                  />
+                  <datalist id="admin-categories">
+                    {allCategories.map((cat) => (
+                      <option key={cat} value={cat} />
                     ))}
-                  </select>
+                  </datalist>
                 </label>
 
                 <label className="admin-field">
@@ -1360,6 +1404,207 @@ export default function AdminPage() {
           >
             🖨️ Print Shift Z-Report
           </button>
+        </div>
+      )}
+
+      {/* TAB 6: PAYMENT GATEWAYS (STC BANK & BARQ PAY) */}
+      {activeTab === 'payments' && (
+        <div style={{ maxWidth: 840, margin: '0 auto' }}>
+          <form onSubmit={handleSavePaymentSettings}>
+            <div style={{ display: 'grid', gap: 20 }}>
+              {/* STC Bank Card */}
+              <div
+                style={{
+                  background: '#fff',
+                  borderRadius: 16,
+                  border: '2px solid #7928ca',
+                  padding: 24,
+                  boxShadow: '0 4px 18px rgba(79, 0, 140, 0.08)',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, borderBottom: '1px solid #f0e6fa', paddingBottom: 14, marginBottom: 18 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <span style={{ fontSize: 24 }}>🟣</span>
+                    <div>
+                      <h3 style={{ margin: 0, fontSize: 18, color: '#4f008c', fontWeight: 800 }}>
+                        STC Bank (بنك إس تي سي)
+                      </h3>
+                      <p style={{ margin: 0, fontSize: 12, color: '#666' }}>
+                        Direct digital wallet transfer via SAMA licensed STC Bank
+                      </p>
+                    </div>
+                  </div>
+                  <label style={{ display: 'inline-flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontWeight: 700, fontSize: 13, color: '#4f008c' }}>
+                    <input
+                      type="checkbox"
+                      checked={paymentSettings.stcEnabled}
+                      onChange={(e) => setPaymentSettings({ ...paymentSettings, stcEnabled: e.target.checked })}
+                      style={{ width: 18, height: 18, accentColor: '#4f008c', cursor: 'pointer' }}
+                    />
+                    Enable STC Bank Button on Menu
+                  </label>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, marginBottom: 16 }}>
+                  <label className="admin-field">
+                    STC Bank Transfer Mobile Number *
+                    <input
+                      required={paymentSettings.stcEnabled}
+                      value={paymentSettings.stcNumber}
+                      onChange={(e) => setPaymentSettings({ ...paymentSettings, stcNumber: e.target.value })}
+                      placeholder="e.g. 0511313965"
+                    />
+                  </label>
+
+                  <label className="admin-field">
+                    Beneficiary Name (Shown to Customers) *
+                    <input
+                      required={paymentSettings.stcEnabled}
+                      value={paymentSettings.stcName}
+                      onChange={(e) => setPaymentSettings({ ...paymentSettings, stcName: e.target.value })}
+                      placeholder="e.g. Captain Waseem - Waseem Cafe"
+                    />
+                  </label>
+                </div>
+
+                <label className="admin-field" style={{ marginBottom: 16 }}>
+                  Customer Instructions / Transfer Note
+                  <input
+                    value={paymentSettings.stcNote}
+                    onChange={(e) => setPaymentSettings({ ...paymentSettings, stcNote: e.target.value })}
+                    placeholder="e.g. Please enter your name or mobile in the transfer description."
+                  />
+                </label>
+
+                {/* Customer Menu Button Preview */}
+                <div style={{ background: '#faf5ff', borderRadius: 10, padding: '12px 16px', border: '1px dashed #d8b4fe' }}>
+                  <div style={{ fontSize: 11, color: '#7e22ce', fontWeight: 700, textTransform: 'uppercase', marginBottom: 6 }}>
+                    Customer Menu Preview (Shown next to WhatsApp button)
+                  </div>
+                  <div
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      background: 'linear-gradient(135deg, #4f008c 0%, #35005e 100%)',
+                      color: '#fff',
+                      padding: '10px 18px',
+                      borderRadius: 10,
+                      fontWeight: 700,
+                      fontSize: 13,
+                    }}
+                  >
+                    <span>🟣</span> Pay via STC Bank (⃁ 24)
+                  </div>
+                </div>
+              </div>
+
+              {/* Barq Pay Card */}
+              <div
+                style={{
+                  background: '#fff',
+                  borderRadius: 16,
+                  border: '2px solid #f59e0b',
+                  padding: 24,
+                  boxShadow: '0 4px 18px rgba(245, 158, 11, 0.08)',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, borderBottom: '1px solid #fef3c7', paddingBottom: 14, marginBottom: 18 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <span style={{ fontSize: 24 }}>⚡</span>
+                    <div>
+                      <h3 style={{ margin: 0, fontSize: 18, color: '#b45309', fontWeight: 800 }}>
+                        Barq Pay (محفظة بارق)
+                      </h3>
+                      <p style={{ margin: 0, fontSize: 12, color: '#666' }}>
+                        Instant peer-to-peer digital wallet transfer via Barq
+                      </p>
+                    </div>
+                  </div>
+                  <label style={{ display: 'inline-flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontWeight: 700, fontSize: 13, color: '#b45309' }}>
+                    <input
+                      type="checkbox"
+                      checked={paymentSettings.barqEnabled}
+                      onChange={(e) => setPaymentSettings({ ...paymentSettings, barqEnabled: e.target.checked })}
+                      style={{ width: 18, height: 18, accentColor: '#f59e0b', cursor: 'pointer' }}
+                    />
+                    Enable Barq Pay Button on Menu
+                  </label>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, marginBottom: 16 }}>
+                  <label className="admin-field">
+                    Barq Transfer Mobile Number *
+                    <input
+                      required={paymentSettings.barqEnabled}
+                      value={paymentSettings.barqNumber}
+                      onChange={(e) => setPaymentSettings({ ...paymentSettings, barqNumber: e.target.value })}
+                      placeholder="e.g. 0511313965"
+                    />
+                  </label>
+
+                  <label className="admin-field">
+                    Beneficiary Name (Shown to Customers) *
+                    <input
+                      required={paymentSettings.barqEnabled}
+                      value={paymentSettings.barqName}
+                      onChange={(e) => setPaymentSettings({ ...paymentSettings, barqName: e.target.value })}
+                      placeholder="e.g. Captain Waseem - Waseem Cafe"
+                    />
+                  </label>
+                </div>
+
+                <label className="admin-field" style={{ marginBottom: 16 }}>
+                  Customer Instructions / Transfer Note
+                  <input
+                    value={paymentSettings.barqNote}
+                    onChange={(e) => setPaymentSettings({ ...paymentSettings, barqNote: e.target.value })}
+                    placeholder="e.g. Please enter your name or mobile in the transfer description."
+                  />
+                </label>
+
+                {/* Customer Menu Button Preview */}
+                <div style={{ background: '#fffbeb', borderRadius: 10, padding: '12px 16px', border: '1px dashed #fcd34d' }}>
+                  <div style={{ fontSize: 11, color: '#b45309', fontWeight: 700, textTransform: 'uppercase', marginBottom: 6 }}>
+                    Customer Menu Preview (Shown next to WhatsApp button)
+                  </div>
+                  <div
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                      color: '#1c1917',
+                      padding: '10px 18px',
+                      borderRadius: 10,
+                      fontWeight: 800,
+                      fontSize: 13,
+                    }}
+                  >
+                    <span>⚡</span> Pay via Barq Pay (⃁ 24)
+                  </div>
+                </div>
+              </div>
+
+              {/* Save Button */}
+              <button
+                type="submit"
+                style={{
+                  background: 'var(--ws-emerald)',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '14px 24px',
+                  borderRadius: 10,
+                  fontWeight: 700,
+                  fontSize: 15,
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 14px rgba(14,56,44,0.25)',
+                }}
+              >
+                💾 Save Payment Gateway Settings
+              </button>
+            </div>
+          </form>
         </div>
       )}
     </main>

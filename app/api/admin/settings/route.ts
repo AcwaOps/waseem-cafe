@@ -6,6 +6,7 @@ export async function GET() {
   const settings = await readSettings();
   return NextResponse.json({
     storeOpen: settings.storeOpen,
+    paymentSettings: settings.paymentSettings,
   });
 }
 
@@ -16,6 +17,21 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json();
   const settings = await readSettings();
+
+  if (body.paymentSettings && typeof body.paymentSettings === 'object') {
+    settings.paymentSettings = {
+      stcEnabled: body.paymentSettings.stcEnabled !== false,
+      stcNumber: String(body.paymentSettings.stcNumber || '').trim(),
+      stcName: String(body.paymentSettings.stcName || '').trim(),
+      stcNote: String(body.paymentSettings.stcNote || '').trim(),
+      barqEnabled: body.paymentSettings.barqEnabled !== false,
+      barqNumber: String(body.paymentSettings.barqNumber || '').trim(),
+      barqName: String(body.paymentSettings.barqName || '').trim(),
+      barqNote: String(body.paymentSettings.barqNote || '').trim(),
+    };
+    await writeSettings(settings);
+    return NextResponse.json({ ok: true, paymentSettings: settings.paymentSettings });
+  }
 
   if (typeof body.storeOpen === 'boolean') {
     settings.storeOpen = body.storeOpen;
@@ -30,8 +46,8 @@ export async function POST(req: NextRequest) {
     if (current !== settings.adminPasscode) {
       return NextResponse.json({ error: 'Current passcode is incorrect' }, { status: 400 });
     }
-    if (nextPin.length < 4) {
-      return NextResponse.json({ error: 'New passcode must be at least 4 characters' }, { status: 400 });
+    if (!nextPin) {
+      return NextResponse.json({ error: 'New passcode cannot be empty' }, { status: 400 });
     }
 
     settings.adminPasscode = nextPin;

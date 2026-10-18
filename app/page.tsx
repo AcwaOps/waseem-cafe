@@ -3,6 +3,7 @@
 import { QRCodeSVG } from 'qrcode.react';
 import { useEffect, useMemo, useState } from 'react';
 import WsLogo from '@/components/WsLogo';
+import { PaymentSettings, defaultPaymentSettings } from '@/lib/types';
 
 type Item = {
   id: string;
@@ -34,11 +35,19 @@ const sar = (n: number) => `⃁ ${n}`;
 export default function Home() {
   const [items, setItems] = useState<Item[]>([]);
   const [storeOpen, setStoreOpen] = useState<boolean>(true);
+  const [paymentSettings, setPaymentSettings] = useState<PaymentSettings>(defaultPaymentSettings);
   const [cart, setCart] = useState<CartLine[]>([]);
   const [activeCat, setActiveCat] = useState<string>('All');
   const [search, setSearch] = useState<string>('');
   const [url, setUrl] = useState('');
   const [modalImg, setModalImg] = useState<{ src: string; title: string; desc: string } | null>(null);
+  const [payModal, setPayModal] = useState<{
+    type: 'stc' | 'barq';
+    number: string;
+    name: string;
+    note: string;
+  } | null>(null);
+  const [toastMsg, setToastMsg] = useState<string>('');
   const [err, setErr] = useState('');
 
   useEffect(() => {
@@ -51,6 +60,9 @@ export default function Home() {
         }
         if (typeof d?.storeOpen === 'boolean') {
           setStoreOpen(d.storeOpen);
+        }
+        if (d?.paymentSettings) {
+          setPaymentSettings(d.paymentSettings);
         }
       })
       .catch(() => setErr('Could not load menu dynamically. Serving offline selections.'));
@@ -109,6 +121,44 @@ export default function Home() {
         .map((x, i) => (i === index ? { ...x, qty: x.qty + delta } : x))
         .filter((x) => x.qty > 0)
     );
+  }
+
+  function showToast(text: string) {
+    setToastMsg(text);
+    setTimeout(() => setToastMsg(''), 3000);
+  }
+
+  function handleOpenPayment(type: 'stc' | 'barq') {
+    if (!storeOpen) {
+      alert('🌙 Waseem Cafe is currently closed.');
+      return;
+    }
+    const isStc = type === 'stc';
+    const number = isStc ? (paymentSettings.stcNumber || '0511313965') : (paymentSettings.barqNumber || '0511313965');
+    const name = isStc ? (paymentSettings.stcName || 'Captain Waseem') : (paymentSettings.barqName || 'Captain Waseem');
+    const note = isStc ? paymentSettings.stcNote : paymentSettings.barqNote;
+
+    // Auto copy transfer number
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(number);
+      showToast(`📋 ${isStc ? 'STC Bank' : 'Barq Pay'} number (${number}) copied!`);
+    }
+
+    // Trigger deep link
+    try {
+      window.location.href = isStc ? 'stcbank://' : 'barq://';
+    } catch {}
+
+    setPayModal({ type, number, name, note });
+  }
+
+  function copyText(val: string, label: string) {
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(val);
+      showToast(`📋 ${label} copied!`);
+    } else {
+      prompt('Copy to clipboard:', val);
+    }
   }
 
   const orderText = encodeURIComponent(
@@ -478,14 +528,70 @@ export default function Home() {
                   </div>
 
                   {storeOpen ? (
-                    <a
-                      className="order-wa-btn"
-                      target="_blank"
-                      rel="noreferrer"
-                      href={`https://wa.me/${WA_NUMBER}?text=${orderText}`}
-                    >
-                      <span>💬</span> Send Order via WhatsApp ({sar(total)})
-                    </a>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                      <a
+                        className="order-wa-btn"
+                        target="_blank"
+                        rel="noreferrer"
+                        href={`https://wa.me/${WA_NUMBER}?text=${orderText}`}
+                      >
+                        <span>💬</span> Send Order via WhatsApp ({sar(total)})
+                      </a>
+
+                      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                        {paymentSettings.stcEnabled && (
+                          <button
+                            type="button"
+                            onClick={() => handleOpenPayment('stc')}
+                            style={{
+                              flex: 1,
+                              minWidth: 160,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              gap: 8,
+                              background: 'linear-gradient(135deg, #4f008c 0%, #35005e 100%)',
+                              color: '#fff',
+                              border: '1px solid #7928ca',
+                              padding: '12px 14px',
+                              borderRadius: 8,
+                              fontSize: 13,
+                              fontWeight: 700,
+                              cursor: 'pointer',
+                              boxShadow: '0 4px 12px rgba(79, 0, 140, 0.25)',
+                            }}
+                          >
+                            <span>🟣</span> Pay via STC Bank ({sar(total)})
+                          </button>
+                        )}
+
+                        {paymentSettings.barqEnabled && (
+                          <button
+                            type="button"
+                            onClick={() => handleOpenPayment('barq')}
+                            style={{
+                              flex: 1,
+                              minWidth: 160,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              gap: 8,
+                              background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                              color: '#1c1917',
+                              border: '1px solid #fbbf24',
+                              padding: '12px 14px',
+                              borderRadius: 8,
+                              fontSize: 13,
+                              fontWeight: 800,
+                              cursor: 'pointer',
+                              boxShadow: '0 4px 12px rgba(245, 158, 11, 0.25)',
+                            }}
+                          >
+                            <span>⚡</span> Pay via Barq Pay ({sar(total)})
+                          </button>
+                        )}
+                      </div>
+                    </div>
                   ) : (
                     <div
                       className="order-wa-btn"
@@ -569,6 +675,267 @@ export default function Home() {
               </p>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* STC Bank & Barq Pay Transfer Dialog */}
+      {payModal && (
+        <div
+          onClick={() => setPayModal(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(10,38,31,0.85)',
+            backdropFilter: 'blur(6px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 20,
+            zIndex: 1000,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              maxWidth: 440,
+              width: '100%',
+              background: '#fff',
+              borderRadius: 18,
+              overflow: 'hidden',
+              border: '2px solid var(--ws-gold)',
+              boxShadow: '0 24px 60px rgba(0,0,0,0.45)',
+            }}
+          >
+            <div
+              style={{
+                padding: '18px 20px',
+                color: '#fff',
+                background:
+                  payModal.type === 'stc'
+                    ? 'linear-gradient(135deg, #4f008c, #35005e)'
+                    : 'linear-gradient(135deg, #d97706, #b45309)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ fontSize: 22 }}>{payModal.type === 'stc' ? '🟣' : '⚡'}</span>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: '#fff' }}>
+                    {payModal.type === 'stc' ? 'STC Bank Quick Transfer' : 'Barq Pay (بارق) Transfer'}
+                  </h3>
+                  <p
+                    style={{
+                      margin: 0,
+                      fontSize: 11,
+                      color: 'rgba(255,255,255,0.85)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.06em',
+                    }}
+                  >
+                    Digital Instant Checkout
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setPayModal(null)}
+                style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: '50%',
+                  background: 'rgba(0,0,0,0.4)',
+                  border: '1px solid rgba(255,255,255,0.4)',
+                  color: '#fff',
+                  cursor: 'pointer',
+                  display: 'grid',
+                  placeItems: 'center',
+                  fontSize: 14,
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div style={{ padding: 20 }}>
+              <div
+                style={{
+                  background: '#faf8f5',
+                  border: '1px solid var(--ws-line)',
+                  borderRadius: 12,
+                  padding: 14,
+                  marginBottom: 14,
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                  <div>
+                    <div style={{ fontSize: 11, color: 'var(--ws-text-muted)', fontWeight: 700, textTransform: 'uppercase' }}>
+                      Transfer To (Mobile / Account)
+                    </div>
+                    <div style={{ fontSize: 17, fontWeight: 800, color: 'var(--ws-emerald-deep)' }}>
+                      {payModal.number}
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => copyText(payModal.number, 'Mobile number')}
+                    style={{
+                      background: '#fff',
+                      border: '1px solid var(--ws-gold-dark)',
+                      color: 'var(--ws-emerald-deep)',
+                      borderRadius: 6,
+                      padding: '5px 10px',
+                      fontSize: 11,
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    📋 Copy
+                  </button>
+                </div>
+
+                <div style={{ paddingTop: 10, borderTop: '1px dashed var(--ws-line)', marginBottom: 10 }}>
+                  <div style={{ fontSize: 11, color: 'var(--ws-text-muted)', fontWeight: 700, textTransform: 'uppercase' }}>
+                    Beneficiary Name
+                  </div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ws-text-main)' }}>
+                    {payModal.name}
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 10, borderTop: '1px dashed var(--ws-line)' }}>
+                  <div>
+                    <div style={{ fontSize: 11, color: 'var(--ws-text-muted)', fontWeight: 700, textTransform: 'uppercase' }}>
+                      Exact Purchase Amount
+                    </div>
+                    <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--ws-emerald)' }}>
+                      {sar(total)}
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => copyText(String(total), 'Purchase amount')}
+                    style={{
+                      background: '#fff',
+                      border: '1px solid var(--ws-gold-dark)',
+                      color: 'var(--ws-emerald-deep)',
+                      borderRadius: 6,
+                      padding: '5px 10px',
+                      fontSize: 11,
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    📋 Copy
+                  </button>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  background: '#fefce8',
+                  border: '1px solid #fef08a',
+                  borderRadius: 10,
+                  padding: '10px 12px',
+                  fontSize: 12,
+                  color: '#854d0e',
+                  marginBottom: 14,
+                  lineHeight: 1.4,
+                }}
+              >
+                {payModal.note ||
+                  (payModal.type === 'stc'
+                    ? 'Please open STC Bank app, send the exact order amount above, and attach the transfer receipt.'
+                    : 'Please open Barq app, transfer the exact order amount above, and confirm with Captain Waseem.')}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  if (payModal.type === 'stc') {
+                    window.location.href = `stcbank://transfer?mobile=${encodeURIComponent(payModal.number)}&amount=${total}`;
+                    setTimeout(() => {
+                      window.location.href = 'stcpay://';
+                    }, 800);
+                  } else {
+                    window.location.href = 'barq://';
+                  }
+                }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  width: '100%',
+                  padding: 12,
+                  borderRadius: 10,
+                  fontWeight: 700,
+                  fontSize: 14,
+                  border: 'none',
+                  cursor: 'pointer',
+                  marginBottom: 10,
+                  color: '#fff',
+                  background: payModal.type === 'stc' ? '#4f008c' : '#d97706',
+                }}
+              >
+                <span>{payModal.type === 'stc' ? '🚀 Open STC Bank App' : '⚡ Open Barq App'}</span>
+              </button>
+
+              <a
+                href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
+                  `☕ *Payment Confirmation & Order Draft*\n\n` +
+                    `👤 *Customer Order from Waseem Cafe Menu*\n\n` +
+                    cart.map((x) => `• ${x.qty}× ${x.name} (${x.variant}) — ${sar(x.unit * x.qty)}`).join('\n') +
+                    `\n\n💰 *Total Amount:* ${sar(total)}\n` +
+                    `💳 *Payment Method:* ${payModal.type === 'stc' ? '🟣 STC Bank Transfer' : '⚡ Barq Pay Transfer'}\n` +
+                    `📲 *Sent To:* ${payModal.number} (${payModal.name})\n\n` +
+                    `_I have sent the transfer via ${payModal.type === 'stc' ? 'STC Bank' : 'Barq'}. Please prepare my order!_`
+                )}`}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  width: '100%',
+                  background: '#25d366',
+                  color: '#fff',
+                  padding: 11,
+                  borderRadius: 10,
+                  fontWeight: 700,
+                  fontSize: 13,
+                  textDecoration: 'none',
+                }}
+              >
+                <span>💬</span> Send Transfer Proof & Order via WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast Notification */}
+      {toastMsg && (
+        <div
+          style={{
+            position: 'fixed',
+            bottom: 22,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: 'var(--ws-emerald-deep)',
+            color: '#fff',
+            border: '1px solid var(--ws-gold)',
+            padding: '10px 18px',
+            borderRadius: 24,
+            fontSize: 13,
+            fontWeight: 700,
+            boxShadow: '0 10px 28px rgba(0,0,0,0.35)',
+            zIndex: 1100,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {toastMsg}
         </div>
       )}
     </main>

@@ -386,7 +386,141 @@
     .cart-qty button { width: 22px; height: 22px; border: none; background: transparent; color: var(--ws-emerald); font-weight: 700; cursor: pointer; border-radius: 4px; }
     .cart-qty button:hover { background: var(--ws-emerald-subtle); }
     .cart-total { display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 800; color: var(--ws-emerald-deep); margin: 14px 0 12px; }
-    .cart-order-btn {
+    
+    .cart-actions-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    @media (min-width: 600px) {
+      .cart-actions-row {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+    }
+
+    .cart-checkout-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      flex: 1;
+      min-width: 160px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+    .cart-checkout-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+    }
+    .cart-checkout-btn.cart-wa-btn {
+      background: #25d366;
+      color: #fff;
+    }
+    .cart-checkout-btn.cart-stc-btn {
+      background: linear-gradient(135deg, #4f008c 0%, #35005e 100%);
+      color: #fff;
+      border: 1px solid #7928ca;
+    }
+    .cart-checkout-btn.cart-barq-btn {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #1a1608;
+      border: 1px solid #fcd34d;
+    }
+    .cart-checkout-btn.disabled-closed {
+      background: #94a3b8 !important;
+      color: #fff !important;
+      box-shadow: none !important;
+      cursor: not-allowed !important;
+      pointer-events: none !important;
+      border: none !important;
+    }
+
+    /* Transfer Dialog */
+    .pay-modal {
+      position: fixed; inset: 0; background: rgba(10,38,31,0.85); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center; padding: 20px; z-index: 210;
+    }
+    .pay-modal.open { display: flex; }
+    .pay-modal-box {
+      max-width: 440px; width: 100%; background: #fff; border-radius: 18px; overflow: hidden;
+      border: 2px solid var(--ws-gold); position: relative;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+      animation: modalFadeIn 0.2s ease-out;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .pay-modal-header {
+      padding: 18px 20px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .pay-modal-header.stc { background: linear-gradient(135deg, #4f008c, #35005e); }
+    .pay-modal-header.barq { background: linear-gradient(135deg, #d97706, #b45309); }
+    .pay-modal-body { padding: 20px; }
+    .pay-info-card {
+      background: #faf8f5;
+      border: 1px solid var(--ws-line);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .pay-info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 10px;
+    }
+    .pay-info-row:last-child { margin-bottom: 0; }
+    .pay-copy-btn {
+      background: #fff;
+      border: 1px solid var(--ws-gold-dark);
+      color: var(--ws-emerald-deep);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .pay-copy-btn:hover {
+      background: var(--ws-emerald-subtle);
+    }
+    .pay-primary-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .pay-primary-action.stc { background: #4f008c; }
+    .pay-primary-action.barq { background: #d97706; }
+    .pay-wa-confirm-btn {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -394,20 +528,13 @@
       width: 100%;
       background: #25d366;
       color: #fff;
-      text-decoration: none;
-      padding: 12px 18px;
-      border-radius: 8px;
-      font-size: 14px;
+      padding: 11px;
+      border-radius: 10px;
       font-weight: 700;
-      box-shadow: 0 4px 14px rgba(37,211,102,0.3);
+      font-size: 13px;
+      text-decoration: none;
       border: none;
       cursor: pointer;
-    }
-    .cart-order-btn.disabled-closed {
-      background: #94a3b8;
-      box-shadow: none;
-      cursor: not-allowed;
-      pointer-events: none;
     }
 
     /* Footer */
@@ -548,9 +675,17 @@
             <span>Total Amount</span>
             <span id="cart-total-val">⃁ 0</span>
           </div>
-          <a class="cart-order-btn" id="cart-wa-btn" style="display:none;" target="_blank" rel="noopener">
-            <span>💬</span> Send Order via WhatsApp
-          </a>
+          <div class="cart-actions-row" id="cart-actions-row" style="display:none;">
+            <a class="cart-checkout-btn cart-wa-btn" id="cart-wa-btn" target="_blank" rel="noopener">
+              <span>💬</span> Send Order via WhatsApp
+            </a>
+            <button class="cart-checkout-btn cart-stc-btn" id="cart-stc-btn" onclick="openPaymentModal('stc')">
+              <span>🟣</span> Pay via STC Bank (<span class="stc-total-btn-val">⃁ 0</span>)
+            </button>
+            <button class="cart-checkout-btn cart-barq-btn" id="cart-barq-btn" onclick="openPaymentModal('barq')">
+              <span>⚡</span> Pay via Barq Pay (<span class="barq-total-btn-val">⃁ 0</span>)
+            </button>
+          </div>
         </div>
       </section>
     </div>
@@ -583,7 +718,64 @@
       </div>
     </div>
 
-    <!-- Toast Notification -->
+    <!-- STC Bank / Barq Pay Transfer Dialog -->
+    <div class="pay-modal" id="pay-transfer-modal" onclick="closePayModal()">
+      <div class="pay-modal-box" onclick="event.stopPropagation()">
+        <div class="pay-modal-header" id="pay-modal-header">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span id="pay-modal-icon" style="font-size:22px;">🟣</span>
+            <div>
+              <h3 id="pay-modal-title" style="margin:0;font-size:16px;font-weight:800;color:#fff;">STC Bank Transfer</h3>
+              <p id="pay-modal-subtitle" style="margin:0;font-size:11px;color:rgba(255,255,255,0.85);text-transform:uppercase;letter-spacing:0.06em;">Digital Instant Checkout</p>
+            </div>
+          </div>
+          <button class="modal-close" onclick="closePayModal()" style="position:static;width:28px;height:28px;">✕</button>
+        </div>
+
+        <div class="pay-modal-body">
+          <div class="pay-info-card">
+            <div class="pay-info-row">
+              <div>
+                <div style="font-size:11px;color:var(--ws-text-muted);font-weight:700;text-transform:uppercase;">Transfer To (Mobile / Account)</div>
+                <div id="pay-modal-number" style="font-size:17px;font-weight:800;color:var(--ws-emerald-deep);letter-spacing:0.04em;">051 131 3965</div>
+              </div>
+              <button class="pay-copy-btn" onclick="copyPayField('pay-modal-number', 'Mobile number copied!')">
+                <span>📋</span> Copy
+              </button>
+            </div>
+
+            <div class="pay-info-row" style="margin-top:10px;padding-top:10px;border-top:1px dashed var(--ws-line);">
+              <div>
+                <div style="font-size:11px;color:var(--ws-text-muted);font-weight:700;text-transform:uppercase;">Beneficiary Name</div>
+                <div id="pay-modal-name" style="font-size:13px;font-weight:700;color:var(--ws-text-main);">Waseem Cafe - Captain Waseem</div>
+              </div>
+            </div>
+
+            <div class="pay-info-row" style="margin-top:10px;padding-top:10px;border-top:1px dashed var(--ws-line);">
+              <div>
+                <div style="font-size:11px;color:var(--ws-text-muted);font-weight:700;text-transform:uppercase;">Exact Purchase Amount</div>
+                <div id="pay-modal-amount" style="font-size:20px;font-weight:800;color:var(--ws-emerald);letter-spacing:0.02em;">⃁ 0.00</div>
+              </div>
+              <button class="pay-copy-btn" onclick="copyPayField('pay-modal-amount', 'Purchase amount copied!')">
+                <span>📋</span> Copy
+              </button>
+            </div>
+          </div>
+
+          <div id="pay-modal-instructions" style="background:#fefce8;border:1px solid #fef08a;border-radius:10px;padding:10px 12px;font-size:12px;color:#854d0e;margin-bottom:14px;line-height:1.4;">
+            Please open your wallet app, transfer the exact order amount above, and click below to send your confirmation to Waseem.
+          </div>
+
+          <button class="pay-primary-action" id="pay-app-launch-btn">
+            <span>🚀</span> Open Wallet App
+          </button>
+
+          <a class="pay-wa-confirm-btn" id="pay-wa-confirm-btn" target="_blank" rel="noopener">
+            <span>💬</span> Send Transfer Proof & Order via WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
     <div class="menu-toast" id="menu-toast"></div>
   </main>
 
@@ -821,20 +1013,152 @@
       renderCart();
     }
 
+    function getPaymentSettings() {
+      try {
+        const raw = localStorage.getItem('waseem_payment_settings');
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return {
+        stcEnabled: true,
+        stcNumber: '0511313965',
+        stcName: 'Waseem Cafe - Captain Waseem',
+        stcNote: 'Please enter your order name or mobile in the transfer description.',
+        barqEnabled: true,
+        barqNumber: '0511313965',
+        barqName: 'Waseem Cafe - Captain Waseem',
+        barqNote: 'Please enter your order name or mobile in the transfer description.'
+      };
+    }
+
+    let activePayType = 'stc';
+
+    function openPaymentModal(type) {
+      if (!isCafeOpen()) {
+        showMenuToast('🌙 Waseem Cafe is currently closed.');
+        return;
+      }
+      activePayType = type;
+      const settings = getPaymentSettings();
+      const totalSum = cart.reduce((s, x) => s + x.qty * x.price, 0);
+
+      const isStc = type === 'stc';
+      const number = isStc ? (settings.stcNumber || '0511313965') : (settings.barqNumber || '0511313965');
+      const name = isStc ? (settings.stcName || 'Captain Waseem') : (settings.barqName || 'Captain Waseem');
+      const note = isStc ? settings.stcNote : settings.barqNote;
+
+      const header = document.getElementById('pay-modal-header');
+      const icon = document.getElementById('pay-modal-icon');
+      const title = document.getElementById('pay-modal-title');
+      const subtitle = document.getElementById('pay-modal-subtitle');
+      const numEl = document.getElementById('pay-modal-number');
+      const nameEl = document.getElementById('pay-modal-name');
+      const amountEl = document.getElementById('pay-modal-amount');
+      const instrEl = document.getElementById('pay-modal-instructions');
+      const launchBtn = document.getElementById('pay-app-launch-btn');
+      const waConfirmBtn = document.getElementById('pay-wa-confirm-btn');
+
+      if (isStc) {
+        header.className = 'pay-modal-header stc';
+        icon.textContent = '🟣';
+        title.textContent = 'STC Bank Quick Transfer';
+        subtitle.textContent = 'SAMA Licensed Digital Banking';
+        launchBtn.className = 'pay-primary-action stc';
+        launchBtn.innerHTML = '<span>🚀</span> Open STC Bank App (حول عبر STC Bank)';
+      } else {
+        header.className = 'pay-modal-header barq';
+        icon.textContent = '⚡';
+        title.textContent = 'Barq Pay (بارق) Transfer';
+        subtitle.textContent = 'Instant Peer-to-Peer Wallet Transfer';
+        launchBtn.className = 'pay-primary-action barq';
+        launchBtn.innerHTML = '<span>⚡</span> Open Barq App (حول عبر تطبيق بارق)';
+      }
+
+      numEl.textContent = number;
+      nameEl.textContent = name;
+      amountEl.textContent = sar(totalSum);
+      instrEl.textContent = note || (isStc ? 'Please open STC Bank app, send the exact order amount to the mobile number above, and attach the transfer receipt.' : 'Please open Barq app, transfer the exact order amount above, and confirm with Captain Waseem.');
+
+      // Deep link scheme trigger
+      launchBtn.onclick = function() {
+        if (isStc) {
+          window.location.href = `stcbank://transfer?mobile=${encodeURIComponent(number)}&amount=${totalSum}`;
+          setTimeout(() => {
+            window.location.href = `stcpay://`;
+          }, 800);
+        } else {
+          window.location.href = `barq://`;
+        }
+      };
+
+      // WhatsApp Confirmation prefilled message
+      const waMsg = encodeURIComponent(
+        `☕ *Payment Confirmation & Order Draft*\n\n` +
+        `👤 *Customer Order from Waseem Cafe Menu*\n\n` +
+        cart.map(x => `• ${x.qty}× ${x.name} (${x.variant}) — ${sar(x.qty * x.price)}`).join('\n') +
+        `\n\n💰 *Total Amount:* ${sar(totalSum)}\n` +
+        `💳 *Payment Method:* ${isStc ? '🟣 STC Bank Transfer' : '⚡ Barq Pay Transfer'}\n` +
+        `📲 *Sent To:* ${number} (${name})\n\n` +
+        `_I have sent the transfer via ${isStc ? 'STC Bank' : 'Barq'}. Please prepare my order!_`
+      );
+      waConfirmBtn.href = `https://wa.me/${WA_PHONE}?text=${waMsg}`;
+
+      // Auto-copy mobile number and amount to clipboard immediately for convenience
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(number);
+          showMenuToast(`📋 ${isStc ? 'STC Bank' : 'Barq Pay'} number (${number}) copied!`);
+        }
+      } catch (e) {}
+
+      // Attempt to launch deep link
+      try {
+        if (isStc) {
+          window.location.href = `stcbank://`;
+        } else {
+          window.location.href = `barq://`;
+        }
+      } catch (e) {}
+
+      document.getElementById('pay-transfer-modal').classList.add('open');
+    }
+
+    function closePayModal() {
+      document.getElementById('pay-transfer-modal').classList.remove('open');
+    }
+
+    function copyPayField(elemId, toastText) {
+      const el = document.getElementById(elemId);
+      if (!el) return;
+      const val = el.textContent.trim().replace('⃁ ', '');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(val).then(() => {
+          showMenuToast(`📋 ${toastText}`);
+        }).catch(() => {
+          prompt('Copy to clipboard:', val);
+        });
+      } else {
+        prompt('Copy to clipboard:', val);
+      }
+    }
+
     function renderCart() {
       const totalQty = cart.reduce((s, x) => s + x.qty, 0);
       const totalSum = cart.reduce((s, x) => s + x.qty * x.price, 0);
       const cafeOpen = isCafeOpen();
+      const paySettings = getPaymentSettings();
 
       document.getElementById('cart-badge').textContent = totalQty + ' items';
       const lines = document.getElementById('cart-lines');
       const totalRow = document.getElementById('cart-total-row');
+      const actionsRow = document.getElementById('cart-actions-row');
       const waBtn = document.getElementById('cart-wa-btn');
+      const stcBtn = document.getElementById('cart-stc-btn');
+      const barqBtn = document.getElementById('cart-barq-btn');
 
       if (!totalQty) {
         lines.innerHTML = `<p style="color:#777;font-size:13px;margin:10px 0;text-align:center;">${cafeOpen ? 'Choose drink options to add them to your order.' : '🌙 Cafe is currently closed for online orders.'}</p>`;
         totalRow.style.display = 'none';
-        waBtn.style.display = 'none';
+        actionsRow.style.display = 'none';
         return;
       }
 
@@ -854,13 +1178,18 @@
       `).join('');
 
       totalRow.style.display = 'flex';
+      actionsRow.style.display = 'flex';
       document.getElementById('cart-total-val').textContent = sar(totalSum);
+
+      document.querySelectorAll('.stc-total-btn-val').forEach(el => el.textContent = sar(totalSum));
+      document.querySelectorAll('.barq-total-btn-val').forEach(el => el.textContent = sar(totalSum));
 
       if (!cafeOpen) {
         waBtn.removeAttribute('href');
-        waBtn.className = 'cart-order-btn disabled-closed';
-        waBtn.innerHTML = '<span>🌙</span> Cafe Currently Closed — Ordering Paused';
-        waBtn.style.display = 'flex';
+        waBtn.className = 'cart-checkout-btn cart-wa-btn disabled-closed';
+        waBtn.innerHTML = '<span>🌙</span> Cafe Closed — Ordering Paused';
+        stcBtn.style.display = 'none';
+        barqBtn.style.display = 'none';
       } else {
         const msg = encodeURIComponent(
           `☕ *New Order from Waseem Cafe*\n\n` +
@@ -868,9 +1197,22 @@
           `\n\n💰 *Total:* ${sar(totalSum)}\n\n_Thank you for ordering with Waseem Cafe!_`
         );
         waBtn.href = `https://wa.me/${WA_PHONE}?text=${msg}`;
-        waBtn.className = 'cart-order-btn';
-        waBtn.innerHTML = '<span>💬</span> Send Order via WhatsApp';
-        waBtn.style.display = 'flex';
+        waBtn.className = 'cart-checkout-btn cart-wa-btn';
+        waBtn.innerHTML = '<span>💬</span> WhatsApp Order';
+
+        // STC Bank button display toggle
+        if (paySettings.stcEnabled !== false) {
+          stcBtn.style.display = 'flex';
+        } else {
+          stcBtn.style.display = 'none';
+        }
+
+        // Barq Pay button display toggle
+        if (paySettings.barqEnabled !== false) {
+          barqBtn.style.display = 'flex';
+        } else {
+          barqBtn.style.display = 'none';
+        }
       }
     }
 
@@ -917,9 +1259,9 @@
       renderMenu();
     });
 
-    // Real-time synchronization when Admin updates Store Open/Closed, Prices, or Photos in another tab
+    // Real-time synchronization when Admin updates Store Open/Closed, Prices, Photos, or Payment Settings in another tab
     window.addEventListener('storage', (e) => {
-      if (e.key === 'waseem_store_open' || e.key === 'waseem_menu_items' || !e.key) {
+      if (e.key === 'waseem_store_open' || e.key === 'waseem_menu_items' || e.key === 'waseem_payment_settings' || !e.key) {
         updateStoreOpenReflection();
         renderCategories();
         renderMenu();

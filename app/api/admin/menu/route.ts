@@ -2,16 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { readMenu, writeMenu, type MenuItem } from '@/lib/store';
 
-const ALLOWED_CATEGORIES = [
-  'Specialty Coffee',
-  'Espresso & Milk',
-  'Iced & Refreshing',
-  'Tea & Fresh Juices',
-  'Desserts & Bakery',
-  'Coffee',
-  'Tea & Juice',
-];
-
 export async function POST(req: NextRequest) {
   if (!(await requireAdmin())) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -22,9 +12,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Item name is required' }, { status: 400 });
   }
 
-  if (!ALLOWED_CATEGORIES.includes(body.category)) {
-    return NextResponse.json({ error: 'Please select a valid category' }, { status: 400 });
-  }
+  const category = (typeof body.category === 'string' && body.category.trim())
+    ? body.category.trim()
+    : 'Specialty Coffee';
 
   const hasPrice = [body.hot, body.iced, body.price].some(
     (v) => typeof v === 'number' && v >= 0
@@ -41,7 +31,7 @@ export async function POST(req: NextRequest) {
     id,
     name: body.name.trim(),
     nameAr: typeof body.nameAr === 'string' && body.nameAr.trim() ? body.nameAr.trim() : undefined,
-    category: body.category,
+    category,
     hot: typeof body.hot === 'number' ? body.hot : undefined,
     iced: typeof body.iced === 'number' ? body.iced : undefined,
     price: typeof body.price === 'number' ? body.price : undefined,

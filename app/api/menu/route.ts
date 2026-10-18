@@ -10,6 +10,7 @@ export async function GET() {
     currency: '⃁',
     phone: '051 131 3965',
     storeOpen: settings.storeOpen,
+    paymentSettings: settings.paymentSettings,
     menu,
   });
 }
