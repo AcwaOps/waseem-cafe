@@ -125,7 +125,37 @@ export default function Home() {
 
   function showToast(text: string) {
     setToastMsg(text);
-    setTimeout(() => setToastMsg(''), 3000);
+    setTimeout(() => setToastMsg(''), 3500);
+  }
+
+  function copyToClipboard(text: string, label: string) {
+    if (!text) return;
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(`📋 ${label} copied! (جاهز للصق)`);
+      }).catch(() => {
+        fallbackCopy(text, label);
+      });
+    } else {
+      fallbackCopy(text, label);
+    }
+  }
+
+  function fallbackCopy(text: string, label: string) {
+    try {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      showToast(`📋 ${label} copied! (جاهز للصق)`);
+    } catch {
+      prompt('Copy this:', text);
+    }
   }
 
   function handleOpenPayment(type: 'stc' | 'barq') {
@@ -138,27 +168,11 @@ export default function Home() {
     const name = isStc ? (paymentSettings.stcName || 'Captain Waseem') : (paymentSettings.barqName || 'Captain Waseem');
     const note = isStc ? paymentSettings.stcNote : paymentSettings.barqNote;
 
-    // Auto copy transfer number
-    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(number);
-      showToast(`📋 ${isStc ? 'STC Bank' : 'Barq Pay'} number (${number}) copied!`);
-    }
+    // Immediately copy transfer number to clipboard
+    copyToClipboard(number, `${isStc ? 'STC Bank' : 'Barq Pay'} number (${number})`);
 
-    // Trigger deep link
-    try {
-      window.location.href = isStc ? 'stcbank://' : 'barq://';
-    } catch {}
-
+    // Open modal without disruptive automatic window.location redirects
     setPayModal({ type, number, name, note });
-  }
-
-  function copyText(val: string, label: string) {
-    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(val);
-      showToast(`📋 ${label} copied!`);
-    } else {
-      prompt('Copy to clipboard:', val);
-    }
   }
 
   const orderText = encodeURIComponent(
@@ -758,6 +772,31 @@ export default function Home() {
             </div>
 
             <div style={{ padding: 20 }}>
+              {/* Copy Confirmation Banner */}
+              <div
+                style={{
+                  background: '#dcfce7',
+                  border: '1.5px solid #4ade80',
+                  color: '#14532d',
+                  borderRadius: 10,
+                  padding: '10px 14px',
+                  marginBottom: 14,
+                  fontSize: 13,
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                }}
+              >
+                <span style={{ fontSize: 18 }}>📋</span>
+                <div>
+                  <div>تم نسخ الرقم تلقائياً إلى الحافظة!</div>
+                  <div style={{ fontSize: 11, fontWeight: 600, opacity: 0.85 }}>
+                    Number copied! Open app & paste to transfer
+                  </div>
+                </div>
+              </div>
+
               <div
                 style={{
                   background: '#faf8f5',
@@ -772,25 +811,25 @@ export default function Home() {
                     <div style={{ fontSize: 11, color: 'var(--ws-text-muted)', fontWeight: 700, textTransform: 'uppercase' }}>
                       Transfer To (Mobile / Account)
                     </div>
-                    <div style={{ fontSize: 17, fontWeight: 800, color: 'var(--ws-emerald-deep)' }}>
+                    <div style={{ fontSize: 19, fontWeight: 800, color: 'var(--ws-emerald-deep)' }}>
                       {payModal.number}
                     </div>
                   </div>
                   <button
                     type="button"
-                    onClick={() => copyText(payModal.number, 'Mobile number')}
+                    onClick={() => copyToClipboard(payModal.number, 'Mobile number')}
                     style={{
                       background: '#fff',
                       border: '1px solid var(--ws-gold-dark)',
                       color: 'var(--ws-emerald-deep)',
                       borderRadius: 6,
-                      padding: '5px 10px',
+                      padding: '6px 12px',
                       fontSize: 11,
                       fontWeight: 700,
                       cursor: 'pointer',
                     }}
                   >
-                    📋 Copy
+                    📋 Copy Number
                   </button>
                 </div>
 
@@ -814,21 +853,42 @@ export default function Home() {
                   </div>
                   <button
                     type="button"
-                    onClick={() => copyText(String(total), 'Purchase amount')}
+                    onClick={() => copyToClipboard(String(total), 'Purchase amount')}
                     style={{
                       background: '#fff',
                       border: '1px solid var(--ws-gold-dark)',
                       color: 'var(--ws-emerald-deep)',
                       borderRadius: 6,
-                      padding: '5px 10px',
+                      padding: '6px 12px',
                       fontSize: 11,
                       fontWeight: 700,
                       cursor: 'pointer',
                     }}
                   >
-                    📋 Copy
+                    📋 Copy Amount
                   </button>
                 </div>
+              </div>
+
+              {/* Step Instructions */}
+              <div
+                style={{
+                  background: '#faf8f5',
+                  border: '1px solid var(--ws-line)',
+                  borderRadius: 10,
+                  padding: '10px 14px',
+                  marginBottom: 12,
+                  fontSize: 12,
+                  color: 'var(--ws-text-main)',
+                  lineHeight: 1.5,
+                }}
+              >
+                <div style={{ fontWeight: 700, color: 'var(--ws-emerald)', marginBottom: 4 }}>
+                  📌 خطوات التحويل السريعة:
+                </div>
+                <div>1️⃣ <b>الرقم منسوخ:</b> الصق الرقم <code style={{ background: '#e2ece7', padding: '1px 5px', borderRadius: 4, color: '#0e382c', fontWeight: 700 }}>{payModal.number}</code> في تطبيقك.</div>
+                <div>2️⃣ <b>تحويل المبلغ:</b> حوّل المبلغ المحدد (<b style={{ color: '#0e382c' }}>{sar(total)}</b>).</div>
+                <div>3️⃣ <b>إرسال الإشعار:</b> اضغط الزر الأخضر أدناه لتأكيد الطلب وتجهيزه فوراً عبر واتساب.</div>
               </div>
 
               <div
@@ -836,7 +896,7 @@ export default function Home() {
                   background: '#fefce8',
                   border: '1px solid #fef08a',
                   borderRadius: 10,
-                  padding: '10px 12px',
+                  padding: '9px 12px',
                   fontSize: 12,
                   color: '#854d0e',
                   marginBottom: 14,
@@ -845,18 +905,15 @@ export default function Home() {
               >
                 {payModal.note ||
                   (payModal.type === 'stc'
-                    ? 'Please open STC Bank app, send the exact order amount above, and attach the transfer receipt.'
-                    : 'Please open Barq app, transfer the exact order amount above, and confirm with Captain Waseem.')}
+                    ? 'Please open your STC Bank / STC Pay app, paste the copied mobile number, and transfer the order amount.'
+                    : 'Please open your Barq app, paste the copied mobile number, and transfer the order amount.')}
               </div>
 
               <button
                 type="button"
                 onClick={() => {
                   if (payModal.type === 'stc') {
-                    window.location.href = `stcbank://transfer?mobile=${encodeURIComponent(payModal.number)}&amount=${total}`;
-                    setTimeout(() => {
-                      window.location.href = 'stcpay://';
-                    }, 800);
+                    window.location.href = 'stcpay://';
                   } else {
                     window.location.href = 'barq://';
                   }
@@ -878,7 +935,7 @@ export default function Home() {
                   background: payModal.type === 'stc' ? '#4f008c' : '#d97706',
                 }}
               >
-                <span>{payModal.type === 'stc' ? '🚀 Open STC Bank App' : '⚡ Open Barq App'}</span>
+                <span>{payModal.type === 'stc' ? '🚀 Open STC Pay / STC Bank App' : '⚡ Open Barq App'}</span>
               </button>
 
               <a

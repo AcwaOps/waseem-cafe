@@ -733,14 +733,23 @@
         </div>
 
         <div class="pay-modal-body">
+          <!-- Copy Status Banner -->
+          <div id="pay-copied-badge" style="background:#dcfce7;border:1.5px solid #4ade80;color:#14532d;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;">
+            <span style="font-size:18px;">📋</span>
+            <div>
+              <div>تم نسخ الرقم تلقائياً إلى الحافظة!</div>
+              <div style="font-size:11px;font-weight:600;opacity:0.85;">Number copied! Open app & paste to transfer</div>
+            </div>
+          </div>
+
           <div class="pay-info-card">
             <div class="pay-info-row">
               <div>
                 <div style="font-size:11px;color:var(--ws-text-muted);font-weight:700;text-transform:uppercase;">Transfer To (Mobile / Account)</div>
-                <div id="pay-modal-number" style="font-size:17px;font-weight:800;color:var(--ws-emerald-deep);letter-spacing:0.04em;">051 131 3965</div>
+                <div id="pay-modal-number" style="font-size:19px;font-weight:800;color:var(--ws-emerald-deep);letter-spacing:0.04em;">051 131 3965</div>
               </div>
-              <button class="pay-copy-btn" onclick="copyPayField('pay-modal-number', 'Mobile number copied!')">
-                <span>📋</span> Copy
+              <button class="pay-copy-btn" id="pay-copy-num-btn" onclick="copyModalField('number')">
+                <span>📋</span> Copy Number
               </button>
             </div>
 
@@ -756,13 +765,21 @@
                 <div style="font-size:11px;color:var(--ws-text-muted);font-weight:700;text-transform:uppercase;">Exact Purchase Amount</div>
                 <div id="pay-modal-amount" style="font-size:20px;font-weight:800;color:var(--ws-emerald);letter-spacing:0.02em;">⃁ 0.00</div>
               </div>
-              <button class="pay-copy-btn" onclick="copyPayField('pay-modal-amount', 'Purchase amount copied!')">
-                <span>📋</span> Copy
+              <button class="pay-copy-btn" id="pay-copy-amt-btn" onclick="copyModalField('amount')">
+                <span>📋</span> Copy Amount
               </button>
             </div>
           </div>
 
-          <div id="pay-modal-instructions" style="background:#fefce8;border:1px solid #fef08a;border-radius:10px;padding:10px 12px;font-size:12px;color:#854d0e;margin-bottom:14px;line-height:1.4;">
+          <!-- Step Instructions -->
+          <div style="background:#faf8f5;border:1px solid var(--ws-line);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--ws-text-main);line-height:1.5;">
+            <div style="font-weight:700;color:var(--ws-emerald);margin-bottom:4px;">📌 خطوات التحويل السريعة:</div>
+            <div>1️⃣ <b>الرقم منسوخ:</b> الصق الرقم <code id="pay-inst-num" style="background:#e2ece7;padding:1px 5px;border-radius:4px;color:#0e382c;font-weight:700;">0511313965</code> في تطبيقك.</div>
+            <div>2️⃣ <b>تحويل المبلغ:</b> حوّل المبلغ المحدد (<b id="pay-inst-amt" style="color:#0e382c;">0</b>).</div>
+            <div>3️⃣ <b>إرسال الإشعار:</b> اضغط الزر الأخضر أدناه لإرسال الطلب وإيصال التحويل عبر واتساب.</div>
+          </div>
+
+          <div id="pay-modal-instructions" style="background:#fefce8;border:1px solid #fef08a;border-radius:10px;padding:9px 12px;font-size:12px;color:#854d0e;margin-bottom:14px;line-height:1.4;">
             Please open your wallet app, transfer the exact order amount above, and click below to send your confirmation to Waseem.
           </div>
 
@@ -1032,6 +1049,61 @@
 
     let activePayType = 'stc';
 
+    function copyToClipboard(text, successMsg) {
+      if (!text) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showMenuToast(successMsg || `📋 Copied: ${text}`);
+        }).catch(() => {
+          fallbackCopy(text, successMsg);
+        });
+      } else {
+        fallbackCopy(text, successMsg);
+      }
+    }
+
+    function fallbackCopy(text, successMsg) {
+      try {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showMenuToast(successMsg || `📋 Copied: ${text}`);
+      } catch (err) {
+        prompt('Copy this:', text);
+      }
+    }
+
+    function copyModalField(field) {
+      const settings = getPaymentSettings();
+      const isStc = activePayType === 'stc';
+      const number = isStc ? (settings.stcNumber || '0511313965') : (settings.barqNumber || '0511313965');
+      const totalSum = cart.reduce((s, x) => s + x.qty * x.price, 0);
+
+      if (field === 'number') {
+        copyToClipboard(number, `📋 Mobile number (${number}) copied!`);
+        const btn = document.getElementById('pay-copy-num-btn');
+        if (btn) {
+          const original = btn.innerHTML;
+          btn.innerHTML = '<span>✅</span> <b>Copied!</b>';
+          setTimeout(() => { btn.innerHTML = original; }, 2000);
+        }
+      } else if (field === 'amount') {
+        copyToClipboard(String(totalSum), `📋 Amount (SAR ${totalSum.toFixed(2)}) copied!`);
+        const btn = document.getElementById('pay-copy-amt-btn');
+        if (btn) {
+          const original = btn.innerHTML;
+          btn.innerHTML = '<span>✅</span> <b>Copied!</b>';
+          setTimeout(() => { btn.innerHTML = original; }, 2000);
+        }
+      }
+    }
+
     function openPaymentModal(type) {
       if (!isCafeOpen()) {
         showMenuToast('🌙 Waseem Cafe is currently closed.');
@@ -1054,39 +1126,43 @@
       const nameEl = document.getElementById('pay-modal-name');
       const amountEl = document.getElementById('pay-modal-amount');
       const instrEl = document.getElementById('pay-modal-instructions');
+      const instNum = document.getElementById('pay-inst-num');
+      const instAmt = document.getElementById('pay-inst-amt');
       const launchBtn = document.getElementById('pay-app-launch-btn');
       const waConfirmBtn = document.getElementById('pay-wa-confirm-btn');
 
       if (isStc) {
         header.className = 'pay-modal-header stc';
         icon.textContent = '🟣';
-        title.textContent = 'STC Bank Quick Transfer';
+        title.textContent = 'STC Bank Transfer (تحويل إس تي سي)';
         subtitle.textContent = 'SAMA Licensed Digital Banking';
         launchBtn.className = 'pay-primary-action stc';
-        launchBtn.innerHTML = '<span>🚀</span> Open STC Bank App (حول عبر STC Bank)';
+        launchBtn.innerHTML = '<span>🚀</span> Open STC Pay / STC Bank App';
       } else {
         header.className = 'pay-modal-header barq';
         icon.textContent = '⚡';
-        title.textContent = 'Barq Pay (بارق) Transfer';
+        title.textContent = 'Barq Pay Transfer (تحويل بارق)';
         subtitle.textContent = 'Instant Peer-to-Peer Wallet Transfer';
         launchBtn.className = 'pay-primary-action barq';
-        launchBtn.innerHTML = '<span>⚡</span> Open Barq App (حول عبر تطبيق بارق)';
+        launchBtn.innerHTML = '<span>⚡</span> Open Barq App';
       }
 
       numEl.textContent = number;
       nameEl.textContent = name;
       amountEl.textContent = sar(totalSum);
-      instrEl.textContent = note || (isStc ? 'Please open STC Bank app, send the exact order amount to the mobile number above, and attach the transfer receipt.' : 'Please open Barq app, transfer the exact order amount above, and confirm with Captain Waseem.');
+      if (instNum) instNum.textContent = number;
+      if (instAmt) instAmt.textContent = sar(totalSum);
 
-      // Deep link scheme trigger
+      instrEl.textContent = note || (isStc
+        ? 'Please open your STC Bank / STC Pay app, paste the copied mobile number, and transfer the order amount.'
+        : 'Please open your Barq app, paste the copied mobile number, and transfer the order amount.');
+
+      // Deep link scheme trigger ONLY on explicit user click
       launchBtn.onclick = function() {
         if (isStc) {
-          window.location.href = `stcbank://transfer?mobile=${encodeURIComponent(number)}&amount=${totalSum}`;
-          setTimeout(() => {
-            window.location.href = `stcpay://`;
-          }, 800);
+          window.location.href = 'stcpay://';
         } else {
-          window.location.href = `barq://`;
+          window.location.href = 'barq://';
         }
       };
 
@@ -1098,47 +1174,19 @@
         `\n\n💰 *Total Amount:* ${sar(totalSum)}\n` +
         `💳 *Payment Method:* ${isStc ? '🟣 STC Bank Transfer' : '⚡ Barq Pay Transfer'}\n` +
         `📲 *Sent To:* ${number} (${name})\n\n` +
-        `_I have sent the transfer via ${isStc ? 'STC Bank' : 'Barq'}. Please prepare my order!_`
+        `_I have transferred ${sar(totalSum)} to ${number} via ${isStc ? 'STC Bank' : 'Barq'}. Please confirm and prepare my order!_`
       );
       waConfirmBtn.href = `https://wa.me/${WA_PHONE}?text=${waMsg}`;
 
-      // Auto-copy mobile number and amount to clipboard immediately for convenience
-      try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(number);
-          showMenuToast(`📋 ${isStc ? 'STC Bank' : 'Barq Pay'} number (${number}) copied!`);
-        }
-      } catch (e) {}
+      // Automatically copy mobile number to clipboard immediately
+      copyToClipboard(number, `📋 Number copied: ${number} (جاهز للصق في التطبيق)`);
 
-      // Attempt to launch deep link
-      try {
-        if (isStc) {
-          window.location.href = `stcbank://`;
-        } else {
-          window.location.href = `barq://`;
-        }
-      } catch (e) {}
-
+      // Open the modal smoothly
       document.getElementById('pay-transfer-modal').classList.add('open');
     }
 
     function closePayModal() {
       document.getElementById('pay-transfer-modal').classList.remove('open');
-    }
-
-    function copyPayField(elemId, toastText) {
-      const el = document.getElementById(elemId);
-      if (!el) return;
-      const val = el.textContent.trim().replace('⃁ ', '');
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(val).then(() => {
-          showMenuToast(`📋 ${toastText}`);
-        }).catch(() => {
-          prompt('Copy to clipboard:', val);
-        });
-      } else {
-        prompt('Copy to clipboard:', val);
-      }
     }
 
     function renderCart() {
