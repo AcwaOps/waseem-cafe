@@ -8,7 +8,11 @@ const CATEGORIES = [
   'Espresso & Milk',
   'Iced & Refreshing',
   'Tea & Fresh Juices',
-  'Desserts & Bakery',
+  'Sweets & Desserts',
+  'Bakery & Pastries',
+  'Snacks & Bites',
+  'Sandwiches & Breakfast',
+  'Matcha & Cold Brew',
 ];
 
 type Ingredient = {
@@ -57,6 +61,7 @@ const BLANK_ITEM = {
   hot: '',
   iced: '',
   price: '',
+  sizes: [] as { name: string; price: number }[],
   description: '',
   notes: '',
   tag: '',
@@ -266,14 +271,15 @@ export default function AdminPage() {
   }
 
   // POS operations
-  function addToPos(item: MenuItem) {
-    const price = item.price ?? item.hot ?? item.iced ?? 10;
+  function addToPos(item: MenuItem, variantName?: string, customPrice?: number) {
+    const price = customPrice ?? item.price ?? item.hot ?? item.iced ?? 10;
+    const displayName = variantName ? `${item.name} (${variantName})` : item.name;
     setPosCart((prev) => {
-      const existing = prev.find((p) => p.id === item.id);
+      const existing = prev.find((p) => p.name === displayName);
       if (existing) {
-        return prev.map((p) => (p.id === item.id ? { ...p, qty: p.qty + 1 } : p));
+        return prev.map((p) => (p.name === displayName ? { ...p, qty: p.qty + 1 } : p));
       }
-      return [...prev, { id: item.id, name: item.name, price, qty: 1 }];
+      return [...prev, { id: item.id, name: displayName, price, qty: 1 }];
     });
   }
 
@@ -305,6 +311,12 @@ export default function AdminPage() {
     e.preventDefault();
     setMsg(null);
 
+    const validSizes = form.sizes && form.sizes.length > 0
+      ? form.sizes
+          .filter((s: any) => s.name?.trim() && !isNaN(Number(s.price)) && Number(s.price) >= 0)
+          .map((s: any) => ({ name: s.name.trim(), price: Number(s.price) }))
+      : undefined;
+
     const payload = {
       id: form.id || undefined,
       name: form.name.trim(),
@@ -313,6 +325,7 @@ export default function AdminPage() {
       hot: form.hot === '' ? undefined : Number(form.hot),
       iced: form.iced === '' ? undefined : Number(form.iced),
       price: form.price === '' ? undefined : Number(form.price),
+      sizes: validSizes,
       description: form.description.trim() || undefined,
       notes: form.notes.trim() || undefined,
       tag: form.tag.trim() || undefined,
@@ -925,38 +938,85 @@ export default function AdminPage() {
       {activeTab === 'pos' && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20 }}>
           <div>
-            <h3 style={{ margin: '0 0 12px', fontSize: 16, color: 'var(--ws-emerald)' }}>Tap any drink to add to register:</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 12 }}>
+            <h3 style={{ margin: '0 0 12px', fontSize: 16, color: 'var(--ws-emerald)' }}>Tap any item or size to add to register:</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 12 }}>
               {items.map((it) => (
-                <button
+                <div
                   key={it.id}
-                  onClick={() => addToPos(it)}
                   style={{
                     background: '#fff',
                     border: '1px solid var(--ws-line)',
                     borderRadius: 10,
                     padding: 12,
                     textAlign: 'center',
-                    cursor: 'pointer',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
                   }}
                 >
-                  {it.image ? (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img
-                      src={it.image}
-                      alt={it.name}
-                      style={{ width: 42, height: 42, borderRadius: 8, objectFit: 'cover', margin: '0 auto 4px', display: 'block' }}
-                    />
+                  <div
+                    onClick={() => (!it.sizes || it.sizes.length === 0) && addToPos(it)}
+                    style={{ cursor: (!it.sizes || it.sizes.length === 0) ? 'pointer' : 'default' }}
+                  >
+                    {it.image ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        src={it.image}
+                        alt={it.name}
+                        style={{ width: 42, height: 42, borderRadius: 8, objectFit: 'cover', margin: '0 auto 4px', display: 'block' }}
+                      />
+                    ) : (
+                      <div style={{ fontSize: 22 }}>{it.category.includes('Sweets') ? '🍰' : it.category.includes('Snacks') ? '🥨' : '☕'}</div>
+                    )}
+                    <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--ws-emerald)', marginTop: 4 }}>
+                      {it.name}
+                    </div>
+                  </div>
+
+                  {it.sizes && it.sizes.length > 0 ? (
+                    <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'center', marginTop: 8 }}>
+                      {it.sizes.map((sz, szIdx) => (
+                        <button
+                          key={szIdx}
+                          type="button"
+                          onClick={() => addToPos(it, sz.name, sz.price)}
+                          style={{
+                            background: 'var(--ws-emerald)',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: 4,
+                            padding: '3px 7px',
+                            fontSize: 11,
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          {sz.name} · {sz.price}
+                        </button>
+                      ))}
+                    </div>
                   ) : (
-                    <div style={{ fontSize: 22 }}>☕</div>
+                    <div style={{ marginTop: 8 }}>
+                      <button
+                        type="button"
+                        onClick={() => addToPos(it)}
+                        style={{
+                          background: 'var(--ws-emerald)',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: 6,
+                          padding: '4px 10px',
+                          fontSize: 12,
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          width: '100%',
+                        }}
+                      >
+                        SAR {it.price ?? it.hot ?? it.iced ?? 10} ＋
+                      </button>
+                    </div>
                   )}
-                  <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--ws-emerald)', marginTop: 4 }}>
-                    {it.name}
-                  </div>
-                  <div style={{ fontSize: 12, color: 'var(--ws-gold-dark)', fontWeight: 800 }}>
-                    SAR {it.price ?? it.hot ?? it.iced ?? 10}
-                  </div>
-                </button>
+                </div>
               ))}
             </div>
           </div>
@@ -1118,39 +1178,175 @@ export default function AdminPage() {
 
               <div className="admin-form-grid">
                 <label className="admin-field">
-                  Name (English) *
+                  Product / Item Name (English) *
                   <input
                     required
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="e.g. Pistachio Latte"
+                    placeholder="e.g. Pistachio Latte, San Sebastian, Brownie"
                   />
                 </label>
 
                 <label className="admin-field">
-                  Name (Arabic)
+                  Product / Item Name (Arabic)
                   <input
                     value={form.nameAr}
                     onChange={(e) => setForm({ ...form, nameAr: e.target.value })}
-                    placeholder="e.g. بستاشيو لاتيه"
+                    placeholder="e.g. بستاشيو لاتيه، سان سيباستيان، كوكيز"
                   />
                 </label>
 
-                <label className="admin-field">
-                  Category * (Pick or Type Any Category)
+                <label className="admin-field" style={{ gridColumn: '1 / -1' }}>
+                  Category * (Pick or Type Any Category: Drinks, Sweets, Snacks, Bakery...)
                   <input
                     required
                     list="admin-categories"
                     value={form.category}
                     onChange={(e) => setForm({ ...form, category: e.target.value })}
-                    placeholder="e.g. Specialty Coffee, Pastries, Breakfast..."
+                    placeholder="e.g. Specialty Coffee, Sweets & Desserts, Snacks & Bites, Bakery..."
                   />
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
+                    {CATEGORIES.map((cat) => (
+                      <button
+                        key={cat}
+                        type="button"
+                        onClick={() => setForm({ ...form, category: cat })}
+                        style={{
+                          background: form.category === cat ? 'var(--ws-emerald)' : '#f3f4f6',
+                          color: form.category === cat ? '#fff' : 'var(--ws-emerald)',
+                          border: '1px solid var(--ws-line)',
+                          borderRadius: 20,
+                          padding: '3px 9px',
+                          fontSize: 11,
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
                   <datalist id="admin-categories">
                     {allCategories.map((cat) => (
                       <option key={cat} value={cat} />
                     ))}
                   </datalist>
                 </label>
+
+                {/* Drink & Product Sizes Section */}
+                <div style={{ gridColumn: '1 / -1', background: '#faf8f5', border: '1px solid var(--ws-line)', borderRadius: 10, padding: 14 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
+                    <div>
+                      <span style={{ fontWeight: 700, color: 'var(--ws-emerald)', fontSize: 13 }}>
+                        📏 Drink & Product Sizes (Optional)
+                      </span>
+                      <p style={{ margin: '2px 0 0', fontSize: 11, color: 'var(--ws-text-muted)' }}>
+                        Add size options with their prices (e.g. Small / Medium / Large, Single / Double, or 1 Piece / Box).
+                      </p>
+                    </div>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--ws-text-muted)' }}>Presets:</span>
+                      <button
+                        type="button"
+                        onClick={() => setForm({
+                          ...form,
+                          sizes: [
+                            { name: 'Small (صغير)', price: form.hot ? Number(form.hot) : 10 },
+                            { name: 'Medium (وسط)', price: form.iced ? Number(form.iced) : 13 },
+                            { name: 'Large (كبير)', price: (form.iced ? Number(form.iced) : 13) + 3 },
+                          ]
+                        })}
+                        style={{ padding: '3px 8px', fontSize: 11, borderRadius: 6, border: '1px solid var(--ws-emerald)', background: '#fff', color: 'var(--ws-emerald)', cursor: 'pointer', fontWeight: 600 }}
+                      >
+                        ＋ S / M / L
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setForm({
+                          ...form,
+                          sizes: [
+                            { name: 'Single Shot', price: form.price ? Number(form.price) : 6 },
+                            { name: 'Double Shot', price: (form.price ? Number(form.price) : 6) + 3 },
+                          ]
+                        })}
+                        style={{ padding: '3px 8px', fontSize: 11, borderRadius: 6, border: '1px solid var(--ws-emerald)', background: '#fff', color: 'var(--ws-emerald)', cursor: 'pointer', fontWeight: 600 }}
+                      >
+                        ＋ Single / Double
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setForm({
+                          ...form,
+                          sizes: [
+                            { name: '8oz (Small)', price: form.hot ? Number(form.hot) : 10 },
+                            { name: '12oz (Medium)', price: form.iced ? Number(form.iced) : 13 },
+                            { name: '16oz (Large)', price: (form.iced ? Number(form.iced) : 13) + 3 },
+                          ]
+                        })}
+                        style={{ padding: '3px 8px', fontSize: 11, borderRadius: 6, border: '1px solid var(--ws-emerald)', background: '#fff', color: 'var(--ws-emerald)', cursor: 'pointer', fontWeight: 600 }}
+                      >
+                        ＋ 8oz / 12oz / 16oz
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setForm({
+                          ...form,
+                          sizes: [...(form.sizes || []), { name: '', price: '' }]
+                        })}
+                        style={{ padding: '4px 10px', fontSize: 11, borderRadius: 6, border: 'none', background: 'var(--ws-emerald)', color: '#fff', cursor: 'pointer', fontWeight: 700 }}
+                      >
+                        ＋ Add Size
+                      </button>
+                    </div>
+                  </div>
+
+                  {form.sizes && form.sizes.length > 0 && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 10 }}>
+                      {form.sizes.map((sz: any, sIdx: number) => (
+                        <div key={sIdx} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#fff', padding: '6px 12px', borderRadius: 8, border: '1px solid var(--ws-line)' }}>
+                          <span style={{ fontSize: 14 }}>🥤</span>
+                          <input
+                            placeholder="Size Name (e.g. Small, Medium, 12oz, Box)"
+                            value={sz.name}
+                            onChange={(e) => {
+                              const newSizes = [...form.sizes];
+                              newSizes[sIdx].name = e.target.value;
+                              setForm({ ...form, sizes: newSizes });
+                            }}
+                            style={{ flex: 2, padding: '6px 10px', borderRadius: 6, border: '1px solid var(--ws-line)', fontSize: 13 }}
+                          />
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 4, flex: 1 }}>
+                            <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--ws-text-muted)' }}>SAR</span>
+                            <input
+                              type="number"
+                              step="0.5"
+                              min="0"
+                              placeholder="Price"
+                              value={sz.price}
+                              onChange={(e) => {
+                                const newSizes = [...form.sizes];
+                                newSizes[sIdx].price = e.target.value;
+                                setForm({ ...form, sizes: newSizes });
+                              }}
+                              style={{ width: '100%', padding: '6px 10px', borderRadius: 6, border: '1px solid var(--ws-line)', fontSize: 13 }}
+                            />
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newSizes = form.sizes.filter((_: any, idx: number) => idx !== sIdx);
+                              setForm({ ...form, sizes: newSizes });
+                            }}
+                            style={{ background: 'transparent', border: 'none', color: '#e11d48', cursor: 'pointer', fontSize: 15 }}
+                            title="Remove Size"
+                          >
+                            🗑️
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
                 <label className="admin-field">
                   Badge / Tag
@@ -1291,7 +1487,8 @@ export default function AdminPage() {
                         <div style={{ fontSize: 12, color: 'var(--ws-text-muted)' }}>
                           {it.category} · {it.hot !== undefined && `Hot: SAR ${it.hot} `}
                           {it.iced !== undefined && `Iced: SAR ${it.iced} `}
-                          {it.price !== undefined && `Regular: SAR ${it.price}`}
+                          {it.price !== undefined && `Regular: SAR ${it.price} `}
+                          {it.sizes && it.sizes.length > 0 && `📏 Sizes: ${it.sizes.map((s) => `${s.name} (SAR ${s.price})`).join(', ')}`}
                         </div>
                       </div>
                     </div>
@@ -1322,6 +1519,7 @@ export default function AdminPage() {
                             hot: it.hot ?? '',
                             iced: it.iced ?? '',
                             price: it.price ?? '',
+                            sizes: it.sizes ? it.sizes.map((s) => ({ ...s })) : [],
                             description: it.description || '',
                             notes: it.notes || '',
                             tag: it.tag || '',

@@ -1,3 +1,9 @@
+export type ItemSize = {
+  name: string;
+  nameAr?: string;
+  price: number;
+};
+
 export type MenuItem = {
   id: string;
   name: string;
@@ -6,6 +12,7 @@ export type MenuItem = {
   hot?: number;
   iced?: number;
   price?: number;
+  sizes?: ItemSize[];
   description?: string;
   notes?: string;
   tag?: string;

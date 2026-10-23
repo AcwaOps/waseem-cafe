@@ -18,10 +18,10 @@ export async function POST(req: NextRequest) {
 
   const hasPrice = [body.hot, body.iced, body.price].some(
     (v) => typeof v === 'number' && v >= 0
-  );
+  ) || (Array.isArray(body.sizes) && body.sizes.length > 0 && body.sizes.some((s: any) => typeof s.price === 'number' && s.price >= 0));
 
   if (!hasPrice) {
-    return NextResponse.json({ error: 'Please set at least one price (Hot, Iced, or Single)' }, { status: 400 });
+    return NextResponse.json({ error: 'Please set at least one price (Sizes, Hot, Iced, or Single)' }, { status: 400 });
   }
 
   const items = await readMenu();
@@ -35,6 +35,7 @@ export async function POST(req: NextRequest) {
     hot: typeof body.hot === 'number' ? body.hot : undefined,
     iced: typeof body.iced === 'number' ? body.iced : undefined,
     price: typeof body.price === 'number' ? body.price : undefined,
+    sizes: Array.isArray(body.sizes) && body.sizes.length > 0 ? body.sizes : undefined,
     description: typeof body.description === 'string' && body.description.trim() ? body.description.trim() : undefined,
     notes: typeof body.notes === 'string' && body.notes.trim() ? body.notes.trim() : undefined,
     tag: typeof body.tag === 'string' && body.tag.trim() ? body.tag.trim() : undefined,

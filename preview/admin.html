@@ -495,6 +495,24 @@
     }
     .btn-danger:hover { background: #e11d48; }
 
+    .cat-chip-btn {
+      background: #f4f1ea;
+      border: 1px solid var(--ws-line);
+      color: var(--ws-emerald);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+    .cat-chip-btn:hover {
+      background: var(--ws-emerald);
+      color: #fff;
+      border-color: var(--ws-emerald);
+    }
+
     /* Inventory Items Grid */
     .stock-grid {
       display: grid;
@@ -1319,36 +1337,73 @@
           </div>
 
           <div class="form-field">
-            <label>Drink Name (English) *</label>
-            <input type="text" id="edit-item-name" required placeholder="e.g. Pistachio Latte">
+            <label>Product / Item Name (English) *</label>
+            <input type="text" id="edit-item-name" required placeholder="e.g. Pistachio Latte, San Sebastian, Brownie">
           </div>
 
           <div class="form-field">
-            <label>Drink Name (Arabic)</label>
-            <input type="text" id="edit-item-name-ar" dir="rtl" placeholder="مثال: بستاشيو لاتيه">
+            <label>Product / Item Name (Arabic)</label>
+            <input type="text" id="edit-item-name-ar" dir="rtl" placeholder="مثال: بستاشيو لاتيه، سان سيباستيان، كوكيز">
           </div>
 
-          <div class="form-field">
-            <label>Category (Choose or type ANY new category) *</label>
+          <div class="form-field full">
+            <label>Category (Choose or type ANY new category: Drinks, Sweets, Snacks, Bakery...) *</label>
             <input type="text" id="edit-item-cat" list="category-datalist" required placeholder="Type or select any category...">
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">
+              <button type="button" class="cat-chip-btn" onclick="setModalCat('Specialty Coffee')">☕ Specialty Coffee</button>
+              <button type="button" class="cat-chip-btn" onclick="setModalCat('Espresso & Milk')">🥛 Espresso & Milk</button>
+              <button type="button" class="cat-chip-btn" onclick="setModalCat('Iced & Refreshing')">🧊 Cold Drinks</button>
+              <button type="button" class="cat-chip-btn" onclick="setModalCat('Tea & Fresh Juices')">🍃 Tea & Juices</button>
+              <button type="button" class="cat-chip-btn" onclick="setModalCat('Sweets & Desserts')">🍰 Sweets & Desserts</button>
+              <button type="button" class="cat-chip-btn" onclick="setModalCat('Snacks & Bites')">🥨 Snacks & Bites</button>
+              <button type="button" class="cat-chip-btn" onclick="setModalCat('Bakery & Pastries')">🥐 Bakery & Pastries</button>
+              <button type="button" class="cat-chip-btn" onclick="setModalCat('Sandwiches & Breakfast')">🥪 Sandwiches</button>
+            </div>
             <datalist id="category-datalist">
               <option value="Specialty Coffee">
               <option value="Espresso & Milk">
               <option value="Iced & Refreshing">
               <option value="Tea & Fresh Juices">
-              <option value="Desserts & Bakery">
-              <option value="Breakfast & Sandwiches">
+              <option value="Sweets & Desserts">
+              <option value="Snacks & Bites">
+              <option value="Bakery & Pastries">
+              <option value="Sandwiches & Breakfast">
               <option value="Matcha & Cold Brew">
             </datalist>
           </div>
 
-          <div class="form-field">
+          <div class="form-field full">
             <label>Highlight Tag / Badge</label>
-            <input type="text" id="edit-item-tag" placeholder="e.g. Signature, New, Popular">
+            <input type="text" id="edit-item-tag" placeholder="e.g. Signature, Bestseller, Fresh Baked, New">
+          </div>
+
+          <!-- DRINK & PRODUCT SIZES SECTION -->
+          <div class="form-field full" style="background:#faf8f5;border:1px solid var(--ws-line);border-radius:10px;padding:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+              <div>
+                <label style="margin:0;font-weight:700;color:var(--ws-emerald);font-size:13px;">
+                  📏 Drink & Product Sizes (Optional)
+                </label>
+                <span style="font-size:11px;color:var(--ws-text-muted);display:block;margin-top:2px;">
+                  Add sizes with custom prices (e.g. Small / Medium / Large, or 1 Piece / Box). Customers can pick the exact size on the menu.
+                </span>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+                <span style="font-size:11px;font-weight:700;color:var(--ws-text-muted);">Quick Presets:</span>
+                <button type="button" class="btn-outline" style="padding:3px 8px;font-size:11px;" onclick="applySizePreset('sml')">＋ S / M / L</button>
+                <button type="button" class="btn-outline" style="padding:3px 8px;font-size:11px;" onclick="applySizePreset('single-double')">＋ Single / Double</button>
+                <button type="button" class="btn-outline" style="padding:3px 8px;font-size:11px;" onclick="applySizePreset('oz')">＋ 8oz / 12oz / 16oz</button>
+                <button type="button" class="btn-primary" style="padding:4px 10px;font-size:11px;" onclick="addSizeRow('', '')">＋ Add Size</button>
+              </div>
+            </div>
+
+            <div id="modal-sizes-list" style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
+              <!-- Dynamic size rows -->
+            </div>
           </div>
 
           <div class="form-field full">
-            <label>Prices (SAR) — Flexible: Hot, Iced, and/or Regular/Single Price</label>
+            <label>Other Prices (SAR) — Hot, Iced, and/or Single/Regular Item Price</label>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
               <div>
                 <span style="font-size:11px;color:var(--ws-text-muted);font-weight:700;">♨️ Hot (SAR)</span>
@@ -1359,8 +1414,8 @@
                 <input type="number" step="any" min="0" id="edit-item-iced" placeholder="e.g. 12" style="width:100%;margin-top:4px;">
               </div>
               <div>
-                <span style="font-size:11px;color:var(--ws-text-muted);font-weight:700;">🥤 Regular (SAR)</span>
-                <input type="number" step="any" min="0" id="edit-item-price" placeholder="e.g. 12" style="width:100%;margin-top:4px;">
+                <span style="font-size:11px;color:var(--ws-text-muted);font-weight:700;">🥤 Single / Regular (SAR)</span>
+                <input type="number" step="any" min="0" id="edit-item-price" placeholder="e.g. 14" style="width:100%;margin-top:4px;">
               </div>
             </div>
           </div>
@@ -1690,9 +1745,6 @@
           <button class="btn-primary" onclick="openAddItemModal()">
             ➕ Add New Menu Item
           </button>
-          <button class="btn-outline" onclick="resetMenuToDefaults()">
-            ↺ Reset to Default Menu
-          </button>
         </div>
       </div>
 
@@ -1933,8 +1985,8 @@
           <button class="btn-outline" onclick="shareZReportWhatsApp()">
             💬 Send to WhatsApp
           </button>
-          <button class="btn-danger" onclick="closeShiftAndReset()">
-            🔒 Close Shift & Reset Day
+          <button class="btn-outline" onclick="exportSalesCsv()">
+            📥 Export Sales (CSV)
           </button>
         </div>
       </div>
@@ -1959,19 +2011,236 @@
       { id: 'bags-takeaway', name: 'Waseem Custom Takeaway Bags', nameEn: 'Embossed Paper Bags', qty: 220, unit: 'Bags', min: 50, max: 500, category: 'Packaging' }
     ];
 
-    // --- DEFAULT DRINK MENU (FULL METADATA) ---
+    // --- DEFAULT DRINK & FOOD MENU (FULL METADATA) ---
     const DEFAULT_MENU_ITEMS = [
-      { id: 'v60-colombia', name: 'V60 Specialty Coffee', nameAr: 'قهوة مختصة V60', category: 'Specialty Coffee', hot: 10, iced: 12, description: 'Single Origin Colombia 100% Arabica. Bloom • Pour • Brew • Enjoy.', notes: 'Caramel • Chocolate • Nutty', tag: 'Signature', image: 'images/v60-colombia.jpg', available: true },
-      { id: 'iced-v60', name: 'Iced V60', nameAr: 'آيس V60', category: 'Specialty Coffee', price: 12, description: 'Slow pour-over brewed directly over crystal-clear ice for peak clarity.', notes: 'Smooth • Clean • Flavorful', tag: 'Barista Choice', image: 'images/iced-coffee.jpg', available: true },
-      { id: 'americano', name: 'Americano', nameAr: 'أمريكانو', category: 'Espresso & Milk', hot: 5, iced: 10, description: 'Double espresso pulled over fresh hot or iced water.', notes: 'Simple • Rich • Classic', image: 'images/americano-hot.jpg', available: true },
-      { id: 'latte', name: 'Caffe Latte', nameAr: 'كافيه لاتيه', category: 'Espresso & Milk', hot: 5, iced: 8, description: 'Rich espresso folded into velvety microfoam with artisanal latte art.', notes: 'Smooth & Silky Microfoam', tag: 'Bestseller', image: 'images/latte-art.jpg', available: true },
-      { id: 'cappuccino', name: 'Cappuccino', nameAr: 'كابتشينو', category: 'Espresso & Milk', hot: 5, iced: 8, description: 'Balanced double shot with equal parts steamed milk and dense froth.', notes: 'Rich & Frothy', available: true },
-      { id: 'mocha', name: 'Caffe Mocha', nameAr: 'كافيه موكا', category: 'Espresso & Milk', hot: 5, iced: 8, description: 'Deep espresso paired with rich Dutch cocoa and steamed milk.', notes: 'Dark Chocolate & Espresso', available: true },
-      { id: 'spanish-latte', name: 'Spanish Latte', nameAr: 'سبانش لاتيه', category: 'Iced & Refreshing', hot: 7, iced: 10, description: 'Specialty espresso sweetened with sweetened condensed milk.', notes: 'Sweet, Creamy & Indulgent', tag: 'Popular', available: true },
-      { id: 'avocado-juice', name: 'Fresh Avocado Juice', nameAr: 'عصير أفوكادو طازج', category: 'Tea & Fresh Juices', price: 12, description: 'Hand-picked fresh avocados blended smooth with fresh milk and honey.', notes: 'Fresh • Natural • Healthy • Delicious', tag: 'Healthy Choice', image: 'images/avocado-juice.jpg', available: true },
-      { id: 'karak-tea', name: 'Karak Tea', nameAr: 'شاي كرك أصيل', category: 'Tea & Fresh Juices', hot: 3, description: 'Slow-simmered traditional spiced black tea with evaporated milk & cardamom.', notes: 'Aromatic & Spiced', tag: 'Traditional', available: true },
-      { id: 'fresh-orange', name: 'Fresh Orange Juice', nameAr: 'عصير برتقال طازج', category: 'Tea & Fresh Juices', price: 8, description: 'Pure 100% freshly pressed oranges, no added sugars or preservatives.', notes: 'Cold Pressed & Vibrant', available: true },
-      { id: 'hibiscus-iced', name: 'Iced Karkadeh (Hibiscus)', nameAr: 'كركديه مثلج', category: 'Tea & Fresh Juices', price: 7, description: 'Slow-brewed natural hibiscus flower infusion chilled over ice.', notes: 'Tart, Sweet & Refreshing', available: true }
+      {
+        id: 'v60-colombia',
+        name: 'V60 Specialty Coffee',
+        nameAr: 'قهوة مختصة V60',
+        category: 'Specialty Coffee',
+        hot: 10,
+        iced: 12,
+        sizes: [
+          { name: 'Small (8oz)', price: 10 },
+          { name: 'Medium (12oz)', price: 13 },
+          { name: 'Large (16oz)', price: 16 }
+        ],
+        description: 'Single Origin Colombia 100% Arabica. Bloom • Pour • Brew • Enjoy.',
+        notes: 'Caramel • Chocolate • Nutty',
+        tag: 'Signature',
+        image: 'images/v60-colombia.jpg',
+        available: true
+      },
+      {
+        id: 'iced-v60',
+        name: 'Iced V60',
+        nameAr: 'آيس V60',
+        category: 'Specialty Coffee',
+        price: 12,
+        sizes: [
+          { name: 'Medium (12oz)', price: 12 },
+          { name: 'Large (16oz)', price: 15 }
+        ],
+        description: 'Slow pour-over brewed directly over crystal-clear ice for peak clarity.',
+        notes: 'Smooth • Clean • Flavorful',
+        tag: 'Barista Choice',
+        image: 'images/iced-coffee.jpg',
+        available: true
+      },
+      {
+        id: 'americano',
+        name: 'Americano',
+        nameAr: 'أمريكانو',
+        category: 'Espresso & Milk',
+        hot: 5,
+        iced: 10,
+        sizes: [
+          { name: 'Single Shot', price: 5 },
+          { name: 'Double Shot', price: 7 }
+        ],
+        description: 'Double espresso pulled over fresh hot or iced water.',
+        notes: 'Simple • Rich • Classic',
+        image: 'images/americano-hot.jpg',
+        available: true
+      },
+      {
+        id: 'latte',
+        name: 'Caffe Latte',
+        nameAr: 'كافيه لاتيه',
+        category: 'Espresso & Milk',
+        hot: 5,
+        iced: 8,
+        sizes: [
+          { name: 'Small (8oz)', price: 5 },
+          { name: 'Medium (12oz)', price: 8 },
+          { name: 'Large (16oz)', price: 11 }
+        ],
+        description: 'Rich espresso folded into velvety microfoam with artisanal latte art.',
+        notes: 'Smooth & Silky Microfoam',
+        tag: 'Bestseller',
+        image: 'images/latte-art.jpg',
+        available: true
+      },
+      {
+        id: 'cappuccino',
+        name: 'Cappuccino',
+        nameAr: 'كابتشينو',
+        category: 'Espresso & Milk',
+        hot: 5,
+        iced: 8,
+        sizes: [
+          { name: 'Small (8oz)', price: 5 },
+          { name: 'Medium (12oz)', price: 8 }
+        ],
+        description: 'Balanced double shot with equal parts steamed milk and dense froth.',
+        notes: 'Rich & Frothy',
+        available: true
+      },
+      {
+        id: 'mocha',
+        name: 'Caffe Mocha',
+        nameAr: 'كافيه موكا',
+        category: 'Espresso & Milk',
+        hot: 5,
+        iced: 8,
+        sizes: [
+          { name: 'Small (8oz)', price: 5 },
+          { name: 'Medium (12oz)', price: 8 },
+          { name: 'Large (16oz)', price: 11 }
+        ],
+        description: 'Deep espresso paired with rich Dutch cocoa and steamed milk.',
+        notes: 'Dark Chocolate & Espresso',
+        available: true
+      },
+      {
+        id: 'spanish-latte',
+        name: 'Spanish Latte',
+        nameAr: 'سبانش لاتيه',
+        category: 'Iced & Refreshing',
+        hot: 7,
+        iced: 10,
+        sizes: [
+          { name: 'Medium (12oz)', price: 10 },
+          { name: 'Large (16oz)', price: 13 }
+        ],
+        description: 'Specialty espresso sweetened with sweetened condensed milk.',
+        notes: 'Sweet, Creamy & Indulgent',
+        tag: 'Popular',
+        available: true
+      },
+      {
+        id: 'avocado-juice',
+        name: 'Fresh Avocado Juice',
+        nameAr: 'عصير أفوكادو طازج',
+        category: 'Tea & Fresh Juices',
+        price: 12,
+        sizes: [
+          { name: 'Medium (350ml)', price: 12 },
+          { name: 'Large (500ml)', price: 16 }
+        ],
+        description: 'Hand-picked fresh avocados blended smooth with fresh milk and honey.',
+        notes: 'Fresh • Natural • Healthy • Delicious',
+        tag: 'Healthy Choice',
+        image: 'images/avocado-juice.jpg',
+        available: true
+      },
+      {
+        id: 'karak-tea',
+        name: 'Karak Tea',
+        nameAr: 'شاي كرك أصيل',
+        category: 'Tea & Fresh Juices',
+        hot: 3,
+        description: 'Slow-simmered traditional spiced black tea with evaporated milk & cardamom.',
+        notes: 'Aromatic & Spiced',
+        tag: 'Traditional',
+        available: true
+      },
+      {
+        id: 'fresh-orange',
+        name: 'Fresh Orange Juice',
+        nameAr: 'عصير برتقال طازج',
+        category: 'Tea & Fresh Juices',
+        price: 8,
+        sizes: [
+          { name: 'Medium (350ml)', price: 8 },
+          { name: 'Large (500ml)', price: 12 }
+        ],
+        description: 'Pure 100% freshly pressed oranges, no added sugars or preservatives.',
+        notes: 'Cold Pressed & Vibrant',
+        available: true
+      },
+      {
+        id: 'hibiscus-iced',
+        name: 'Iced Karkadeh (Hibiscus)',
+        nameAr: 'كركديه مثلج',
+        category: 'Tea & Fresh Juices',
+        price: 7,
+        sizes: [
+          { name: 'Medium (350ml)', price: 7 },
+          { name: 'Large (500ml)', price: 10 }
+        ],
+        description: 'Slow-brewed natural hibiscus flower infusion chilled over ice.',
+        notes: 'Tart, Sweet & Refreshing',
+        available: true
+      },
+      {
+        id: 'cheesecake-sansebastian',
+        name: 'San Sebastian Cheesecake',
+        nameAr: 'تشيز كيك سان سيباستيان',
+        category: 'Sweets & Desserts',
+        price: 22,
+        description: 'Rich caramelized Basque burnt cheesecake with a luscious, velvety molten cream center.',
+        notes: 'Caramelized Crust • Creamy Center',
+        tag: 'Bestseller',
+        available: true
+      },
+      {
+        id: 'belgian-choco-cookie',
+        name: 'Belgian Chocolate Cookie',
+        nameAr: 'كوكيز الشوكولاتة البلجيكية',
+        category: 'Sweets & Desserts',
+        sizes: [
+          { name: '1 Piece (حبة)', price: 9 },
+          { name: 'Box of 3 (بوكس 3 حبات)', price: 24 }
+        ],
+        description: 'Freshly baked artisanal cookie loaded with molten Belgian milk and dark chocolate chunks.',
+        notes: 'Warm • Gooey • Freshly Baked',
+        tag: 'Fresh Baked',
+        available: true
+      },
+      {
+        id: 'almond-croissant',
+        name: 'Almond Butter Croissant',
+        nameAr: 'كرواسون زبدة باللوز',
+        category: 'Bakery & Pastries',
+        price: 14,
+        description: 'Pure French butter croissant filled with almond frangipane cream and topped with toasted almonds.',
+        notes: 'Golden • Flaky • Almond Frangipane',
+        tag: 'Daily Fresh',
+        available: true
+      },
+      {
+        id: 'zaatar-halloumi-danish',
+        name: 'Zaatar & Halloumi Danish',
+        nameAr: 'فطيرة زعتر وجبنة حلوم',
+        category: 'Snacks & Bites',
+        price: 13,
+        description: 'Crisp layered Danish pastry topped with wild aromatic zaatar and grilled halloumi cheese.',
+        notes: 'Savory • Warm • Herbal',
+        tag: 'Savory Snack',
+        available: true
+      },
+      {
+        id: 'salted-pretzel-mix',
+        name: 'Pretzel & Nuts Mix Snack',
+        nameAr: 'مكس موالح وبريتزل مقرمش',
+        category: 'Snacks & Bites',
+        price: 10,
+        description: 'Crunchy Bavarian salted pretzels with roasted salted almonds, cashews and seeds.',
+        notes: 'Crispy • Sea Salt • Roasted',
+        tag: 'Snack',
+        available: true
+      }
     ];
 
     // --- DEFAULT PAYMENT CONFIGURATION ---
@@ -1992,12 +2261,13 @@
         if (raw) {
           const parsed = JSON.parse(raw);
           if (Array.isArray(parsed) && parsed.length > 0) {
-            return parsed.map(savedItem => {
+            const merged = parsed.map(savedItem => {
               const def = DEFAULT_MENU_ITEMS.find(d => d.id === savedItem.id);
               if (def) {
                 return {
                   ...def,
                   ...savedItem,
+                  sizes: savedItem.sizes !== undefined ? savedItem.sizes : def.sizes,
                   nameAr: savedItem.nameAr !== undefined ? savedItem.nameAr : def.nameAr,
                   description: savedItem.description !== undefined ? savedItem.description : def.description,
                   notes: savedItem.notes !== undefined ? savedItem.notes : def.notes,
@@ -2008,6 +2278,12 @@
               }
               return { ...savedItem, available: savedItem.available !== false };
             });
+            DEFAULT_MENU_ITEMS.forEach(defItem => {
+              if (!merged.some(m => m.id === defItem.id)) {
+                merged.push(defItem);
+              }
+            });
+            return merged;
           }
         }
       } catch (e) {}
@@ -2381,7 +2657,17 @@
     function updateCategoryDatalist() {
       const list = document.getElementById('category-datalist');
       if (!list) return;
-      const cats = new Set(['Specialty Coffee', 'Espresso & Milk', 'Iced & Refreshing', 'Tea & Fresh Juices', 'Desserts & Bakery', 'Breakfast & Sandwiches', 'Matcha & Cold Brew']);
+      const cats = new Set([
+        'Specialty Coffee',
+        'Espresso & Milk',
+        'Iced & Refreshing',
+        'Tea & Fresh Juices',
+        'Sweets & Desserts',
+        'Bakery & Pastries',
+        'Snacks & Bites',
+        'Sandwiches & Breakfast',
+        'Matcha & Cold Brew'
+      ]);
       menuItems.forEach(it => { if (it.category) cats.add(it.category); });
       list.innerHTML = Array.from(cats).map(c => `<option value="${escapeHtml(c)}">`).join('');
     }
@@ -2438,11 +2724,26 @@
 
               ${hasSingle ? `
                 <div class="price-field">
-                  <label>🥤 Regular Price</label>
+                  <label>🥤 Single / Regular Price</label>
                   <div class="price-field-input">
                     <span>SAR</span>
                     <input type="number" step="any" min="0" id="price-reg-${escapeHtml(item.id)}" value="${item.price}">
                   </div>
+                </div>
+              ` : ''}
+
+              ${Array.isArray(item.sizes) && item.sizes.length > 0 ? `
+                <div style="grid-column: 1 / -1; display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; background:#fbf9f5; padding:8px 10px; border-radius:8px; border:1px solid var(--ws-line);">
+                  <div style="width:100%; font-size:11px; font-weight:700; color:var(--ws-emerald);">📏 Configured Sizes:</div>
+                  ${item.sizes.map((sz, szIdx) => `
+                    <div class="price-field" style="flex:1; min-width:110px;">
+                      <label>🥤 ${escapeHtml(sz.name)}</label>
+                      <div class="price-field-input">
+                        <span>SAR</span>
+                        <input type="number" step="any" min="0" id="price-sz-${escapeHtml(item.id)}-${szIdx}" value="${sz.price}">
+                      </div>
+                    </div>
+                  `).join('')}
                 </div>
               ` : ''}
             </div>
@@ -2482,6 +2783,15 @@
       if (icedInput && icedInput.value !== '') item.iced = parseFloat(icedInput.value);
       if (regInput && regInput.value !== '') item.price = parseFloat(regInput.value);
 
+      if (Array.isArray(item.sizes)) {
+        item.sizes.forEach((sz, szIdx) => {
+          const szInput = document.getElementById(`price-sz-${itemId}-${szIdx}`);
+          if (szInput && szInput.value !== '') {
+            sz.price = parseFloat(szInput.value) || 0;
+          }
+        });
+      }
+
       saveState();
       showToast(`✅ Updated price for "${item.name}"! Live on customer menu.`);
       renderPriceEditor();
@@ -2511,16 +2821,6 @@
       renderPriceEditor();
       renderPosItems();
       showToast(`🗑️ Deleted "${item.name}" from menu.`);
-    }
-
-    function resetMenuToDefaults() {
-      if (confirm('Reset all drinks, photos, prices, and availability back to standard defaults?')) {
-        menuItems = JSON.parse(JSON.stringify(DEFAULT_MENU_ITEMS));
-        saveState();
-        renderPriceEditor();
-        renderPosItems();
-        showToast('↺ Menu reset to original defaults');
-      }
     }
 
     // --- ADD / EDIT ITEM MODAL & PHOTO UPLOAD ---
@@ -2605,6 +2905,48 @@
       reader.readAsDataURL(file);
     }
 
+    function setModalCat(cat) {
+      document.getElementById('edit-item-cat').value = cat;
+    }
+
+    function addSizeRow(name = '', price = '') {
+      const container = document.getElementById('modal-sizes-list');
+      const row = document.createElement('div');
+      row.className = 'modal-size-row';
+      row.style.cssText = 'display:flex;align-items:center;gap:10px;background:#fff;padding:8px 12px;border:1px solid var(--ws-line);border-radius:8px;';
+      row.innerHTML = `
+        <span style="font-size:14px;">🥤</span>
+        <input type="text" class="size-name-input" placeholder="Size Name (e.g. Small, Medium, Large, Box)" value="${escapeHtml(name)}" style="flex:2;padding:6px 10px;border:1px solid var(--ws-line);border-radius:6px;font-size:13px;" required>
+        <div style="display:flex;align-items:center;gap:4px;flex:1;">
+          <span style="font-size:11px;font-weight:700;color:var(--ws-text-muted);">SAR</span>
+          <input type="number" step="any" min="0" class="size-price-input" placeholder="Price" value="${price !== undefined && price !== null ? price : ''}" style="width:100%;padding:6px 10px;border:1px solid var(--ws-line);border-radius:6px;font-size:13px;" required>
+        </div>
+        <button type="button" onclick="this.closest('.modal-size-row').remove()" style="background:transparent;border:none;color:#e11d48;cursor:pointer;font-size:16px;padding:4px 6px;" title="Remove size">🗑️</button>
+      `;
+      container.appendChild(row);
+    }
+
+    function applySizePreset(type) {
+      const container = document.getElementById('modal-sizes-list');
+      container.innerHTML = '';
+      const hotVal = parseFloat(document.getElementById('edit-item-hot').value) || 10;
+      const icedVal = parseFloat(document.getElementById('edit-item-iced').value) || 12;
+      const regVal = parseFloat(document.getElementById('edit-item-price').value) || 12;
+
+      if (type === 'sml') {
+        addSizeRow('Small (صغير)', hotVal);
+        addSizeRow('Medium (وسط)', icedVal);
+        addSizeRow('Large (كبير)', icedVal + 3);
+      } else if (type === 'single-double') {
+        addSizeRow('Single Shot', regVal);
+        addSizeRow('Double Shot', regVal + 3);
+      } else if (type === 'oz') {
+        addSizeRow('8oz (Small)', hotVal);
+        addSizeRow('12oz (Medium)', icedVal);
+        addSizeRow('16oz (Large)', icedVal + 3);
+      }
+    }
+
     function openAddItemModal() {
       updateCategoryDatalist();
       document.getElementById('item-modal-title').textContent = '➕ Add New Menu Item';
@@ -2616,6 +2958,7 @@
       document.getElementById('edit-item-hot').value = '';
       document.getElementById('edit-item-iced').value = '';
       document.getElementById('edit-item-price').value = '';
+      document.getElementById('modal-sizes-list').innerHTML = '';
       document.getElementById('edit-item-notes').value = '';
       document.getElementById('edit-item-desc').value = '';
       document.getElementById('edit-item-avail').checked = true;
@@ -2638,6 +2981,13 @@
       document.getElementById('edit-item-hot').value = item.hot !== undefined ? item.hot : '';
       document.getElementById('edit-item-iced').value = item.iced !== undefined ? item.iced : '';
       document.getElementById('edit-item-price').value = item.price !== undefined ? item.price : '';
+
+      const sizesCont = document.getElementById('modal-sizes-list');
+      sizesCont.innerHTML = '';
+      if (Array.isArray(item.sizes) && item.sizes.length > 0) {
+        item.sizes.forEach(sz => addSizeRow(sz.name, sz.price));
+      }
+
       document.getElementById('edit-item-notes').value = item.notes || '';
       document.getElementById('edit-item-desc').value = item.description || '';
       document.getElementById('edit-item-avail').checked = item.available !== false;
@@ -2665,13 +3015,23 @@
       const available = document.getElementById('edit-item-avail').checked;
 
       if (!name) {
-        alert('Please enter the drink name.');
+        alert('Please enter the product/item name.');
         return;
       }
 
       const hot = hotRaw !== '' ? parseFloat(hotRaw) : undefined;
       const iced = icedRaw !== '' ? parseFloat(icedRaw) : undefined;
       const price = priceRaw !== '' ? parseFloat(priceRaw) : undefined;
+
+      const sizeRows = document.querySelectorAll('#modal-sizes-list .modal-size-row');
+      const sizes = [];
+      sizeRows.forEach(row => {
+        const sName = row.querySelector('.size-name-input')?.value.trim();
+        const sPrice = parseFloat(row.querySelector('.size-price-input')?.value);
+        if (sName && !isNaN(sPrice) && sPrice >= 0) {
+          sizes.push({ name: sName, price: sPrice });
+        }
+      });
 
       const itemObj = {
         id: existingId || ('item-' + Date.now()),
@@ -2681,6 +3041,7 @@
         hot,
         iced,
         price,
+        sizes: sizes.length ? sizes : undefined,
         notes: notes || undefined,
         description: description || undefined,
         tag: tag || undefined,
@@ -2882,14 +3243,19 @@
         }
 
         let buttons = '<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;">';
+        if (Array.isArray(item.sizes) && item.sizes.length > 0) {
+          item.sizes.forEach(sz => {
+            buttons += `<button class="btn-primary" style="padding:4px 8px;font-size:11px;" onclick="addPosTicketById('${escapeHtml(item.id)}', '${escapeHtml(sz.name)}', ${Number(sz.price)})">${escapeHtml(sz.name)} SAR ${sz.price}</button>`;
+          });
+        }
         if (item.hot !== undefined && item.hot !== '') {
-          buttons += `<button class="btn-primary" style="padding:5px 9px;font-size:11px;" onclick="addPosTicketById('${escapeHtml(item.id)}', 'Hot', ${Number(item.hot)})">Hot SAR ${item.hot}</button>`;
+          buttons += `<button class="btn-primary" style="padding:4px 8px;font-size:11px;" onclick="addPosTicketById('${escapeHtml(item.id)}', 'Hot', ${Number(item.hot)})">Hot SAR ${item.hot}</button>`;
         }
         if (item.iced !== undefined && item.iced !== '') {
-          buttons += `<button class="btn-outline" style="padding:5px 9px;font-size:11px;" onclick="addPosTicketById('${escapeHtml(item.id)}', 'Iced', ${Number(item.iced)})">Iced SAR ${item.iced}</button>`;
+          buttons += `<button class="btn-outline" style="padding:4px 8px;font-size:11px;" onclick="addPosTicketById('${escapeHtml(item.id)}', 'Iced', ${Number(item.iced)})">Iced SAR ${item.iced}</button>`;
         }
-        if (item.price !== undefined && item.price !== '') {
-          buttons += `<button class="btn-primary" style="padding:5px 9px;font-size:11px;" onclick="addPosTicketById('${escapeHtml(item.id)}', 'Regular', ${Number(item.price)})">Regular SAR ${item.price}</button>`;
+        if ((!item.sizes || item.sizes.length === 0) && item.price !== undefined && item.price !== '') {
+          buttons += `<button class="btn-primary" style="padding:4px 8px;font-size:11px;" onclick="addPosTicketById('${escapeHtml(item.id)}', 'Regular', ${Number(item.price)})">${item.category.includes('Coffee') || item.category.includes('Milk') ? 'Regular' : 'Order'} SAR ${item.price}</button>`;
         }
         buttons += '</div>';
 

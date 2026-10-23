@@ -655,7 +655,7 @@
       <div class="controls">
         <div class="search-wrap">
           <span class="search-icon">🔍</span>
-          <input type="text" id="search-input" class="search-input" placeholder="Search drinks or notes (e.g. V60, Latte, Avocado)...">
+          <input type="text" id="search-input" class="search-input" placeholder="Search coffee, drinks, sweets, snacks (e.g. V60, Cookie, Cheesecake)...">
         </div>
         <div class="cat-bar" id="cat-bar"></div>
       </div>
@@ -801,17 +801,234 @@
     const WA_PHONE = '966511313965';
 
     const DEFAULT_MENU_ITEMS = [
-      { id: 'v60-colombia', name: 'V60 Specialty Coffee', nameAr: 'قهوة مختصة V60', category: 'Specialty Coffee', hot: 10, iced: 12, description: 'Single Origin Colombia 100% Arabica. Bloom • Pour • Brew • Enjoy.', notes: 'Caramel • Chocolate • Nutty', tag: 'Signature', image: 'images/v60-colombia.jpg', available: true },
-      { id: 'iced-v60', name: 'Iced V60', nameAr: 'آيس V60', category: 'Specialty Coffee', price: 12, description: 'Slow pour-over brewed directly over crystal-clear ice for peak clarity.', notes: 'Smooth • Clean • Flavorful', tag: 'Barista Choice', image: 'images/iced-coffee.jpg', available: true },
-      { id: 'americano', name: 'Americano', nameAr: 'أمريكانو', category: 'Espresso & Milk', hot: 5, iced: 10, description: 'Double espresso pulled over fresh hot or iced water.', notes: 'Simple • Rich • Classic', image: 'images/americano-hot.jpg', available: true },
-      { id: 'latte', name: 'Caffe Latte', nameAr: 'كافيه لاتيه', category: 'Espresso & Milk', hot: 5, iced: 8, description: 'Rich espresso folded into velvety microfoam with artisanal latte art.', notes: 'Smooth & Silky Microfoam', tag: 'Bestseller', image: 'images/latte-art.jpg', available: true },
-      { id: 'cappuccino', name: 'Cappuccino', nameAr: 'كابتشينو', category: 'Espresso & Milk', hot: 5, iced: 8, description: 'Balanced double shot with equal parts steamed milk and dense froth.', notes: 'Rich & Frothy', available: true },
-      { id: 'mocha', name: 'Caffe Mocha', nameAr: 'كافيه موكا', category: 'Espresso & Milk', hot: 5, iced: 8, description: 'Deep espresso paired with rich Dutch cocoa and steamed milk.', notes: 'Dark Chocolate & Espresso', available: true },
-      { id: 'spanish-latte', name: 'Spanish Latte', nameAr: 'سبانش لاتيه', category: 'Iced & Refreshing', hot: 7, iced: 10, description: 'Specialty espresso sweetened with sweetened condensed milk.', notes: 'Sweet, Creamy & Indulgent', tag: 'Popular', available: true },
-      { id: 'avocado-juice', name: 'Fresh Avocado Juice', nameAr: 'عصير أفوكادو طازج', category: 'Tea & Fresh Juices', price: 12, description: 'Hand-picked fresh avocados blended smooth with fresh milk and honey.', notes: 'Fresh • Natural • Healthy • Delicious', tag: 'Healthy Choice', image: 'images/avocado-juice.jpg', available: true },
-      { id: 'karak-tea', name: 'Karak Tea', nameAr: 'شاي كرك أصيل', category: 'Tea & Fresh Juices', hot: 3, description: 'Slow-simmered traditional spiced black tea with evaporated milk & cardamom.', notes: 'Aromatic & Spiced', tag: 'Traditional', available: true },
-      { id: 'fresh-orange', name: 'Fresh Orange Juice', nameAr: 'عصير برتقال طازج', category: 'Tea & Fresh Juices', price: 8, description: 'Pure 100% freshly pressed oranges, no added sugars or preservatives.', notes: 'Cold Pressed & Vibrant', available: true },
-      { id: 'hibiscus-iced', name: 'Iced Karkadeh (Hibiscus)', nameAr: 'كركديه مثلج', category: 'Tea & Fresh Juices', price: 7, description: 'Slow-brewed natural hibiscus flower infusion chilled over ice.', notes: 'Tart, Sweet & Refreshing', available: true }
+      {
+        id: 'v60-colombia',
+        name: 'V60 Specialty Coffee',
+        nameAr: 'قهوة مختصة V60',
+        category: 'Specialty Coffee',
+        hot: 10,
+        iced: 12,
+        sizes: [
+          { name: 'Small (8oz)', price: 10 },
+          { name: 'Medium (12oz)', price: 13 },
+          { name: 'Large (16oz)', price: 16 }
+        ],
+        description: 'Single Origin Colombia 100% Arabica. Bloom • Pour • Brew • Enjoy.',
+        notes: 'Caramel • Chocolate • Nutty',
+        tag: 'Signature',
+        image: 'images/v60-colombia.jpg',
+        available: true
+      },
+      {
+        id: 'iced-v60',
+        name: 'Iced V60',
+        nameAr: 'آيس V60',
+        category: 'Specialty Coffee',
+        price: 12,
+        sizes: [
+          { name: 'Medium (12oz)', price: 12 },
+          { name: 'Large (16oz)', price: 15 }
+        ],
+        description: 'Slow pour-over brewed directly over crystal-clear ice for peak clarity.',
+        notes: 'Smooth • Clean • Flavorful',
+        tag: 'Barista Choice',
+        image: 'images/iced-coffee.jpg',
+        available: true
+      },
+      {
+        id: 'americano',
+        name: 'Americano',
+        nameAr: 'أمريكانو',
+        category: 'Espresso & Milk',
+        hot: 5,
+        iced: 10,
+        sizes: [
+          { name: 'Single Shot', price: 5 },
+          { name: 'Double Shot', price: 7 }
+        ],
+        description: 'Double espresso pulled over fresh hot or iced water.',
+        notes: 'Simple • Rich • Classic',
+        image: 'images/americano-hot.jpg',
+        available: true
+      },
+      {
+        id: 'latte',
+        name: 'Caffe Latte',
+        nameAr: 'كافيه لاتيه',
+        category: 'Espresso & Milk',
+        hot: 5,
+        iced: 8,
+        sizes: [
+          { name: 'Small (8oz)', price: 5 },
+          { name: 'Medium (12oz)', price: 8 },
+          { name: 'Large (16oz)', price: 11 }
+        ],
+        description: 'Rich espresso folded into velvety microfoam with artisanal latte art.',
+        notes: 'Smooth & Silky Microfoam',
+        tag: 'Bestseller',
+        image: 'images/latte-art.jpg',
+        available: true
+      },
+      {
+        id: 'cappuccino',
+        name: 'Cappuccino',
+        nameAr: 'كابتشينو',
+        category: 'Espresso & Milk',
+        hot: 5,
+        iced: 8,
+        sizes: [
+          { name: 'Small (8oz)', price: 5 },
+          { name: 'Medium (12oz)', price: 8 }
+        ],
+        description: 'Balanced double shot with equal parts steamed milk and dense froth.',
+        notes: 'Rich & Frothy',
+        available: true
+      },
+      {
+        id: 'mocha',
+        name: 'Caffe Mocha',
+        nameAr: 'كافيه موكا',
+        category: 'Espresso & Milk',
+        hot: 5,
+        iced: 8,
+        sizes: [
+          { name: 'Small (8oz)', price: 5 },
+          { name: 'Medium (12oz)', price: 8 },
+          { name: 'Large (16oz)', price: 11 }
+        ],
+        description: 'Deep espresso paired with rich Dutch cocoa and steamed milk.',
+        notes: 'Dark Chocolate & Espresso',
+        available: true
+      },
+      {
+        id: 'spanish-latte',
+        name: 'Spanish Latte',
+        nameAr: 'سبانش لاتيه',
+        category: 'Iced & Refreshing',
+        hot: 7,
+        iced: 10,
+        sizes: [
+          { name: 'Medium (12oz)', price: 10 },
+          { name: 'Large (16oz)', price: 13 }
+        ],
+        description: 'Specialty espresso sweetened with sweetened condensed milk.',
+        notes: 'Sweet, Creamy & Indulgent',
+        tag: 'Popular',
+        available: true
+      },
+      {
+        id: 'avocado-juice',
+        name: 'Fresh Avocado Juice',
+        nameAr: 'عصير أفوكادو طازج',
+        category: 'Tea & Fresh Juices',
+        price: 12,
+        sizes: [
+          { name: 'Medium (350ml)', price: 12 },
+          { name: 'Large (500ml)', price: 16 }
+        ],
+        description: 'Hand-picked fresh avocados blended smooth with fresh milk and honey.',
+        notes: 'Fresh • Natural • Healthy • Delicious',
+        tag: 'Healthy Choice',
+        image: 'images/avocado-juice.jpg',
+        available: true
+      },
+      {
+        id: 'karak-tea',
+        name: 'Karak Tea',
+        nameAr: 'شاي كرك أصيل',
+        category: 'Tea & Fresh Juices',
+        hot: 3,
+        description: 'Slow-simmered traditional spiced black tea with evaporated milk & cardamom.',
+        notes: 'Aromatic & Spiced',
+        tag: 'Traditional',
+        available: true
+      },
+      {
+        id: 'fresh-orange',
+        name: 'Fresh Orange Juice',
+        nameAr: 'عصير برتقال طازج',
+        category: 'Tea & Fresh Juices',
+        price: 8,
+        sizes: [
+          { name: 'Medium (350ml)', price: 8 },
+          { name: 'Large (500ml)', price: 12 }
+        ],
+        description: 'Pure 100% freshly pressed oranges, no added sugars or preservatives.',
+        notes: 'Cold Pressed & Vibrant',
+        available: true
+      },
+      {
+        id: 'hibiscus-iced',
+        name: 'Iced Karkadeh (Hibiscus)',
+        nameAr: 'كركديه مثلج',
+        category: 'Tea & Fresh Juices',
+        price: 7,
+        sizes: [
+          { name: 'Medium (350ml)', price: 7 },
+          { name: 'Large (500ml)', price: 10 }
+        ],
+        description: 'Slow-brewed natural hibiscus flower infusion chilled over ice.',
+        notes: 'Tart, Sweet & Refreshing',
+        available: true
+      },
+      {
+        id: 'cheesecake-sansebastian',
+        name: 'San Sebastian Cheesecake',
+        nameAr: 'تشيز كيك سان سيباستيان',
+        category: 'Sweets & Desserts',
+        price: 22,
+        description: 'Rich caramelized Basque burnt cheesecake with a luscious, velvety molten cream center.',
+        notes: 'Caramelized Crust • Creamy Center',
+        tag: 'Bestseller',
+        available: true
+      },
+      {
+        id: 'belgian-choco-cookie',
+        name: 'Belgian Chocolate Cookie',
+        nameAr: 'كوكيز الشوكولاتة البلجيكية',
+        category: 'Sweets & Desserts',
+        sizes: [
+          { name: '1 Piece (حبة)', price: 9 },
+          { name: 'Box of 3 (بوكس 3 حبات)', price: 24 }
+        ],
+        description: 'Freshly baked artisanal cookie loaded with molten Belgian milk and dark chocolate chunks.',
+        notes: 'Warm • Gooey • Freshly Baked',
+        tag: 'Fresh Baked',
+        available: true
+      },
+      {
+        id: 'almond-croissant',
+        name: 'Almond Butter Croissant',
+        nameAr: 'كرواسون زبدة باللوز',
+        category: 'Bakery & Pastries',
+        price: 14,
+        description: 'Pure French butter croissant filled with almond frangipane cream and topped with toasted almonds.',
+        notes: 'Golden • Flaky • Almond Frangipane',
+        tag: 'Daily Fresh',
+        available: true
+      },
+      {
+        id: 'zaatar-halloumi-danish',
+        name: 'Zaatar & Halloumi Danish',
+        nameAr: 'فطيرة زعتر وجبنة حلوم',
+        category: 'Snacks & Bites',
+        price: 13,
+        description: 'Crisp layered Danish pastry topped with wild aromatic zaatar and grilled halloumi cheese.',
+        notes: 'Savory • Warm • Herbal',
+        tag: 'Savory Snack',
+        available: true
+      },
+      {
+        id: 'salted-pretzel-mix',
+        name: 'Pretzel & Nuts Mix Snack',
+        nameAr: 'مكس موالح وبريتزل مقرمش',
+        category: 'Snacks & Bites',
+        price: 10,
+        description: 'Crunchy Bavarian salted pretzels with roasted salted almonds, cashews and seeds.',
+        notes: 'Crispy • Sea Salt • Roasted',
+        tag: 'Snack',
+        available: true
+      }
     ];
 
     let currentCat = 'All';
@@ -868,12 +1085,13 @@
         if (saved) {
           const list = JSON.parse(saved);
           if (Array.isArray(list) && list.length > 0) {
-            return list.map(item => {
+            const merged = list.map(item => {
               const def = DEFAULT_MENU_ITEMS.find(d => d.id === item.id);
               if (def) {
                 return {
                   ...def,
                   ...item,
+                  sizes: item.sizes !== undefined ? item.sizes : def.sizes,
                   nameAr: item.nameAr !== undefined ? item.nameAr : def.nameAr,
                   description: item.description !== undefined ? item.description : def.description,
                   notes: item.notes !== undefined ? item.notes : def.notes,
@@ -887,6 +1105,12 @@
                 available: item.available !== false
               };
             });
+            DEFAULT_MENU_ITEMS.forEach(defItem => {
+              if (!merged.some(m => m.id === defItem.id)) {
+                merged.push(defItem);
+              }
+            });
+            return merged;
           }
         }
       } catch (e) {}
@@ -894,8 +1118,24 @@
     }
 
     function renderCategories() {
-      const baseCats = ['All', 'Specialty Coffee', 'Espresso & Milk', 'Iced & Refreshing', 'Tea & Fresh Juices'];
       const activeItems = getActiveMenu();
+      const baseCats = ['All'];
+      const defaultCatOrder = [
+        'Specialty Coffee',
+        'Espresso & Milk',
+        'Iced & Refreshing',
+        'Tea & Fresh Juices',
+        'Sweets & Desserts',
+        'Bakery & Pastries',
+        'Snacks & Bites',
+        'Sandwiches & Breakfast',
+        'Matcha & Cold Brew'
+      ];
+      defaultCatOrder.forEach(cat => {
+        if (activeItems.some(it => it.category === cat) && !baseCats.includes(cat)) {
+          baseCats.push(cat);
+        }
+      });
       activeItems.forEach(it => {
         if (it.category && !baseCats.includes(it.category)) {
           baseCats.push(it.category);
@@ -908,13 +1148,17 @@
         'Espresso & Milk': '🥛 ',
         'Iced & Refreshing': '🧊 ',
         'Tea & Fresh Juices': '🍃 ',
-        'Desserts & Bakery': '🥐 '
+        'Sweets & Desserts': '🍰 ',
+        'Bakery & Pastries': '🥐 ',
+        'Snacks & Bites': '🥨 ',
+        'Sandwiches & Breakfast': '🥪 ',
+        'Matcha & Cold Brew': '🍵 '
       };
 
       const bar = document.getElementById('cat-bar');
       bar.innerHTML = baseCats.map(c => `
         <button class="cat-pill ${c === currentCat ? 'active' : ''}" onclick="selectCat('${escapeHtml(c)}')">
-          ${icons[c] || '☕ '}${escapeHtml(c)}
+          ${icons[c] || '✨ '}${escapeHtml(c)}
         </button>
       `).join('');
     }
@@ -942,7 +1186,7 @@
       });
 
       if (!filtered.length) {
-        container.innerHTML = '<p style="text-align:center;padding:30px 10px;color:#777;">No drinks matched your query.</p>';
+        container.innerHTML = '<p style="text-align:center;padding:30px 10px;color:#777;">No items matched your search criteria.</p>';
         return;
       }
 
@@ -961,6 +1205,7 @@
           </div>
           <div class="items-grid">
             ${items.map(it => {
+              const hasSizes = Array.isArray(it.sizes) && it.sizes.length > 0;
               const hasHot = it.hot !== undefined && it.hot !== null && it.hot !== '';
               const hasIced = it.iced !== undefined && it.iced !== null && it.iced !== '';
               const hasPrice = it.price !== undefined && it.price !== null && it.price !== '';
@@ -991,9 +1236,14 @@
                       </div>
                     ` : `
                       <div class="item-actions">
+                        ${hasSizes ? it.sizes.map(sz => `
+                          <button class="action-btn ${!cafeOpen ? 'closed-btn' : ''}" onclick="addToCartById('${escapeHtml(it.id)}', '${escapeHtml(sz.name)}', ${Number(sz.price)})">
+                            <span>🥤 ${escapeHtml(sz.name)}</span> <b>${sar(sz.price)}</b> <span>${cafeOpen ? '＋' : '🌙'}</span>
+                          </button>
+                        `).join('') : ''}
                         ${hasHot ? `<button class="action-btn ${!cafeOpen ? 'closed-btn' : ''}" onclick="addToCartById('${escapeHtml(it.id)}', 'Hot', ${Number(it.hot)})"><span>♨️ Hot</span> <b>${sar(it.hot)}</b> <span>${cafeOpen ? '＋' : '🌙'}</span></button>` : ''}
                         ${hasIced ? `<button class="action-btn ${!cafeOpen ? 'closed-btn' : ''}" onclick="addToCartById('${escapeHtml(it.id)}', 'Iced', ${Number(it.iced)})"><span>🧊 Iced</span> <b>${sar(it.iced)}</b> <span>${cafeOpen ? '＋' : '🌙'}</span></button>` : ''}
-                        ${hasPrice ? `<button class="action-btn ${!cafeOpen ? 'closed-btn' : ''}" onclick="addToCartById('${escapeHtml(it.id)}', 'Regular', ${Number(it.price)})"><span>Regular</span> <b>${sar(it.price)}</b> <span>${cafeOpen ? '＋' : '🌙'}</span></button>` : ''}
+                        ${(!hasSizes && hasPrice) ? `<button class="action-btn ${!cafeOpen ? 'closed-btn' : ''}" onclick="addToCartById('${escapeHtml(it.id)}', 'Regular', ${Number(it.price)})"><span>${it.category.includes('Coffee') || it.category.includes('Milk') ? 'Regular' : 'Order'}</span> <b>${sar(it.price)}</b> <span>${cafeOpen ? '＋' : '🌙'}</span></button>` : ''}
                       </div>
                     `}
                   </div>
@@ -1003,6 +1253,7 @@
           </div>
         </section>
       `).join('');
+    }
     }
 
     function addToCartById(itemId, variant, price) {
@@ -1204,7 +1455,7 @@
       const barqBtn = document.getElementById('cart-barq-btn');
 
       if (!totalQty) {
-        lines.innerHTML = `<p style="color:#777;font-size:13px;margin:10px 0;text-align:center;">${cafeOpen ? 'Choose drink options to add them to your order.' : '🌙 Cafe is currently closed for online orders.'}</p>`;
+        lines.innerHTML = `<p style="color:#777;font-size:13px;margin:10px 0;text-align:center;">${cafeOpen ? 'Choose items from the menu above to add to your order.' : '🌙 Cafe is currently closed for online orders.'}</p>`;
         totalRow.style.display = 'none';
         actionsRow.style.display = 'none';
         return;
@@ -1213,7 +1464,7 @@
       lines.innerHTML = cart.map((x, i) => `
         <div class="cart-row">
           <div>
-            <b>${escapeHtml(x.name)}</b> <span style="color:var(--ws-emerald);font-size:11px;">(${escapeHtml(x.variant)})</span>
+            <b>${escapeHtml(x.name)}</b> ${x.variant && x.variant !== 'Regular' ? `<span style="color:var(--ws-emerald);font-size:11px;">(${escapeHtml(x.variant)})</span>` : ''}
             <div style="font-size:11px;color:#666;">${sar(x.price)} each</div>
           </div>
           <div class="cart-qty">
@@ -1241,7 +1492,7 @@
       } else {
         const msg = encodeURIComponent(
           `☕ *New Order from Waseem Cafe*\n\n` +
-          cart.map(x => `• ${x.qty}× ${x.name} (${x.variant}) — ${sar(x.qty * x.price)}`).join('\n') +
+          cart.map(x => `• ${x.qty}× ${x.name}${x.variant && x.variant !== 'Regular' ? ` (${x.variant})` : ''} — ${sar(x.qty * x.price)}`).join('\n') +
           `\n\n💰 *Total:* ${sar(totalSum)}\n\n_Thank you for ordering with Waseem Cafe!_`
         );
         waBtn.href = `https://wa.me/${WA_PHONE}?text=${msg}`;

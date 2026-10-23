@@ -13,6 +13,7 @@ type Item = {
   hot?: number;
   iced?: number;
   price?: number;
+  sizes?: { name: string; price: number }[];
   description?: string;
   notes?: string;
   tag?: string;
@@ -177,7 +178,7 @@ export default function Home() {
 
   const orderText = encodeURIComponent(
     `☕ *New Order from Waseem Cafe Menu*\n\n` +
-      cart.map((x) => `• ${x.qty}× ${x.name} (${x.variant}) — ${sar(x.unit * x.qty)}`).join('\n') +
+      cart.map((x) => `• ${x.qty}× ${x.name}${x.variant && x.variant !== 'Regular' ? ` (${x.variant})` : ''} — ${sar(x.unit * x.qty)}`).join('\n') +
       `\n\n💰 *Total:* ${sar(total)}\n\n_Thank you for ordering with Waseem Cafe!_`
   );
 
@@ -317,7 +318,7 @@ export default function Home() {
             <input
               type="text"
               className="search-input"
-              placeholder="Search drinks, flavor notes (e.g. V60, Latte, Avocado)..."
+              placeholder="Search coffee, drinks, sweets, snacks (e.g. V60, Cookie, Cheesecake)..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               aria-label="Search menu"
@@ -325,23 +326,32 @@ export default function Home() {
           </div>
 
           <div className="category-tabs" role="tablist">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                role="tab"
-                aria-selected={activeCat === cat}
-                className={`cat-pill ${activeCat === cat ? 'active' : ''}`}
-                onClick={() => setActiveCat(cat)}
-              >
-                {cat === 'All' && '✨ '}
-                {cat === 'Specialty Coffee' && '☕ '}
-                {cat === 'Espresso & Milk' && '🥛 '}
-                {cat === 'Iced & Refreshing' && '🧊 '}
-                {cat === 'Tea & Fresh Juices' && '🍃 '}
-                {cat === 'Desserts & Bakery' && '🥐 '}
-                {cat}
-              </button>
-            ))}
+            {categories.map((cat) => {
+              const iconMap: { [key: string]: string } = {
+                'All': '✨ ',
+                'Specialty Coffee': '☕ ',
+                'Espresso & Milk': '🥛 ',
+                'Iced & Refreshing': '🧊 ',
+                'Tea & Fresh Juices': '🍃 ',
+                'Sweets & Desserts': '🍰 ',
+                'Bakery & Pastries': '🥐 ',
+                'Snacks & Bites': '🥨 ',
+                'Sandwiches & Breakfast': '🥪 ',
+                'Matcha & Cold Brew': '🍵 ',
+              };
+              return (
+                <button
+                  key={cat}
+                  role="tab"
+                  aria-selected={activeCat === cat}
+                  className={`cat-pill ${activeCat === cat ? 'active' : ''}`}
+                  onClick={() => setActiveCat(cat)}
+                >
+                  {iconMap[cat] || '✨ '}
+                  {cat}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -354,7 +364,7 @@ export default function Home() {
         {/* Grouped Menu Sections */}
         {Object.keys(groupedItems).length === 0 ? (
           <div style={{ textAlign: 'center', padding: '40px 20px', color: '#666' }}>
-            <p>No drinks matched your search criteria.</p>
+            <p>No items matched your search criteria.</p>
             <button
               onClick={() => {
                 setActiveCat('All');
@@ -436,6 +446,20 @@ export default function Home() {
                         </div>
                       ) : (
                         <div className="drink-actions">
+                          {item.sizes && item.sizes.length > 0 && item.sizes.map((sz, szIdx) => (
+                            <button
+                              key={szIdx}
+                              className="action-btn"
+                              onClick={() => addToCart(item, sz.name, sz.price)}
+                              aria-label={`Add ${sz.name} ${item.name}`}
+                              style={!storeOpen ? { opacity: 0.65, cursor: 'not-allowed' } : undefined}
+                            >
+                              <span className="action-btn-icon">🥤</span>
+                              <span>{sz.name}</span>
+                              <span className="action-btn-price">{sar(sz.price)}</span>
+                              <span>{storeOpen ? '＋' : '🌙'}</span>
+                            </button>
+                          ))}
                           {item.hot !== undefined && (
                             <button
                               className="action-btn"
@@ -462,14 +486,14 @@ export default function Home() {
                               <span>{storeOpen ? '＋' : '🌙'}</span>
                             </button>
                           )}
-                          {item.price !== undefined && (
+                          {(!item.sizes || item.sizes.length === 0) && item.price !== undefined && (
                             <button
                               className="action-btn"
                               onClick={() => addToCart(item, 'Regular', item.price!)}
                               aria-label={`Add ${item.name}`}
                               style={!storeOpen ? { opacity: 0.65, cursor: 'not-allowed' } : undefined}
                             >
-                              <span>Regular</span>
+                              <span>{item.category.includes('Coffee') || item.category.includes('Milk') ? 'Regular' : 'Order'}</span>
                               <span className="action-btn-price">{sar(item.price)}</span>
                               <span>{storeOpen ? '＋' : '🌙'}</span>
                             </button>
@@ -498,7 +522,7 @@ export default function Home() {
               <div className="cart-empty">
                 <p>
                   {storeOpen
-                    ? 'Your order is empty. Tap any drink button above (Hot, Iced, or Regular) to add items.'
+                    ? 'Your order is empty. Tap any item button above to add to your order.'
                     : '🌙 Cafe is currently closed for online orders.'}
                 </p>
               </div>
